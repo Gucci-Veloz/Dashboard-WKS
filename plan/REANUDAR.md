@@ -40,7 +40,7 @@ No la empieces de cero y no borres nada.
 3. **Si pasa:**
    1. Marca la tarea `hecha` en tu estado, deja "En curso" vacío y escribe en "Qué sigue" tu próxima tarea disponible.
    2. Agrega solo tus archivos: `git add <archivos de la tarea> plan/estado/<TuAgente>.md`. **Nunca uses `git add -A` ni `git add .`.**
-   3. Haz el commit con el mensaje sugerido en `PLAN.md`: `git commit -m "<ID>: <descripción>"`.
+   3. Haz el commit **nombrando las mismas rutas** del paso anterior: `git commit -m "<ID>: <descripción>" -- <archivos de la tarea> plan/estado/<TuAgente>.md`. Así el commit incluye solo tus archivos, aunque otro agente tenga archivos preparados en ese momento (todos comparten la misma carpeta y la misma área de preparación de git). **Nunca hagas `git commit` sin las rutas después de `--`.**
    4. Anota el hash en tu estado: `hecha (<hash>)`. Esta anotación queda sin commit hasta tu siguiente tarea, y está bien así. En el paso 2, `git log --grep` resuelve cualquier duda.
 4. Si `git commit` falla porque existe `.git/index.lock`, otra sesión está haciendo commit. Espera unos segundos y reintenta. No borres el lock mientras otra sesión esté activa.
 5. **Nadie hace push.** No hay remoto.

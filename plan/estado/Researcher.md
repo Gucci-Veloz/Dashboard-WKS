@@ -2,7 +2,7 @@
 
 Solo **Researcher** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Detalle de cada tarea: `plan/PLAN.md`.
 
-Última actualización: 2026-09-23 · creado por el planificador (Mapping). Plan todavía sin aprobar.
+Última actualización: 2026-09-23 · creado por el planificador (Mapping). Plan aprobado el 2026-09-23; D-1, D-2 y D-3 resueltas.
 
 ## En curso
 

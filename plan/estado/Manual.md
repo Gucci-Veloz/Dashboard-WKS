@@ -2,7 +2,7 @@
 
 Las hace **el usuario**, porque requieren el VPS o Hermes. Solo **la sesión maestra** escribe en este archivo, cuando el usuario le reporta el avance. Las instrucciones de cada tarea están en `plan/PLAN.md`.
 
-Última actualización: 2026-09-23 · creado por el planificador (Mapping). Plan todavía sin aprobar.
+Última actualización: 2026-09-23 · creado por el planificador (Mapping). Plan aprobado el 2026-09-23; D-1, D-2 y D-3 resueltas.
 
 ## Tareas
 

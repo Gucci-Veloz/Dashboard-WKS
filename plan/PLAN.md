@@ -1,6 +1,6 @@
 # Plan · Dashboard de Vania + Works
 
-Etapa: 03 · Mapping. Fecha: 2026-09-23. Estado: **borrador, sin aprobar**. Ningún agente empieza hasta que el usuario dé luz verde.
+Etapa: 03 · Mapping. Fecha: 2026-09-23. Estado: **aprobado el 2026-09-23**. D-1, D-2 y D-3 resueltas (ver `DECISIONES.md`, "Respuestas"). Las demás D-x siguen abiertas.
 
 Fuente de verdad del producto: `handshake_vania_dashboard.md`. Hechos y vacíos: `SCAVENGE-Vania-Dashboard.md`. Decisiones pendientes: `plan/DECISIONES.md`. Protocolo de trabajo: `plan/REANUDAR.md`.
 
@@ -24,7 +24,7 @@ Fuente de verdad del producto: `handshake_vania_dashboard.md`. Hechos y vacíos:
 9. **Nivel 1 sin KPI.** La conclusión humana tiene la mayor jerarquía. Nada de `%`, `$` ni gráficas en el nivel 1. No se fabrica actividad.
 10. **Mismo orden para todos.** El orden de asuntos es determinista y no depende de quién abre la pantalla.
 11. **Textos visibles en español de México**, en frases como las diría una persona ("La oficina 204 vence en 12 días"), no en formato de campo ("Fecha fin: 02/10/2026"). El texto exacto sigue abierto: toda la redacción vive en un solo lugar para poder cambiarla.
-12. **Git:** commits locales, sin push. Un commit por tarea, con el ID de la tarea al inicio del mensaje. Solo se agregan los archivos de la tarea más el archivo de estado propio: nunca `git add -A` ni `git add .`. Detalles en `REANUDAR.md`.
+12. **Git:** commits locales, sin push. Un commit por tarea, con el ID de la tarea al inicio del mensaje. Solo se agregan los archivos de la tarea más el archivo de estado propio: nunca `git add -A` ni `git add .`. El commit siempre nombra sus rutas: `git commit -m "<ID>: …" -- <rutas>`, para no arrastrar archivos que otro agente tenga preparados. Detalles en `REANUDAR.md`.
 
 ## Convenciones
 
