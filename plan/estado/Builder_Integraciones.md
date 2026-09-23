@@ -6,16 +6,16 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 
 ## En curso
 
-(ninguna)
+- INT-04 · desde 2026-09-23
 
 ## Tareas
 
 | ID | Título | Estado | Espera |
 |---|---|---|---|
-| INT-01 | Tabla de actividad y función de registro | pendiente | DAT-02 |
+| INT-01 | Tabla de actividad y función de registro | hecha (pendiente de commit) | DAT-02 |
 | INT-02 | API de actividad | pendiente | INT-01 |
 | INT-03 | Actividad sintética de Vania | pendiente | INT-01, DAT-06 |
-| INT-04 | Credencial de servicio para Vania y actor_actual | pendiente | DAT-01 |
+| INT-04 | Credencial de servicio para Vania y actor_actual | en curso | DAT-01 |
 | INT-05 | Contrato de uso para Vania | pendiente | D-3, DAT-08, DAT-12, INT-02, INT-04 |
 | INT-06 | Resumen de avisos agrupados | pendiente | D-3, DAT-07 |
 | INT-07 | Preferencias para reducir o silenciar avisos | pendiente | D-11, INT-06 |
@@ -44,3 +44,5 @@ Mejoras o dudas que no se convierten en requisito. La sesión maestra las revisa
 Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estado · nota`.
 
 - 2026-09-23 · — · creado · todas las tareas en pendiente
+- 2026-09-23 · INT-01 · en curso · DAT-02 ya tiene commit (42a94c8), arranco tabla de actividad
+- 2026-09-23 · INT-01 · prueba OK (3 passed) · arranco INT-04
