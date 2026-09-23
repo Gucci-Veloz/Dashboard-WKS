@@ -1,0 +1,4 @@
+-- 000_base: fundamento del esquema de Works.
+-- No define tablas de dominio: las áreas llegan en 001 (DAT-04) y las
+-- siguientes migraciones numeradas (ver plan/PLAN.md, "Convenciones").
+-- La tabla de control de migraciones la crea app/db/migrar.py, no este archivo.
