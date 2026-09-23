@@ -16,8 +16,8 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 | INT-02 | API de actividad | hecha (67ac5a7) | INT-01 |
 | INT-03 | Actividad sintética de Vania | hecha (d701a01) | INT-01, DAT-06 |
 | INT-04 | Credencial de servicio para Vania y actor_actual | hecha (222394d) | DAT-01 |
-| INT-05 | Contrato de uso para Vania | pendiente | DAT-08, DAT-12, INT-02, INT-04 |
-| INT-06 | Resumen de avisos agrupados | hecha (pendiente de commit) | DAT-07 |
+| INT-05 | Contrato de uso para Vania | hecha (pendiente de commit) | DAT-08, DAT-12, INT-02, INT-04 |
+| INT-06 | Resumen de avisos agrupados | hecha (01dd661) | DAT-07 |
 | INT-07 | Preferencias para reducir o silenciar avisos | pendiente | D-11, INT-06 |
 | INT-08 | Mecanismo para pasar el contexto a Vania | pendiente | D-9, U-5, INT-02 |
 | INT-09 | Tubería de documento imprimible | pendiente | D-7, U-3, DAT-08 |
@@ -31,7 +31,7 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 
 ## Qué sigue
 
-Reviso `git log --oneline --grep "^DAT-12:"` para saber si INT-05 ya está disponible.
+DAT-12 ya tiene commit (4bd23f6): INT-05 hecha. Sin tareas disponibles: espero D-11 (INT-07), D-9/U-5 (INT-08), D-6/D-7/U-3 (INT-09 a INT-11), D-10 (INT-12) y D-4/D-5 (INT-13 a INT-16).
 
 ## Observaciones
 
@@ -51,4 +51,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 · INT-02 · prueba OK (4 passed) · arranco INT-03
 - 2026-09-23 · INT-03 · prueba OK (1 passed) · sin tareas disponibles, todas las restantes esperan D-x o U-x
 - 2026-09-23 · INT-06 · en curso · works-94 corrige: D-3 ya resuelta, DAT-07 hecha; arranco INT-06
-- 2026-09-23 · INT-06 · prueba OK (3 passed) · reviso si DAT-12 ya libera INT-05
+- 2026-09-23 · INT-06 · prueba OK (3 passed), hecha (01dd661) · DAT-12 aún sin commit, INT-05 sigue bloqueada; sin tareas disponibles
+- 2026-09-23 · INT-05 · works-94 avisa DAT-12 hecha (4bd23f6); arranco INT-05
+- 2026-09-23 · INT-05 · docs/contrato-vania.md escrito; prueba (extraer citas y compararlas contra /openapi.json) OK, 8/8 endpoints existen; documenté la diferencia de `origen_dato` entre `actividad` y las cuatro áreas, sin tocar el esquema
