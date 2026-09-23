@@ -23,7 +23,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 | UI-09 | Formulario editable y confirmación visible | hecha | UI-03 |
 | UI-10 | Detalle de oficinas | hecha | DAT-09, UI-08, UI-09 |
 | UI-11 | Detalle de inquilinos | hecha | DAT-10, UI-10 |
-| UI-12 | Detalle de contratos | pendiente | DAT-11, UI-11 |
+| UI-12 | Detalle de contratos | hecha | DAT-11, UI-11 |
 | UI-13 | Detalle de pagos y registrar pago | pendiente | DAT-12, UI-12 |
 | UI-14 | Rastro de Vania visible | pendiente | D-8, INT-02, INT-03, UI-07 |
 | UI-15 | Botón seguir con Vania | pendiente | INT-08, UI-13 |
@@ -66,4 +66,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 07:45 · UI-10 · en curso · DAT-09 a DAT-12 hechas (hasta 4bd23f6, avisó works-94); detalle de oficinas
 - 2026-09-23 08:05 · UI-10 · hecha (b36510c) · extendí web/navegacion/rutas.js para soportar `#area` (lista) además de `#tipo-id` (ficha), sin tocar el mapeo fijo de áreas; corregí un bug real en app.js (UI-08): renderRegistro no esperaba (`await`) a que renderDetalle terminara antes de agregar "Volver", y como el módulo de detalle limpia su propio contenedor de forma asíncrona, podía borrar el botón recién agregado. Sigue UI-11.
 - 2026-09-23 08:06 · UI-11 · en curso · detalle de inquilinos, mismo patrón que UI-10
-- 2026-09-23 08:18 · UI-11 · hecha · sigue UI-12
+- 2026-09-23 08:18 · UI-11 · hecha (04903e4) · sigue UI-12
+- 2026-09-23 08:19 · UI-12 · en curso · detalle de contratos, con fecha de fin en forma humana
+- 2026-09-23 08:35 · UI-12 · hecha · sigue UI-13
