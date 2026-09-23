@@ -24,7 +24,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 | UI-10 | Detalle de oficinas | hecha | DAT-09, UI-08, UI-09 |
 | UI-11 | Detalle de inquilinos | hecha | DAT-10, UI-10 |
 | UI-12 | Detalle de contratos | hecha | DAT-11, UI-11 |
-| UI-13 | Detalle de pagos y registrar pago | pendiente | DAT-12, UI-12 |
+| UI-13 | Detalle de pagos y registrar pago | hecha | DAT-12, UI-12 |
 | UI-14 | Rastro de Vania visible | pendiente | D-8, INT-02, INT-03, UI-07 |
 | UI-15 | Botón seguir con Vania | pendiente | INT-08, UI-13 |
 | UI-16 | Ajustar el detalle a los campos reales | pendiente | DAT-15, UI-13 |
@@ -32,7 +32,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 
 ## Qué sigue
 
-sin tareas disponibles: UI-10 a UI-13 esperan DAT-09 a DAT-12 (Builder_Datos, sin commit todavía); UI-14 espera D-8 del usuario; UI-15 y UI-16 esperan sus UI-1x; UI-17 espera D-15 del usuario.
+sin tareas disponibles: UI-15 espera INT-08 (Builder_Integraciones, sin commit todavía); UI-16 espera DAT-15 (sin commit todavía); UI-14 y UI-17 esperan D-8 y D-15 del usuario, sin respuesta — no se tocan, por instrucción de works-94.
 
 ## Observaciones
 
@@ -68,4 +68,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 08:06 · UI-11 · en curso · detalle de inquilinos, mismo patrón que UI-10
 - 2026-09-23 08:18 · UI-11 · hecha (04903e4) · sigue UI-12
 - 2026-09-23 08:19 · UI-12 · en curso · detalle de contratos, con fecha de fin en forma humana
-- 2026-09-23 08:35 · UI-12 · hecha · sigue UI-13
+- 2026-09-23 08:35 · UI-12 · hecha (ceeda51) · sigue UI-13
+- 2026-09-23 08:36 · UI-13 · en curso · detalle de pagos y registrar pago
+- 2026-09-23 08:55 · UI-13 · hecha · corregí un bug propio: al registrar el pago, borraba de inmediato el contenedor de la acción (`zonaAccion.innerHTML = ""`) antes de que formulario.js alcanzara a mostrar la confirmación, así que la confirmación quedaba en un nodo ya desprendido del DOM y nunca se veía. Ahora solo actualizo los campos de la edición general en vivo, sin destruir el formulario de acción. Sin tareas disponibles: espero INT-08 (UI-15) y DAT-15 (UI-16); UI-14 y UI-17 esperan D-8/D-15 del usuario, no las toco.
