@@ -1,0 +1,24 @@
+/*
+  Navegación al detalle bajo demanda. UI-08.
+*/
+
+.navegacion__ver-todo {
+  align-self: flex-start;
+  margin-top: var(--espacio-2);
+}
+
+.navegacion__volver {
+  display: inline-block;
+  margin-bottom: var(--espacio-4);
+  color: var(--texto-secundario);
+  text-decoration: underline;
+  font-size: var(--texto-sm);
+}
+
+.navegacion__volver:hover {
+  color: var(--acento);
+}
+
+.navegacion__mensaje {
+  color: var(--texto-secundario);
+}
