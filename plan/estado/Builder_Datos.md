@@ -23,7 +23,7 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 | DAT-09 | API de oficinas | hecha (8d9c352) | DAT-04, INT-01, INT-04 |
 | DAT-10 | API de inquilinos | hecha (051e2d7) | DAT-09 |
 | DAT-11 | API de contratos | hecha (b0159c3) | DAT-10 |
-| DAT-12 | API de pagos y registrar pago | hecha (pendiente de hash) | DAT-11 |
+| DAT-12 | API de pagos y registrar pago | hecha (4bd23f6) | DAT-11 |
 | DAT-13 | Datos mínimos de personas para el pizarrón | pendiente | D-10, DAT-09 |
 | DAT-14 | Mapeo del Excel al modelo | pendiente | U-1 (Excel) |
 | DAT-15 | Fuente Excel | pendiente | DAT-14, INT-13 |
@@ -67,4 +67,4 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 06:23 · DAT-11 · en curso · espera DAT-10 cumplida
 - 2026-09-23 06:31 · DAT-11 · hecha (b0159c3) · prueba pasa (4 passed), incluida oficina inexistente → 400 con mensaje humano; suite completa 47 passed
 - 2026-09-23 06:32 · DAT-12 · en curso · espera DAT-11 cumplida
-- 2026-09-23 06:42 · DAT-12 · hecha (pendiente de hash) · prueba pasa (4 passed), incluida la comprobación de que /api/estado pierde un asunto al registrar el pago pendiente; suite completa 51 passed
+- 2026-09-23 06:42 · DAT-12 · hecha (4bd23f6) · prueba pasa (4 passed), incluida la comprobación de que /api/estado pierde un asunto al registrar el pago pendiente; suite completa 51 passed

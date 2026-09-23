@@ -16,7 +16,7 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 | INT-02 | API de actividad | hecha (67ac5a7) | INT-01 |
 | INT-03 | Actividad sintética de Vania | hecha (d701a01) | INT-01, DAT-06 |
 | INT-04 | Credencial de servicio para Vania y actor_actual | hecha (222394d) | DAT-01 |
-| INT-05 | Contrato de uso para Vania | hecha (pendiente de commit) | DAT-08, DAT-12, INT-02, INT-04 |
+| INT-05 | Contrato de uso para Vania | hecha (94ff4ca) | DAT-08, DAT-12, INT-02, INT-04 |
 | INT-06 | Resumen de avisos agrupados | hecha (01dd661) | DAT-07 |
 | INT-07 | Preferencias para reducir o silenciar avisos | pendiente | D-11, INT-06 |
 | INT-08 | Mecanismo para pasar el contexto a Vania | pendiente | D-9, U-5, INT-02 |

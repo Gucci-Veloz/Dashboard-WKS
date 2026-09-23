@@ -6,7 +6,7 @@ Solo **Researcher** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 
 ## En curso
 
-(ninguna)
+RES-01 · 2026-09-23 04:59
 
 ## Tareas
 
@@ -32,3 +32,4 @@ Mejoras o dudas que no se convierten en requisito. La sesión maestra las revisa
 Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estado · nota`.
 
 - 2026-09-23 · — · creado · todas las tareas en pendiente
+- 2026-09-23 04:59 · RES-01 · en curso · investigación de persistencia de sesión en móvil y PWA
