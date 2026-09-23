@@ -415,5 +415,5 @@ La sesión maestra anota aquí cada respuesta del usuario, con fecha, y actualiz
 
 - **2026-09-23 · D-1: A + Playwright desde pytest** (propuesta del planificador). El usuario delegó la decisión en la sesión maestra.
 - **2026-09-23 · D-2: A + `pip`/`venv` + `pytest`** (propuesta del planificador). Delegada en la sesión maestra. Versión de Python mínima: **3.10**, para no depender de la versión del VPS (U-6 sigue abierto). En local hay 3.13.
-- **2026-09-23 · D-3: A, que permite C** (propuesta del planificador). Delegada en la sesión maestra. Motivo: una sola interpretación determinista y probable sin tokens; Vania puede redactar con su voz a partir de los mismos asuntos.
+- **2026-09-23 · D-3: A, que permite C** (propuesta del planificador). Delegada en la sesión maestra. Motivo: una sola interpretación determinista y comprobable sin gastar tokens; Vania puede redactar con su voz a partir de los mismos asuntos.
 - **2026-09-23 · Corrección de proceso (revisión de la sesión maestra, aprobada por el usuario):** cada commit nombra sus rutas (`git commit -m "…" -- <rutas>`), para que un agente no arrastre archivos preparados por otro.
