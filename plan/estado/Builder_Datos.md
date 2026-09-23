@@ -16,8 +16,8 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 | DAT-02 | Conexión a SQLite y migraciones numeradas | hecha (42a94c8) | DAT-01 |
 | DAT-03 | Contrato del estado de atención | hecha (4b97f20) | — (libre) |
 | DAT-04 | Esquema de las cuatro áreas | hecha (8b32345) | DAT-02 |
-| DAT-05 | Interfaz de fuentes de datos y cargador | hecha (pendiente de hash) | DAT-04 |
-| DAT-06 | Fuente sintética con dos escenarios | pendiente | DAT-05, DAT-03 |
+| DAT-05 | Interfaz de fuentes de datos y cargador | hecha (762ec17) | DAT-04 |
+| DAT-06 | Fuente sintética con dos escenarios | hecha (pendiente de hash) | DAT-05, DAT-03 |
 | DAT-07 | Motor del estado de atención | pendiente | D-3, DAT-06 |
 | DAT-08 | Endpoint del estado | pendiente | D-3, DAT-07 |
 | DAT-09 | API de oficinas | pendiente | DAT-04, INT-01, INT-04 |
@@ -31,7 +31,7 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 
 ## Qué sigue
 
-DAT-06 (espera DAT-05, ya hecha, y DAT-03, ya hecha).
+DAT-07 espera D-3 (resuelta) y DAT-06 (ya hecha): disponible.
 
 ## Observaciones
 
@@ -53,4 +53,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 05:14 · DAT-04 · en curso · espera DAT-02 cumplida
 - 2026-09-23 05:18 · DAT-04 · hecha (8b32345) · prueba pasa (4 passed): columnas, NOT NULL y CHECK de origen_dato
 - 2026-09-23 05:19 · DAT-05 · en curso · espera DAT-04 cumplida
-- 2026-09-23 05:24 · DAT-05 · hecha (pendiente de hash) · prueba pasa (3 passed): fuente falsa carga, excel falla con el mensaje, carga parcial se revierte
+- 2026-09-23 05:24 · DAT-05 · hecha (762ec17) · prueba pasa (3 passed): fuente falsa carga, excel falla con el mensaje, carga parcial se revierte
+- 2026-09-23 05:25 · DAT-06 · en curso · espera DAT-05 y DAT-03 cumplidas
+- 2026-09-23 05:33 · DAT-06 · hecha (pendiente de hash) · prueba pasa (4 passed); carga real por CLI con --escenario con_atencion sin error (21/21/21/21)
