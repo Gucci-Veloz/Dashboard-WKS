@@ -56,7 +56,7 @@ async function renderRegistro(area, id) {
   const modulo = await cargarPantallaDetalle(area);
 
   if (modulo && typeof modulo.renderDetalle === "function") {
-    modulo.renderDetalle(contenedor, id);
+    await modulo.renderDetalle(contenedor, id);
   } else {
     const mensaje = document.createElement("p");
     mensaje.className = "navegacion__mensaje";

@@ -10,6 +10,8 @@ const TIPO_A_AREA = {
   pago: "pagos",
 };
 
+const AREAS = new Set(Object.values(TIPO_A_AREA));
+
 export function analizarHash(hash) {
   const limpio = (hash || "").replace(/^#/, "");
 
@@ -19,6 +21,10 @@ export function analizarHash(hash) {
 
   if (limpio === "detalle") {
     return { vista: "detalle-general" };
+  }
+
+  if (AREAS.has(limpio)) {
+    return { vista: "registro", area: limpio, id: undefined };
   }
 
   const separador = limpio.indexOf("-");
