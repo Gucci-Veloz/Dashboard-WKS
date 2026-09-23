@@ -6,14 +6,14 @@ Solo **Verificador** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Det
 
 ## En curso
 
-VER-01, iniciada 2026-09-23 5:20
+VER-02, iniciada 2026-09-23 5:21
 
 ## Tareas
 
 | ID | Título | Estado | Espera |
 |---|---|---|---|
-| VER-01 | Verificación de la fase 0 | pendiente | DAT-01, DAT-02, UI-01, UI-02, UI-03 |
-| VER-02 | Verificación de la fase 1 | pendiente | fase 1 hecha o bloqueada |
+| VER-01 | Verificación de la fase 0 | hecha (1d6ed04) | DAT-01, DAT-02, UI-01, UI-02, UI-03 |
+| VER-02 | Verificación de la fase 1 | hecha (TBD) | fase 1 hecha o bloqueada |
 | VER-03 | Verificación de la fase 2 | pendiente | fase 2 hecha o bloqueada |
 | VER-04 | Verificación de las fases 3 y 4 | pendiente | fases 3 y 4 hechas o bloqueadas |
 | VER-05 | Verificación de las fases 5 a 7 | pendiente | fases 5 a 7 hechas o bloqueadas |
