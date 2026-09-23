@@ -14,10 +14,10 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 |---|---|---|---|
 | INT-01 | Tabla de actividad y función de registro | hecha (0fdc1c7) | DAT-02 |
 | INT-02 | API de actividad | hecha (67ac5a7) | INT-01 |
-| INT-03 | Actividad sintética de Vania | hecha (pendiente de commit) | INT-01, DAT-06 |
+| INT-03 | Actividad sintética de Vania | hecha (d701a01) | INT-01, DAT-06 |
 | INT-04 | Credencial de servicio para Vania y actor_actual | hecha (222394d) | DAT-01 |
-| INT-05 | Contrato de uso para Vania | pendiente | D-3, DAT-08, DAT-12, INT-02, INT-04 |
-| INT-06 | Resumen de avisos agrupados | pendiente | D-3, DAT-07 |
+| INT-05 | Contrato de uso para Vania | pendiente | DAT-08, DAT-12, INT-02, INT-04 |
+| INT-06 | Resumen de avisos agrupados | hecha (pendiente de commit) | DAT-07 |
 | INT-07 | Preferencias para reducir o silenciar avisos | pendiente | D-11, INT-06 |
 | INT-08 | Mecanismo para pasar el contexto a Vania | pendiente | D-9, U-5, INT-02 |
 | INT-09 | Tubería de documento imprimible | pendiente | D-7, U-3, DAT-08 |
@@ -31,7 +31,7 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 
 ## Qué sigue
 
-Sin tareas disponibles: espero D-3/D-8 (INT-05, INT-06), D-9/U-5 (INT-08), D-6/D-7/U-3 (INT-09 a INT-11), D-10 (INT-12) y D-4/D-5 (INT-13 a INT-16). Reporto a works-94.
+Reviso `git log --oneline --grep "^DAT-12:"` para saber si INT-05 ya está disponible.
 
 ## Observaciones
 
@@ -50,3 +50,5 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 · INT-02 · en curso · DAT-06 ya tiene commit, así que arranco INT-02 antes de INT-03
 - 2026-09-23 · INT-02 · prueba OK (4 passed) · arranco INT-03
 - 2026-09-23 · INT-03 · prueba OK (1 passed) · sin tareas disponibles, todas las restantes esperan D-x o U-x
+- 2026-09-23 · INT-06 · en curso · works-94 corrige: D-3 ya resuelta, DAT-07 hecha; arranco INT-06
+- 2026-09-23 · INT-06 · prueba OK (3 passed) · reviso si DAT-12 ya libera INT-05
