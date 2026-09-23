@@ -6,7 +6,7 @@ Solo **Verificador** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Det
 
 ## En curso
 
-(ninguna)
+VER-01, iniciada 2026-09-23 5:20
 
 ## Tareas
 
