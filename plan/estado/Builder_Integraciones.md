@@ -13,9 +13,9 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 | ID | Título | Estado | Espera |
 |---|---|---|---|
 | INT-01 | Tabla de actividad y función de registro | hecha (0fdc1c7) | DAT-02 |
-| INT-02 | API de actividad | pendiente | INT-01 |
+| INT-02 | API de actividad | hecha (pendiente de commit) | INT-01 |
 | INT-03 | Actividad sintética de Vania | pendiente | INT-01, DAT-06 |
-| INT-04 | Credencial de servicio para Vania y actor_actual | hecha (pendiente de commit) | DAT-01 |
+| INT-04 | Credencial de servicio para Vania y actor_actual | hecha (222394d) | DAT-01 |
 | INT-05 | Contrato de uso para Vania | pendiente | D-3, DAT-08, DAT-12, INT-02, INT-04 |
 | INT-06 | Resumen de avisos agrupados | pendiente | D-3, DAT-07 |
 | INT-07 | Preferencias para reducir o silenciar avisos | pendiente | D-11, INT-06 |
@@ -31,7 +31,7 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 
 ## Qué sigue
 
-INT-02 (espera INT-01, hecha) disponible. INT-03 espera DAT-06 (revisar su estado). Sigo con INT-02.
+DAT-06 ya está hecha (26b0f1e), así que INT-03 también queda disponible después de INT-02.
 
 ## Observaciones
 
@@ -47,3 +47,5 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 · INT-01 · en curso · DAT-02 ya tiene commit (42a94c8), arranco tabla de actividad
 - 2026-09-23 · INT-01 · hecha (0fdc1c7) · arranco INT-04
 - 2026-09-23 · INT-04 · prueba OK (4 passed), autorización con encabezado `Authorization: Bearer <WORKS_TOKEN_VANIA>`
+- 2026-09-23 · INT-02 · en curso · DAT-06 ya tiene commit, así que arranco INT-02 antes de INT-03
+- 2026-09-23 · INT-02 · prueba OK (4 passed) · arranco INT-03
