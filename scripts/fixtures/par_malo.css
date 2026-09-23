@@ -1,0 +1,12 @@
+/*
+  Fixture de prueba para scripts/contraste.py.
+  Declara un par que a propósito no cumple su umbral, para comprobar
+  que el verificador termina con código 1.
+*/
+
+:root {
+  --texto-claro: #cccccc;
+  --fondo-claro: #ffffff;
+
+  /* par: --texto-claro sobre --fondo-claro 4.5 */
+}

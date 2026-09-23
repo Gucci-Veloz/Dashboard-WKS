@@ -1,0 +1,96 @@
+/*
+  Tokens de diseño · Dashboard de Vania + Works
+  UI-02, fase 0.
+
+  Paleta base del handshake: perla, blanco, crema, gris claro.
+  Neumorphism no dogmático (R3): el texto importante va sobre una
+  superficie de mayor contraste, no directamente sobre el panel de
+  relieve (H11), y los límites de componente llevan un borde con
+  contraste real en vez de depender solo de la sombra (H7, H9).
+
+  Acento propuesto para revisión del usuario en VER-01: terracota
+  (#A8501F). Se usa en detalles importantes y en cambios de estado,
+  no como color dominante.
+
+  Cada par que debe cumplir contraste está declarado en un comentario
+  `/* par: --a sobre --b N */`, que lee scripts/contraste.py:
+    - N = 4.5 → texto normal (WCAG 1.4.3 AA)
+    - N = 3   → texto grande o límite/estado de componente (WCAG 1.4.6 AA
+                para texto grande y 1.4.11 AA para no-texto)
+*/
+
+:root {
+  /* Paleta base */
+  --perla: #eae7e1;
+  --blanco: #ffffff;
+  --crema: #f6f1e7;
+  --gris-claro: #ddd8d0;
+
+  /* Fondo y superficies (H11: el texto va sobre --superficie o
+     --superficie-alta, nunca directo sobre --fondo) */
+  --fondo: var(--perla);
+  --superficie: var(--crema);
+  --superficie-alta: var(--blanco);
+
+  /* Texto */
+  --texto-principal: #2b2823;
+  --texto-secundario: #6e6a62;
+
+  /* par: --texto-principal sobre --superficie-alta 4.5 */
+  /* par: --texto-principal sobre --superficie 4.5 */
+  /* par: --texto-secundario sobre --superficie 4.5 */
+  /* par: --texto-secundario sobre --perla 3 */
+
+  /* Acento: mayor contraste, para lo importante y los cambios de
+     estado (R3, H10). No es el color dominante de la interfaz. */
+  --acento: #a8501f;
+  --acento-texto: #ffffff;
+
+  /* par: --acento sobre --superficie 4.5 */
+  /* par: --acento-texto sobre --acento 4.5 */
+
+  /* Bordes: --borde-sutil es decorativo, va alineado con la sombra
+     (H9) y no necesita cumplir contraste por sí solo. --borde-limite
+     sí es el que marca el límite o el estado de un componente
+     (foco, presionado, borde de campo) y por eso cumple 3:1 (H3, H7). */
+  --borde-sutil: #d8d2c5;
+  --borde-limite: #847a6b;
+
+  /* par: --borde-limite sobre --superficie 3 */
+  /* par: --borde-limite sobre --perla 3 */
+
+  /* Sombras de relieve: clara y oscura, para el efecto de
+     "sobresale y se hunde al tocarlo" del handshake */
+  --sombra-clara: #ffffff;
+  --sombra-oscura: #c9c2b6;
+
+  --sombra-superficie:
+    -6px -6px 12px var(--sombra-clara),
+    6px 6px 12px var(--sombra-oscura);
+  --sombra-hundida:
+    inset -4px -4px 8px var(--sombra-clara),
+    inset 4px 4px 8px var(--sombra-oscura);
+
+  /* Radios */
+  --radio-sm: 8px;
+  --radio-md: 16px;
+  --radio-lg: 24px;
+
+  /* Espaciado */
+  --espacio-1: 4px;
+  --espacio-2: 8px;
+  --espacio-3: 12px;
+  --espacio-4: 16px;
+  --espacio-5: 24px;
+  --espacio-6: 32px;
+  --espacio-7: 48px;
+
+  /* Escala tipográfica */
+  --texto-xs: 0.75rem;
+  --texto-sm: 0.875rem;
+  --texto-base: 1rem;
+  --texto-md: 1.125rem;
+  --texto-lg: 1.5rem;
+  --texto-xl: 2rem;
+  --texto-2xl: 2.75rem;
+}

@@ -2,7 +2,7 @@
 
 Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Detalle de cada tarea: `plan/PLAN.md`.
 
-Última actualización: 2026-09-23 · creado por el planificador (Mapping). Plan aprobado el 2026-09-23; D-1, D-2 y D-3 resueltas.
+Última actualización: 2026-09-23 · Builder_UI, UI-02 hecha.
 
 ## En curso
 
@@ -13,7 +13,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 | ID | Título | Estado | Espera |
 |---|---|---|---|
 | UI-01 | Página base mobile-first | pendiente | D-1, DAT-01, UI-02 |
-| UI-02 | Tokens de diseño y verificador de contraste | pendiente | — (libre) |
+| UI-02 | Tokens de diseño y verificador de contraste | hecha | — (libre) |
 | UI-03 | Componentes neumórficos base | pendiente | D-1, UI-01 |
 | UI-04 | Nivel 1: estado general con ejemplos del contrato | pendiente | UI-03, DAT-03 |
 | UI-05 | Nivel 2: lo que merece atención | pendiente | UI-04 |
@@ -32,7 +32,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 
 ## Qué sigue
 
-UI-02 está libre. Después, UI-01 cuando el usuario responda D-1 y DAT-01 esté hecha.
+sin tareas disponibles: espero DAT-01 (en curso por Builder_Datos) para UI-01. Después sigue UI-03.
 
 ## Observaciones
 
@@ -45,3 +45,5 @@ Mejoras o dudas que no se convierten en requisito. La sesión maestra las revisa
 Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estado · nota`.
 
 - 2026-09-23 · — · creado · todas las tareas en pendiente
+- 2026-09-23 05:00 · UI-02 · en curso · tokens de diseño y verificador de contraste
+- 2026-09-23 05:10 · UI-02 · hecha · sin tareas disponibles, espero DAT-01
