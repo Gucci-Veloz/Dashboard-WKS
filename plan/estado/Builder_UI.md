@@ -20,7 +20,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 | UI-06 | Indicadores que explican el estado | hecha | UI-05 |
 | UI-07 | Conectar niveles 1 y 2 al servicio | hecha | DAT-08 (D-3), UI-06 |
 | UI-08 | Entrada al detalle bajo demanda | hecha | UI-05 |
-| UI-09 | Formulario editable y confirmación visible | pendiente | UI-03 |
+| UI-09 | Formulario editable y confirmación visible | hecha | UI-03 |
 | UI-10 | Detalle de oficinas | pendiente | DAT-09, UI-08, UI-09 |
 | UI-11 | Detalle de inquilinos | pendiente | DAT-10, UI-10 |
 | UI-12 | Detalle de contratos | pendiente | DAT-11, UI-11 |
@@ -32,7 +32,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 
 ## Qué sigue
 
-UI-09 está libre. UI-14 y UI-17 siguen esperando D-8/D-15 del usuario.
+sin tareas disponibles: UI-10 a UI-13 esperan DAT-09 a DAT-12 (Builder_Datos, sin commit todavía); UI-14 espera D-8 del usuario; UI-15 y UI-16 esperan sus UI-1x; UI-17 espera D-15 del usuario.
 
 ## Observaciones
 
@@ -60,4 +60,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 06:41 · UI-08 · en curso · navegación por hash, conecté app.js e index.html (UI-01) a los módulos existentes
 - 2026-09-23 06:58 · UI-08 · hecha (c2b5ee3) · sigue UI-09; UI-07 sigue esperando DAT-08
 - 2026-09-23 06:59 · UI-07 · en curso · DAT-08 hecha (fac977b), conecto niveles 1 y 2 a /api/estado
-- 2026-09-23 07:20 · UI-07 · hecha · sembré la base de pruebas de UI con el escenario con_atencion en tests/ui/conftest.py, para que la app real (no solo las muestras) tenga datos. Sigue UI-09.
+- 2026-09-23 07:20 · UI-07 · hecha (39762f4) · sembré la base de pruebas de UI con el escenario con_atencion en tests/ui/conftest.py, para que la app real (no solo las muestras) tenga datos. Sigue UI-09.
+- 2026-09-23 07:21 · UI-09 · en curso · formulario editable y confirmación de guardado
+- 2026-09-23 07:35 · UI-09 · hecha · sin tareas disponibles: espero DAT-09 a DAT-12 (UI-10 a UI-13) y D-8/D-15 del usuario (UI-14, UI-17)

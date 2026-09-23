@@ -1,0 +1,25 @@
+/*
+  Formulario editable y confirmación de guardado. UI-09.
+*/
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-4);
+  max-width: 420px;
+}
+
+.formulario__mensaje-error {
+  margin: 0;
+  color: var(--acento);
+  font-size: var(--texto-sm);
+}
+
+.confirmacion {
+  margin: 0;
+  padding: var(--espacio-2) var(--espacio-3);
+  border-radius: var(--radio-sm);
+  background: var(--superficie);
+  color: var(--texto-principal);
+  font-size: var(--texto-sm);
+}

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Works · muestra de formulario</title>
+    <link rel="stylesheet" href="/estilos/tokens.css" />
+    <link rel="stylesheet" href="/estilos/base.css" />
+    <link rel="stylesheet" href="/estilos/componentes.css" />
+    <link rel="stylesheet" href="/estilos/formulario.css" />
+  </head>
+  <body>
+    <main id="app"></main>
+    <script type="module">
+      import { crearFormulario } from "/componentes/formulario.js";
+
+      // El resultado del guardado lo elige la prueba por query string,
+      // para simular un servicio que a veces falla, sin depender de
+      // un backend real.
+      const parametros = new URLSearchParams(window.location.search);
+      const resultado = parametros.get("resultado") || "exito";
+
+      async function guardarSimulado(datos) {
+        await new Promise((resolver) => setTimeout(resolver, 10));
+        if (resultado === "error") {
+          throw new Error(
+            "No se pudo guardar el titular. Revisa tu conexión e inténtalo de nuevo."
+          );
+        }
+        return { titular: `${datos.titular} (actualizado)` };
+      }
+
+      crearFormulario({
+        contenedor: document.getElementById("app"),
+        campos: [
+          { nombre: "titular", etiqueta: "Titular", valor: "Titular Sintético 07" },
+        ],
+        guardar: guardarSimulado,
+      });
+    </script>
+  </body>
+</html>
