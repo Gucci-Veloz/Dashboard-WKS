@@ -1,0 +1,16 @@
+{
+  "conclusion": {
+    "tipo": "tranquilo",
+    "frase": "Todo está en orden en Works.",
+    "cantidad": 0
+  },
+  "asuntos": [],
+  "indicadores": [
+    { "area": "oficinas", "frase_corta": "Oficinas · sin novedad" },
+    { "area": "inquilinos", "frase_corta": "Inquilinos · sin novedad" },
+    { "area": "contratos", "frase_corta": "Contratos · al día" },
+    { "area": "pagos", "frase_corta": "Pagos · al día" }
+  ],
+  "origen_datos": "sintetico",
+  "generado_en": "2026-09-23T09:00:00-06:00"
+}

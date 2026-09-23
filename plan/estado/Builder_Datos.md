@@ -12,9 +12,9 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 
 | ID | Título | Estado | Espera |
 |---|---|---|---|
-| DAT-01 | Esqueleto del servicio FastAPI | hecha (pendiente de hash) | D-2 |
+| DAT-01 | Esqueleto del servicio FastAPI | hecha (aaf12f0) | D-2 |
 | DAT-02 | Conexión a SQLite y migraciones numeradas | pendiente | DAT-01 |
-| DAT-03 | Contrato del estado de atención | pendiente | — (libre) |
+| DAT-03 | Contrato del estado de atención | hecha (pendiente de hash) | — (libre) |
 | DAT-04 | Esquema de las cuatro áreas | pendiente | DAT-02 |
 | DAT-05 | Interfaz de fuentes de datos y cargador | pendiente | DAT-04 |
 | DAT-06 | Fuente sintética con dos escenarios | pendiente | DAT-05, DAT-03 |
@@ -31,7 +31,7 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 
 ## Qué sigue
 
-DAT-03 (libre). Después, DAT-02 (espera DAT-01, ya hecha).
+DAT-02 (espera DAT-01, ya hecha).
 
 ## Observaciones
 
@@ -45,4 +45,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 
 - 2026-09-23 · — · creado · todas las tareas en pendiente
 - 2026-09-23 04:58 · DAT-01 · en curso · D-2 resuelta (A + pip/venv + pytest, Python 3.10 mínimo)
-- 2026-09-23 05:03 · DAT-01 · hecha (pendiente de hash) · prueba pasa (2 passed); .venv creado con pip/venv, Playwright + Chromium instalados; git check-ignore confirma var/ y datos_reales/
+- 2026-09-23 05:03 · DAT-01 · hecha (aaf12f0) · prueba pasa (2 passed); .venv creado con pip/venv, Playwright + Chromium instalados; git check-ignore confirma var/ y datos_reales/
+- 2026-09-23 05:05 · DAT-03 · en curso · libre desde el inicio
+- 2026-09-23 05:08 · DAT-03 · hecha (pendiente de hash) · las tres comprobaciones pasan; estado-tranquilo.json tiene asuntos: []
