@@ -27,7 +27,11 @@ def cargar(fuente: str, escenario: Optional[str] = None, conexion=None) -> None:
     if conexion is None:
         conexion = conectar()
     try:
-        for area in AREAS:
+        # Se borra en orden inverso al de inserción, para no violar las
+        # llaves foráneas al recargar sobre una base que ya tiene datos
+        # (pagos referencia contratos; contratos referencia oficinas e
+        # inquilinos).
+        for area in reversed(AREAS):
             conexion.execute(f"DELETE FROM {area}")
         for area in AREAS:
             for registro in registros.get(area, []):
