@@ -14,7 +14,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 |---|---|---|---|
 | UI-01 | Página base mobile-first | hecha | D-1, DAT-01, UI-02 |
 | UI-02 | Tokens de diseño y verificador de contraste | hecha | — (libre) |
-| UI-03 | Componentes neumórficos base | pendiente | D-1, UI-01 |
+| UI-03 | Componentes neumórficos base | hecha | D-1, UI-01 |
 | UI-04 | Nivel 1: estado general con ejemplos del contrato | pendiente | UI-03, DAT-03 |
 | UI-05 | Nivel 2: lo que merece atención | pendiente | UI-04 |
 | UI-06 | Indicadores que explican el estado | pendiente | UI-05 |
@@ -32,7 +32,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 
 ## Qué sigue
 
-UI-03 está libre (D-1 resuelta, UI-01 hecha).
+UI-04 está libre (UI-03 hecha, DAT-03 hecha). UI-09 también está libre (solo espera UI-03).
 
 ## Observaciones
 
@@ -48,4 +48,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 05:00 · UI-02 · en curso · tokens de diseño y verificador de contraste
 - 2026-09-23 05:10 · UI-02 · hecha (c4a62ee) · sin tareas disponibles, espero DAT-01
 - 2026-09-23 05:20 · UI-01 · en curso · DAT-01 hecha (aaf12f0), empiezo página base
-- 2026-09-23 05:35 · UI-01 · hecha · sigue UI-03
+- 2026-09-23 05:35 · UI-01 · hecha (8c226f0) · sigue UI-03
+- 2026-09-23 05:36 · UI-03 · en curso · componentes neumórficos base
+- 2026-09-23 05:55 · UI-03 · hecha · corregí un bug en web/estilos/tokens.css (UI-02): el comentario de cabecera tenía un `*/` literal dentro del texto que cerraba el comentario antes de tiempo y rompía el parseo de todo el archivo (0 reglas CSS cargadas en el navegador). Sin este arreglo ningún estilo de tokens.css se aplicaba. Sigue UI-04 o UI-09.

@@ -1,0 +1,95 @@
+/*
+  Componentes neumórficos base. UI-03, fase 0.
+
+  El botón sobresale en reposo y se hunde al presionarlo (H12), y el
+  estado presionado además cambia el borde y el color de fondo, no
+  solo la sombra (H7). El texto importante de la tarjeta va sobre
+  --superficie-alta, de mayor contraste que el fondo (H11). El foco
+  usa el mismo --borde-limite verificado en tokens.css (H3, H9).
+*/
+
+.superficie {
+  background: var(--superficie);
+  border-radius: var(--radio-lg);
+  box-shadow: var(--sombra-superficie);
+  padding: var(--espacio-5);
+}
+
+.tarjeta {
+  background: var(--superficie-alta);
+  border-radius: var(--radio-lg);
+  box-shadow: var(--sombra-superficie);
+  padding: var(--espacio-5);
+  color: var(--texto-principal);
+}
+
+.tarjeta__titulo {
+  margin: 0 0 var(--espacio-2);
+  font-size: var(--texto-md);
+}
+
+.tarjeta__texto-secundario {
+  color: var(--texto-secundario);
+  font-size: var(--texto-sm);
+}
+
+.boton {
+  display: inline-block;
+  background: var(--superficie);
+  color: var(--texto-principal);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-md);
+  box-shadow: var(--sombra-superficie);
+  padding: var(--espacio-3) var(--espacio-5);
+  font-size: var(--texto-base);
+  font-family: inherit;
+  cursor: pointer;
+  transition: box-shadow 0.12s ease, border-color 0.12s ease,
+    background-color 0.12s ease;
+}
+
+.boton:hover {
+  border-color: var(--borde-limite);
+}
+
+.boton:active {
+  box-shadow: var(--sombra-hundida);
+  border-color: var(--acento);
+  background: var(--superficie-alta);
+}
+
+.campo-texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+
+.campo-texto__etiqueta {
+  color: var(--texto-secundario);
+  font-size: var(--texto-sm);
+}
+
+.campo-texto__control {
+  background: var(--superficie-alta);
+  color: var(--texto-principal);
+  border: 1px solid var(--borde-sutil);
+  border-radius: var(--radio-sm);
+  box-shadow: var(--sombra-hundida);
+  padding: var(--espacio-3);
+  font-size: var(--texto-base);
+  font-family: inherit;
+}
+
+.campo-texto__control:focus-visible {
+  border-color: var(--borde-limite);
+}
+
+.enlace-discreto {
+  color: var(--texto-secundario);
+  text-decoration: underline;
+  font-size: var(--texto-sm);
+}
+
+.enlace-discreto:hover {
+  color: var(--acento);
+}

@@ -13,7 +13,7 @@
   no como color dominante.
 
   Cada par que debe cumplir contraste está declarado en un comentario
-  `/* par: --a sobre --b N */`, que lee scripts/contraste.py:
+  "par: --a sobre --b N", que lee scripts/contraste.py:
     - N = 4.5 → texto normal (WCAG 1.4.3 AA)
     - N = 3   → texto grande o límite/estado de componente (WCAG 1.4.6 AA
                 para texto grande y 1.4.11 AA para no-texto)
