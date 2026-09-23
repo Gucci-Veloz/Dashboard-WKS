@@ -1,0 +1,32 @@
+/*
+  Nivel 1: estado general. UI-04.
+
+  La conclusión es lo primero que se ve y lo de mayor jerarquía
+  visual de toda la pantalla: su font-size debe ser el más grande de
+  la página. El aviso de datos sintéticos es discreto, con la menor
+  jerarquía del bloque.
+*/
+
+.nivel1 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-3);
+}
+
+.nivel1__aviso {
+  align-self: flex-start;
+  margin: 0;
+  padding: var(--espacio-1) var(--espacio-3);
+  border-radius: var(--radio-sm);
+  background: var(--superficie);
+  color: var(--texto-secundario);
+  font-size: var(--texto-xs);
+}
+
+.nivel1__conclusion {
+  margin: 0;
+  color: var(--texto-principal);
+  font-size: var(--texto-2xl);
+  font-weight: 600;
+  line-height: 1.2;
+}

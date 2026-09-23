@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Works · muestra de nivel 1</title>
+    <link rel="stylesheet" href="/estilos/tokens.css" />
+    <link rel="stylesheet" href="/estilos/base.css" />
+    <link rel="stylesheet" href="/nivel1/nivel1.css" />
+  </head>
+  <body>
+    <main id="app"></main>
+    <script type="module">
+      import { obtenerEstado } from "/datos/estado.js";
+      import { renderNivel1 } from "/nivel1/nivel1.js";
+
+      const parametros = new URLSearchParams(window.location.search);
+      const escenario = parametros.get("escenario") || "tranquilo";
+
+      obtenerEstado(escenario).then((estado) => {
+        renderNivel1(document.getElementById("app"), estado);
+      });
+    </script>
+  </body>
+</html>

@@ -15,7 +15,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 | UI-01 | Página base mobile-first | hecha | D-1, DAT-01, UI-02 |
 | UI-02 | Tokens de diseño y verificador de contraste | hecha | — (libre) |
 | UI-03 | Componentes neumórficos base | hecha | D-1, UI-01 |
-| UI-04 | Nivel 1: estado general con ejemplos del contrato | pendiente | UI-03, DAT-03 |
+| UI-04 | Nivel 1: estado general con ejemplos del contrato | hecha | UI-03, DAT-03 |
 | UI-05 | Nivel 2: lo que merece atención | pendiente | UI-04 |
 | UI-06 | Indicadores que explican el estado | pendiente | UI-05 |
 | UI-07 | Conectar niveles 1 y 2 al servicio | pendiente | DAT-08 (D-3), UI-06 |
@@ -32,7 +32,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 
 ## Qué sigue
 
-UI-04 está libre (UI-03 hecha, DAT-03 hecha). UI-09 también está libre (solo espera UI-03).
+UI-05 está libre (UI-04 hecha). UI-09 también sigue libre (solo espera UI-03, ya hecha).
 
 ## Observaciones
 
@@ -50,4 +50,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 05:20 · UI-01 · en curso · DAT-01 hecha (aaf12f0), empiezo página base
 - 2026-09-23 05:35 · UI-01 · hecha (8c226f0) · sigue UI-03
 - 2026-09-23 05:36 · UI-03 · en curso · componentes neumórficos base
-- 2026-09-23 05:55 · UI-03 · hecha · corregí un bug en web/estilos/tokens.css (UI-02): el comentario de cabecera tenía un `*/` literal dentro del texto que cerraba el comentario antes de tiempo y rompía el parseo de todo el archivo (0 reglas CSS cargadas en el navegador). Sin este arreglo ningún estilo de tokens.css se aplicaba. Sigue UI-04 o UI-09.
+- 2026-09-23 05:55 · UI-03 · hecha (3013e1f) · corregí un bug en web/estilos/tokens.css (UI-02): el comentario de cabecera tenía un `*/` literal dentro del texto que cerraba el comentario antes de tiempo y rompía el parseo de todo el archivo (0 reglas CSS cargadas en el navegador). Sin este arreglo ningún estilo de tokens.css se aplicaba. Sigue UI-04 o UI-09.
+- 2026-09-23 05:56 · UI-04 · en curso · nivel 1 con conclusión humana
+- 2026-09-23 06:10 · UI-04 · hecha · corregí una prueba con carrera (UI-03): test_boton_presionado_cambia_borde_o_color leía el estilo computado antes de que terminara la transición CSS de 0.12s, y fallaba de forma intermitente al correr junto con otras pruebas. Agregué una espera corta. Sigue UI-05 o UI-09.

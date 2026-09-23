@@ -31,6 +31,9 @@ def test_boton_presionado_cambia_borde_o_color(servicio_url, page):
     caja = boton.bounding_box()
     page.mouse.move(caja["x"] + caja["width"] / 2, caja["y"] + caja["height"] / 2)
     page.mouse.down()
+    # el cambio de borde y color tiene una transición de 0.12s (componentes.css);
+    # se espera a que termine antes de leer el estilo computado.
+    page.wait_for_timeout(200)
 
     estilo_presionado = boton.evaluate(
         "el => { const s = getComputedStyle(el); "
