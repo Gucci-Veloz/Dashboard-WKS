@@ -18,7 +18,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 | UI-04 | Nivel 1: estado general con ejemplos del contrato | hecha | UI-03, DAT-03 |
 | UI-05 | Nivel 2: lo que merece atención | hecha | UI-04 |
 | UI-06 | Indicadores que explican el estado | hecha | UI-05 |
-| UI-07 | Conectar niveles 1 y 2 al servicio | pendiente | DAT-08 (D-3), UI-06 |
+| UI-07 | Conectar niveles 1 y 2 al servicio | hecha | DAT-08 (D-3), UI-06 |
 | UI-08 | Entrada al detalle bajo demanda | hecha | UI-05 |
 | UI-09 | Formulario editable y confirmación visible | pendiente | UI-03 |
 | UI-10 | Detalle de oficinas | pendiente | DAT-09, UI-08, UI-09 |
@@ -32,7 +32,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 
 ## Qué sigue
 
-UI-09 está libre. UI-07 sigue esperando DAT-08 (D-3), sin commit todavía.
+UI-09 está libre. UI-14 y UI-17 siguen esperando D-8/D-15 del usuario.
 
 ## Observaciones
 
@@ -58,4 +58,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 06:26 · UI-06 · en curso · indicadores textuales
 - 2026-09-23 06:40 · UI-06 · hecha (0ba8a1b) · ajusté las pruebas de UI-04 y UI-05, que asumían "ninguna lista" como ningún `ul`/`ol` en toda la página; con los indicadores (que sí son una lista y se muestran siempre) esa aserción era demasiado amplia. Las dejé apuntando a lo que de verdad importaba: que no aparezca la lista de asuntos. app/fuentes/cargar.py falló en la corrida completa, pero es de Builder_Datos y no lo toqué. Sigue UI-08 o UI-09; UI-07 sigue esperando DAT-08.
 - 2026-09-23 06:41 · UI-08 · en curso · navegación por hash, conecté app.js e index.html (UI-01) a los módulos existentes
-- 2026-09-23 06:58 · UI-08 · hecha · sigue UI-09; UI-07 sigue esperando DAT-08
+- 2026-09-23 06:58 · UI-08 · hecha (c2b5ee3) · sigue UI-09; UI-07 sigue esperando DAT-08
+- 2026-09-23 06:59 · UI-07 · en curso · DAT-08 hecha (fac977b), conecto niveles 1 y 2 a /api/estado
+- 2026-09-23 07:20 · UI-07 · hecha · sembré la base de pruebas de UI con el escenario con_atencion en tests/ui/conftest.py, para que la app real (no solo las muestras) tenga datos. Sigue UI-09.

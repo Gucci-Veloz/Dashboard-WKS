@@ -1,8 +1,9 @@
 // Único punto de lectura del estado de atención para todo el
-// Dashboard. Hoy devuelve los ejemplos de contratos/estado.schema.json
-// (contratos/ejemplos/*.json, copiados aquí porque contratos/ no se
-// sirve por HTTP). UI-07 cambia el cuerpo de esta función para leer
-// GET /api/estado; nada más debería tener que cambiar.
+// Dashboard. Sin argumento, lee GET /api/estado (UI-07). Con un
+// nombre de escenario ("tranquilo" o "con_atencion") devuelve el
+// ejemplo correspondiente del contrato, copiado aquí porque
+// contratos/ no se sirve por HTTP: lo usan las muestras y sus
+// pruebas (UI-04, UI-05, UI-06), que no dependen del servicio.
 
 const EJEMPLOS = {
   tranquilo: {
@@ -67,10 +68,18 @@ const EJEMPLOS = {
   },
 };
 
-export async function obtenerEstado(escenario = "tranquilo") {
-  const estado = EJEMPLOS[escenario];
-  if (!estado) {
-    throw new Error(`escenario desconocido: ${escenario}`);
+export async function obtenerEstado(escenario) {
+  if (escenario) {
+    const estado = EJEMPLOS[escenario];
+    if (!estado) {
+      throw new Error(`escenario desconocido: ${escenario}`);
+    }
+    return estado;
   }
-  return estado;
+
+  const respuesta = await fetch("/api/estado");
+  if (!respuesta.ok) {
+    throw new Error("no se pudo obtener el estado de Works");
+  }
+  return await respuesta.json();
 }

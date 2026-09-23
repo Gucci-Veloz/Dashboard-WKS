@@ -1,9 +1,14 @@
-"""Fixtures de Playwright para las pruebas de UI. UI-01.
+"""Fixtures de Playwright para las pruebas de UI. UI-01, UI-07.
 
 Levanta el servicio en un puerto libre elegido al momento (no fijo),
 porque más de un agente puede correr pruebas de UI al mismo tiempo.
+Cada sesión de pruebas usa su propia base SQLite temporal, migrada y
+cargada con el escenario sintético "con_atencion" (DAT-06), para que
+la aplicación real (no solo las muestras) tenga algo que mostrar
+cuando UI-07 la conecta a GET /api/estado.
 """
 
+import os
 import socket
 import sys
 import threading
@@ -28,7 +33,22 @@ def _puerto_libre():
 
 
 @pytest.fixture(scope="session")
-def servicio_url():
+def servicio_url(tmp_path_factory):
+    valor_anterior = os.environ.get("WORKS_DB")
+    ruta_db = tmp_path_factory.mktemp("ui-db") / "works.db"
+    os.environ["WORKS_DB"] = str(ruta_db)
+
+    from app.db.conexion import conectar
+    from app.db.migrar import migrar
+    from app.fuentes.cargar import cargar
+
+    migrar()
+    conexion = conectar()
+    try:
+        cargar("sintetica", "con_atencion", conexion)
+    finally:
+        conexion.close()
+
     from app.main import app
 
     puerto = _puerto_libre()
@@ -47,6 +67,11 @@ def servicio_url():
 
     servidor.should_exit = True
     hilo.join(timeout=5)
+
+    if valor_anterior is None:
+        os.environ.pop("WORKS_DB", None)
+    else:
+        os.environ["WORKS_DB"] = valor_anterior
 
 
 @pytest.fixture(params=["movil", "escritorio"])

@@ -7,11 +7,6 @@ import { analizarHash, cargarPantallaDetalle } from "/navegacion/rutas.js";
 
 const contenedor = document.getElementById("app");
 
-// Provisional: hasta UI-07, obtenerEstado() solo conoce estos
-// ejemplos del contrato. Se usa "con_atencion" por defecto para que
-// nivel 2 y la navegación a un registro tengan algo que mostrar.
-const ESCENARIO_PROVISIONAL = "con_atencion";
-
 function renderVolver() {
   const volver = document.createElement("a");
   volver.href = "#";
@@ -20,8 +15,24 @@ function renderVolver() {
   contenedor.appendChild(volver);
 }
 
+function renderMensajeDeError() {
+  const mensaje = document.createElement("p");
+  mensaje.className = "navegacion__mensaje";
+  mensaje.dataset.errorEstado = "true";
+  mensaje.textContent =
+    "No se pudo cargar la información de Works en este momento. Intenta de nuevo en unos minutos.";
+  contenedor.appendChild(mensaje);
+}
+
 async function renderPrincipal() {
-  const estado = await obtenerEstado(ESCENARIO_PROVISIONAL);
+  let estado;
+  try {
+    estado = await obtenerEstado();
+  } catch (error) {
+    renderMensajeDeError();
+    return;
+  }
+
   renderNivel1(contenedor, estado);
   renderNivel2(contenedor, estado);
   renderIndicadores(contenedor, estado);
