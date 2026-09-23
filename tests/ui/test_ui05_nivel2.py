@@ -28,7 +28,9 @@ def test_tranquilo_no_renderiza_ningun_asunto(servicio_url, page):
     page.goto(f"{servicio_url}/muestras/nivel1.html?escenario=tranquilo")
     page.wait_for_selector("[data-conclusion]")
     assert page.locator(".nivel2__asunto").count() == 0
-    assert page.locator("ul, ol").count() == 0
+    # La lista de asuntos (.nivel2) no existe; los indicadores de
+    # UI-06 son una lista aparte y sí se muestran siempre.
+    assert page.locator("ul.nivel2").count() == 0
 
 
 def test_ninguna_frase_tiene_fecha_cruda(servicio_url, page):

@@ -17,7 +17,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 | UI-03 | Componentes neumórficos base | hecha | D-1, UI-01 |
 | UI-04 | Nivel 1: estado general con ejemplos del contrato | hecha | UI-03, DAT-03 |
 | UI-05 | Nivel 2: lo que merece atención | hecha | UI-04 |
-| UI-06 | Indicadores que explican el estado | pendiente | UI-05 |
+| UI-06 | Indicadores que explican el estado | hecha | UI-05 |
 | UI-07 | Conectar niveles 1 y 2 al servicio | pendiente | DAT-08 (D-3), UI-06 |
 | UI-08 | Entrada al detalle bajo demanda | pendiente | UI-05 |
 | UI-09 | Formulario editable y confirmación visible | pendiente | UI-03 |
@@ -32,7 +32,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 
 ## Qué sigue
 
-UI-06, UI-08 y UI-09 están libres (todas sus esperas están hechas).
+UI-08 y UI-09 están libres. UI-07 sigue esperando DAT-08 (D-3), sin commit todavía.
 
 ## Observaciones
 
@@ -54,4 +54,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 05:56 · UI-04 · en curso · nivel 1 con conclusión humana
 - 2026-09-23 06:10 · UI-04 · hecha (2b7c804) · corregí una prueba con carrera (UI-03): test_boton_presionado_cambia_borde_o_color leía el estilo computado antes de que terminara la transición CSS de 0.12s, y fallaba de forma intermitente al correr junto con otras pruebas. Agregué una espera corta. Sigue UI-05 o UI-09.
 - 2026-09-23 06:12 · UI-05 · en curso · nivel 2 con asuntos en lenguaje humano
-- 2026-09-23 06:25 · UI-05 · hecha · sigue UI-06, UI-08 o UI-09
+- 2026-09-23 06:25 · UI-05 · hecha (3f5aa67) · sigue UI-06, UI-08 o UI-09
+- 2026-09-23 06:26 · UI-06 · en curso · indicadores textuales
+- 2026-09-23 06:40 · UI-06 · hecha · ajusté las pruebas de UI-04 y UI-05, que asumían "ninguna lista" como ningún `ul`/`ol` en toda la página; con los indicadores (que sí son una lista y se muestran siempre) esa aserción era demasiado amplia. Las dejé apuntando a lo que de verdad importaba: que no aparezca la lista de asuntos. app/fuentes/cargar.py falló en la corrida completa, pero es de Builder_Datos y no lo toqué. Sigue UI-08 o UI-09; UI-07 sigue esperando DAT-08.

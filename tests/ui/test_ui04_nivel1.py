@@ -34,10 +34,13 @@ def test_conclusion_tiene_la_mayor_jerarquia(servicio_url, pagina_con_viewport, 
     assert resultado["tamanoConclusion"] == resultado["mayor"]
 
 
-def test_tranquilo_no_muestra_ninguna_lista(servicio_url, page):
+def test_tranquilo_no_muestra_ninguna_lista_de_asuntos(servicio_url, page):
+    # El nivel 1 en sí no agrega listas (eso es nivel 2, UI-05). Los
+    # indicadores de UI-06 son una lista aparte y sí se muestran
+    # siempre; aquí solo se comprueba que no aparezca ningún asunto.
     page.goto(f"{servicio_url}/muestras/nivel1.html?escenario=tranquilo")
     page.wait_for_selector("[data-conclusion]")
-    assert page.locator("ul, ol").count() == 0
+    assert page.locator(".nivel2__asunto").count() == 0
 
 
 @pytest.mark.parametrize("escenario", ESCENARIOS)
