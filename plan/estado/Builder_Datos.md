@@ -19,8 +19,8 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 | DAT-05 | Interfaz de fuentes de datos y cargador | hecha (762ec17) | DAT-04 |
 | DAT-06 | Fuente sintética con dos escenarios | hecha (26b0f1e) | DAT-05, DAT-03 |
 | DAT-07 | Motor del estado de atención | hecha (892a89a) | D-3, DAT-06 |
-| DAT-08 | Endpoint del estado | hecha (pendiente de hash) | D-3, DAT-07 |
-| DAT-09 | API de oficinas | pendiente | DAT-04, INT-01, INT-04 |
+| DAT-08 | Endpoint del estado | hecha (fac977b) | D-3, DAT-07 |
+| DAT-09 | API de oficinas | hecha (pendiente de hash) | DAT-04, INT-01, INT-04 |
 | DAT-10 | API de inquilinos | pendiente | DAT-09 |
 | DAT-11 | API de contratos | pendiente | DAT-10 |
 | DAT-12 | API de pagos y registrar pago | pendiente | DAT-11 |
@@ -31,7 +31,7 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 
 ## Qué sigue
 
-Sin tareas propias disponibles: DAT-09 espera INT-01 e INT-04 (Builder_Integraciones), DAT-13 espera D-10 y DAT-09, DAT-14 espera U-1 (Excel). Reviso si INT-01/INT-04 ya están hechas la próxima vez que retome.
+DAT-10 (espera DAT-09, ya hecha).
 
 ## Observaciones
 
@@ -59,4 +59,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 05:34 · DAT-07 · en curso · D-3 resuelta (A) y DAT-06 cumplida
 - 2026-09-23 05:45 · DAT-07 · hecha (892a89a) · prueba pasa (4 passed); grep sqlite3/fastapi en app/estado vacío; umbrales.toml con tomllib si hay 3.11+, con parser propio si no
 - 2026-09-23 05:46 · DAT-08 · en curso · D-3 resuelta y DAT-07 cumplida
-- 2026-09-23 05:58 · DAT-08 · hecha (pendiente de hash) · prueba pasa (4 passed); corregido bug de orden de borrado en app/fuentes/cargar.py (violaba llaves foráneas al recargar sobre datos existentes); suite completa 22 passed
+- 2026-09-23 05:58 · DAT-08 · hecha (fac977b) · prueba pasa (4 passed); corregido bug de orden de borrado en app/fuentes/cargar.py (violaba llaves foráneas al recargar sobre datos existentes); suite completa 22 passed
+- 2026-09-23 06:05 · DAT-09 · en curso · works-94 confirmó INT-01 (0fdc1c7) e INT-04 (222394d) hechas
+- 2026-09-23 06:14 · DAT-09 · hecha (pendiente de hash) · prueba pasa (3 passed); actividad usa origen_dato='real' (no 'manual', esa columna solo admite sintetico/real); suite completa 40 passed
