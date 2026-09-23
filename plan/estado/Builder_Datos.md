@@ -12,7 +12,7 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 
 | ID | Título | Estado | Espera |
 |---|---|---|---|
-| DAT-01 | Esqueleto del servicio FastAPI | pendiente | D-2 |
+| DAT-01 | Esqueleto del servicio FastAPI | hecha (pendiente de hash) | D-2 |
 | DAT-02 | Conexión a SQLite y migraciones numeradas | pendiente | DAT-01 |
 | DAT-03 | Contrato del estado de atención | pendiente | — (libre) |
 | DAT-04 | Esquema de las cuatro áreas | pendiente | DAT-02 |
@@ -31,7 +31,7 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 
 ## Qué sigue
 
-DAT-03 está libre. Después, DAT-01 cuando el usuario responda D-2.
+DAT-03 (libre). Después, DAT-02 (espera DAT-01, ya hecha).
 
 ## Observaciones
 
@@ -44,3 +44,5 @@ Mejoras o dudas que no se convierten en requisito. La sesión maestra las revisa
 Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estado · nota`.
 
 - 2026-09-23 · — · creado · todas las tareas en pendiente
+- 2026-09-23 04:58 · DAT-01 · en curso · D-2 resuelta (A + pip/venv + pytest, Python 3.10 mínimo)
+- 2026-09-23 05:03 · DAT-01 · hecha (pendiente de hash) · prueba pasa (2 passed); .venv creado con pip/venv, Playwright + Chromium instalados; git check-ignore confirma var/ y datos_reales/
