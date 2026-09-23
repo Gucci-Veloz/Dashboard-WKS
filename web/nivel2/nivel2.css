@@ -1,0 +1,42 @@
+/*
+  Nivel 2: lo que merece atención. UI-05.
+
+  Menor jerarquía que la conclusión del nivel 1: el tamaño de la
+  frase de cada asunto es menor que --texto-2xl. En estado tranquilo
+  no se renderiza nada de este nivel.
+*/
+
+.nivel2 {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-3);
+}
+
+.nivel2__asunto {
+  display: block;
+  background: var(--superficie-alta);
+  border-radius: var(--radio-md);
+  box-shadow: var(--sombra-superficie);
+  padding: var(--espacio-4);
+  color: var(--texto-principal);
+  text-decoration: none;
+}
+
+.nivel2__asunto:hover {
+  box-shadow: var(--sombra-hundida);
+}
+
+.nivel2__frase {
+  margin: 0 0 var(--espacio-1);
+  font-size: var(--texto-base);
+  font-weight: 500;
+}
+
+.nivel2__por-que-importa {
+  margin: 0;
+  color: var(--texto-secundario);
+  font-size: var(--texto-sm);
+}

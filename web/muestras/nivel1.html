@@ -7,18 +7,22 @@
     <link rel="stylesheet" href="/estilos/tokens.css" />
     <link rel="stylesheet" href="/estilos/base.css" />
     <link rel="stylesheet" href="/nivel1/nivel1.css" />
+    <link rel="stylesheet" href="/nivel2/nivel2.css" />
   </head>
   <body>
     <main id="app"></main>
     <script type="module">
       import { obtenerEstado } from "/datos/estado.js";
       import { renderNivel1 } from "/nivel1/nivel1.js";
+      import { renderNivel2 } from "/nivel2/nivel2.js";
 
       const parametros = new URLSearchParams(window.location.search);
       const escenario = parametros.get("escenario") || "tranquilo";
 
       obtenerEstado(escenario).then((estado) => {
-        renderNivel1(document.getElementById("app"), estado);
+        const contenedor = document.getElementById("app");
+        renderNivel1(contenedor, estado);
+        renderNivel2(contenedor, estado);
       });
     </script>
   </body>
