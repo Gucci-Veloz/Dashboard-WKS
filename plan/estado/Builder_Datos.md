@@ -21,8 +21,8 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 | DAT-07 | Motor del estado de atención | hecha (892a89a) | D-3, DAT-06 |
 | DAT-08 | Endpoint del estado | hecha (fac977b) | D-3, DAT-07 |
 | DAT-09 | API de oficinas | hecha (8d9c352) | DAT-04, INT-01, INT-04 |
-| DAT-10 | API de inquilinos | hecha (pendiente de hash) | DAT-09 |
-| DAT-11 | API de contratos | pendiente | DAT-10 |
+| DAT-10 | API de inquilinos | hecha (051e2d7) | DAT-09 |
+| DAT-11 | API de contratos | hecha (pendiente de hash) | DAT-10 |
 | DAT-12 | API de pagos y registrar pago | pendiente | DAT-11 |
 | DAT-13 | Datos mínimos de personas para el pizarrón | pendiente | D-10, DAT-09 |
 | DAT-14 | Mapeo del Excel al modelo | pendiente | U-1 (Excel) |
@@ -31,7 +31,7 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 
 ## Qué sigue
 
-DAT-11 (espera DAT-10, ya hecha).
+DAT-12 (espera DAT-11, ya hecha).
 
 ## Observaciones
 
@@ -63,4 +63,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 06:05 · DAT-09 · en curso · works-94 confirmó INT-01 (0fdc1c7) e INT-04 (222394d) hechas
 - 2026-09-23 06:14 · DAT-09 · hecha (8d9c352) · prueba pasa (3 passed); actividad usa origen_dato='real' (no 'manual', esa columna solo admite sintetico/real); suite completa 40 passed
 - 2026-09-23 06:15 · DAT-10 · en curso · espera DAT-09 cumplida
-- 2026-09-23 06:22 · DAT-10 · hecha (pendiente de hash) · prueba pasa (3 passed)
+- 2026-09-23 06:22 · DAT-10 · hecha (051e2d7) · prueba pasa (3 passed)
+- 2026-09-23 06:23 · DAT-11 · en curso · espera DAT-10 cumplida
+- 2026-09-23 06:31 · DAT-11 · hecha (pendiente de hash) · prueba pasa (4 passed), incluida oficina inexistente → 400 con mensaje humano; suite completa 47 passed
