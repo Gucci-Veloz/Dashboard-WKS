@@ -12,7 +12,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 
 | ID | Título | Estado | Espera |
 |---|---|---|---|
-| UI-01 | Página base mobile-first | pendiente | D-1, DAT-01, UI-02 |
+| UI-01 | Página base mobile-first | hecha | D-1, DAT-01, UI-02 |
 | UI-02 | Tokens de diseño y verificador de contraste | hecha | — (libre) |
 | UI-03 | Componentes neumórficos base | pendiente | D-1, UI-01 |
 | UI-04 | Nivel 1: estado general con ejemplos del contrato | pendiente | UI-03, DAT-03 |
@@ -32,7 +32,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 
 ## Qué sigue
 
-sin tareas disponibles: espero DAT-01 (en curso por Builder_Datos) para UI-01. Después sigue UI-03.
+UI-03 está libre (D-1 resuelta, UI-01 hecha).
 
 ## Observaciones
 
@@ -46,4 +46,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 
 - 2026-09-23 · — · creado · todas las tareas en pendiente
 - 2026-09-23 05:00 · UI-02 · en curso · tokens de diseño y verificador de contraste
-- 2026-09-23 05:10 · UI-02 · hecha · sin tareas disponibles, espero DAT-01
+- 2026-09-23 05:10 · UI-02 · hecha (c4a62ee) · sin tareas disponibles, espero DAT-01
+- 2026-09-23 05:20 · UI-01 · en curso · DAT-01 hecha (aaf12f0), empiezo página base
+- 2026-09-23 05:35 · UI-01 · hecha · sigue UI-03

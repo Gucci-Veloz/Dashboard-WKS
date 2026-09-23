@@ -1,0 +1,44 @@
+/*
+  Base del documento. UI-01, fase 0. Mobile-first: el contenedor
+  principal nunca provoca scroll horizontal a 390px de ancho.
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--fondo);
+  color: var(--texto-principal);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: var(--texto-base);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+#app {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--espacio-4);
+}
+
+@media (min-width: 900px) {
+  #app {
+    max-width: 960px;
+    padding: var(--espacio-6);
+  }
+}
+
+:focus-visible {
+  outline: 3px solid var(--borde-limite);
+  outline-offset: 2px;
+}
