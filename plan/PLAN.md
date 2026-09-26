@@ -762,7 +762,7 @@ Objetivo: el acceso restringido que el handshake exige antes de usar datos reale
 - **Commit:** `INT-15: roles Admin y Editor`
 
 ### INT-16 · Acceso técnico del desarrollador
-- **Dueño:** Builder_Integraciones · **Espera:** **D-4**, INT-13 · **Archivos:** `app/seguridad/admin.py`, `tests/test_int16_admin.py`
+- **Dueño:** Builder_Integraciones · **Espera:** **D-4**, INT-13 · **Archivos:** `app/seguridad/admin.py`, `app/seguridad/sesion.py` (corrección del 2026-09-26), `tests/test_int16_admin.py`
 - **Entregable:** comando `python -m app.seguridad.admin` para crear, desactivar y listar cuentas, registrar el número de WhatsApp de cada cuenta (se guarda fuera de git) y revocar sesiones. Solo se usa en el servidor y no está expuesto en el Dashboard. Queda separado de `Admin`/`Editor`.
 - **Prueba:** `pytest tests/test_int16_admin.py -q`: crear una cuenta, revocar sus sesiones y comprobar que ya no puede entrar.
 - **Commit:** `INT-16: comando de administración técnica`

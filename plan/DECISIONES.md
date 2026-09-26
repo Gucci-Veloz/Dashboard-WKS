@@ -426,3 +426,4 @@ La sesión maestra anota aquí cada respuesta del usuario, con fecha, y actualiz
 - **2026-09-26 · Agentes en Codex:** Builder_1 (verificación y revisión), Builder_Datos, Builder_Integraciones y Builder_UI corren en Codex. Siguen el mismo protocolo de `REANUDAR.md`.
 - **2026-09-26 · `/luz-verde` del usuario:** se autorizan los commits de VER-03 y del plan, y arrancan Builder_Datos y Builder_Integraciones con la fase 2b. Builder_UI arranca cuando lleguen sus dependencias.
 - **2026-09-26 · Corrección del plan (`/luz-verde`):** INT-13 puede tocar además `app/actividad/registrar.py`, `tests/conftest.py` y `tests/ui/conftest.py`. En Codex los commits los hace la sesión Commit-Codex, una tarea por vuelta.
+- **2026-09-26 · Corrección del plan (`/luz-verde`):** INT-16 puede tocar `app/seguridad/sesion.py`.
