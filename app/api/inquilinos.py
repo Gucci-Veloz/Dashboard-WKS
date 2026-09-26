@@ -1,11 +1,10 @@
-import sqlite3
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
 from app.actividad.registrar import registrar
-from app.db.conexion import conectar
+from app.db.conexion import conectar_con_filas
 from app.seguridad.actor import actor_actual
 
 router = APIRouter()
@@ -19,12 +18,6 @@ class InquilinoEntrada(BaseModel):
     extras: Optional[str] = None
 
 
-def _conectar_con_filas() -> sqlite3.Connection:
-    conexion = conectar()
-    conexion.row_factory = sqlite3.Row
-    return conexion
-
-
 def _obtener(conexion, inquilino_id: int):
     fila = conexion.execute("SELECT * FROM inquilinos WHERE id = ?", (inquilino_id,)).fetchone()
     if fila is None:
@@ -34,7 +27,7 @@ def _obtener(conexion, inquilino_id: int):
 
 @router.get("/api/inquilinos")
 def listar_inquilinos() -> list:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         filas = conexion.execute("SELECT * FROM inquilinos ORDER BY id").fetchall()
         return [dict(fila) for fila in filas]
@@ -44,7 +37,7 @@ def listar_inquilinos() -> list:
 
 @router.get("/api/inquilinos/{inquilino_id}")
 def ver_inquilino(inquilino_id: int) -> dict:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         return _obtener(conexion, inquilino_id)
     finally:
@@ -53,7 +46,7 @@ def ver_inquilino(inquilino_id: int) -> dict:
 
 @router.post("/api/inquilinos", status_code=201)
 def crear_inquilino(entrada: InquilinoEntrada, actor: str = Depends(actor_actual)) -> dict:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         cursor = conexion.execute(
             """
@@ -84,7 +77,7 @@ def crear_inquilino(entrada: InquilinoEntrada, actor: str = Depends(actor_actual
 def editar_inquilino(
     inquilino_id: int, entrada: InquilinoEntrada, actor: str = Depends(actor_actual)
 ) -> dict:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         _obtener(conexion, inquilino_id)
         conexion.execute(
@@ -114,7 +107,7 @@ def editar_inquilino(
 
 @router.delete("/api/inquilinos/{inquilino_id}", status_code=204)
 def eliminar_inquilino(inquilino_id: int, actor: str = Depends(actor_actual)) -> None:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         _obtener(conexion, inquilino_id)
         conexion.execute("DELETE FROM inquilinos WHERE id = ?", (inquilino_id,))

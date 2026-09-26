@@ -17,4 +17,9 @@ def conectar() -> sqlite3.Connection:
     ruta.parent.mkdir(parents=True, exist_ok=True)
     conexion = sqlite3.connect(ruta)
     conexion.execute("PRAGMA foreign_keys = ON")
+    conexion.row_factory = sqlite3.Row
     return conexion
+
+
+def conectar_con_filas() -> sqlite3.Connection:
+    return conectar()

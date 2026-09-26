@@ -1,8 +1,6 @@
-import sqlite3
-
 from fastapi import APIRouter, Query
 
-from app.db.conexion import conectar
+from app.db.conexion import conectar_con_filas
 
 router = APIRouter()
 
@@ -24,9 +22,8 @@ def listar_actividad(
         parametros.append(area)
     where = f"WHERE {' AND '.join(condiciones)}" if condiciones else ""
 
-    conexion = conectar()
+    conexion = conectar_con_filas()
     try:
-        conexion.row_factory = sqlite3.Row
         total = conexion.execute(
             f"SELECT COUNT(*) FROM actividad {where}", parametros
         ).fetchone()[0]

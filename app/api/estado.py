@@ -1,9 +1,8 @@
-import sqlite3
 from datetime import date, datetime
 
 from fastapi import APIRouter
 
-from app.db.conexion import conectar
+from app.db.conexion import conectar_con_filas
 from app.estado.reglas import calcular_estado
 
 router = APIRouter()
@@ -12,7 +11,6 @@ AREAS = ("oficinas", "inquilinos", "contratos", "pagos")
 
 
 def _leer_datos(conexion) -> tuple:
-    conexion.row_factory = sqlite3.Row
     datos = {}
     origenes = set()
     for area in AREAS:
@@ -33,7 +31,7 @@ def _origen_datos(origenes: set) -> str:
 
 @router.get("/api/estado")
 def obtener_estado() -> dict:
-    conexion = conectar()
+    conexion = conectar_con_filas()
     try:
         datos, origenes = _leer_datos(conexion)
     finally:

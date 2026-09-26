@@ -1,4 +1,3 @@
-import sqlite3
 from datetime import date
 from typing import Optional
 
@@ -6,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
 from app.actividad.registrar import registrar
-from app.db.conexion import conectar
+from app.db.conexion import conectar_con_filas
 from app.seguridad.actor import actor_actual
 
 router = APIRouter()
@@ -30,12 +29,6 @@ class RegistrarPagoEntrada(BaseModel):
     contrato_id: int
     periodo: Optional[str] = None
     forma_pago: str
-
-
-def _conectar_con_filas() -> sqlite3.Connection:
-    conexion = conectar()
-    conexion.row_factory = sqlite3.Row
-    return conexion
 
 
 def _obtener(conexion, pago_id: int):
@@ -69,7 +62,7 @@ def _numero_oficina_de_contrato(conexion, contrato_id: int) -> str:
 
 @router.get("/api/pagos")
 def listar_pagos() -> list:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         filas = conexion.execute("SELECT * FROM pagos ORDER BY id").fetchall()
         return [dict(fila) for fila in filas]
@@ -79,7 +72,7 @@ def listar_pagos() -> list:
 
 @router.get("/api/pagos/{pago_id}")
 def ver_pago(pago_id: int) -> dict:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         return _obtener(conexion, pago_id)
     finally:
@@ -88,7 +81,7 @@ def ver_pago(pago_id: int) -> dict:
 
 @router.post("/api/pagos", status_code=201)
 def crear_pago(entrada: PagoEntrada, actor: str = Depends(actor_actual)) -> dict:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         _validar_contrato(conexion, entrada)
         cursor = conexion.execute(
@@ -128,7 +121,7 @@ def crear_pago(entrada: PagoEntrada, actor: str = Depends(actor_actual)) -> dict
 
 @router.put("/api/pagos/{pago_id}")
 def editar_pago(pago_id: int, entrada: PagoEntrada, actor: str = Depends(actor_actual)) -> dict:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         _obtener(conexion, pago_id)
         _validar_contrato(conexion, entrada)
@@ -169,7 +162,7 @@ def editar_pago(pago_id: int, entrada: PagoEntrada, actor: str = Depends(actor_a
 
 @router.delete("/api/pagos/{pago_id}", status_code=204)
 def eliminar_pago(pago_id: int, actor: str = Depends(actor_actual)) -> None:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         _obtener(conexion, pago_id)
         conexion.execute("DELETE FROM pagos WHERE id = ?", (pago_id,))
@@ -193,7 +186,7 @@ def registrar_pago(entrada: RegistrarPagoEntrada, actor: str = Depends(actor_act
     """Marca como pagado el pago pendiente de un contrato. Es la operación que
     usan tanto el Dashboard como Vania (por ejemplo: "Vania, registra que la
     oficina 204 pagó septiembre por transferencia")."""
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         fila = conexion.execute(
             """

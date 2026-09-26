@@ -1,11 +1,10 @@
-import sqlite3
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
 from app.actividad.registrar import registrar
-from app.db.conexion import conectar
+from app.db.conexion import conectar_con_filas
 from app.seguridad.actor import actor_actual
 
 router = APIRouter()
@@ -22,12 +21,6 @@ class OficinaEntrada(BaseModel):
     extras: Optional[str] = None
 
 
-def _conectar_con_filas() -> sqlite3.Connection:
-    conexion = conectar()
-    conexion.row_factory = sqlite3.Row
-    return conexion
-
-
 def _obtener(conexion, oficina_id: int):
     fila = conexion.execute("SELECT * FROM oficinas WHERE id = ?", (oficina_id,)).fetchone()
     if fila is None:
@@ -37,7 +30,7 @@ def _obtener(conexion, oficina_id: int):
 
 @router.get("/api/oficinas")
 def listar_oficinas() -> list:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         filas = conexion.execute("SELECT * FROM oficinas ORDER BY id").fetchall()
         return [dict(fila) for fila in filas]
@@ -47,7 +40,7 @@ def listar_oficinas() -> list:
 
 @router.get("/api/oficinas/{oficina_id}")
 def ver_oficina(oficina_id: int) -> dict:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         return _obtener(conexion, oficina_id)
     finally:
@@ -56,7 +49,7 @@ def ver_oficina(oficina_id: int) -> dict:
 
 @router.post("/api/oficinas", status_code=201)
 def crear_oficina(entrada: OficinaEntrada, actor: str = Depends(actor_actual)) -> dict:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         cursor = conexion.execute(
             """
@@ -87,7 +80,7 @@ def crear_oficina(entrada: OficinaEntrada, actor: str = Depends(actor_actual)) -
 def editar_oficina(
     oficina_id: int, entrada: OficinaEntrada, actor: str = Depends(actor_actual)
 ) -> dict:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         _obtener(conexion, oficina_id)
         conexion.execute(
@@ -126,7 +119,7 @@ def editar_oficina(
 
 @router.delete("/api/oficinas/{oficina_id}", status_code=204)
 def eliminar_oficina(oficina_id: int, actor: str = Depends(actor_actual)) -> None:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         _obtener(conexion, oficina_id)
         conexion.execute("DELETE FROM oficinas WHERE id = ?", (oficina_id,))

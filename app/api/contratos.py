@@ -1,11 +1,10 @@
-import sqlite3
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
 from app.actividad.registrar import registrar
-from app.db.conexion import conectar
+from app.db.conexion import conectar_con_filas
 from app.seguridad.actor import actor_actual
 
 router = APIRouter()
@@ -22,12 +21,6 @@ class ContratoEntrada(BaseModel):
     fin: Optional[str] = None
     alerta_renovacion: Optional[str] = None
     extras: Optional[str] = None
-
-
-def _conectar_con_filas() -> sqlite3.Connection:
-    conexion = conectar()
-    conexion.row_factory = sqlite3.Row
-    return conexion
 
 
 def _obtener(conexion, contrato_id: int):
@@ -54,7 +47,7 @@ def _validar_referencias(conexion, entrada: ContratoEntrada) -> None:
 
 @router.get("/api/contratos")
 def listar_contratos() -> list:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         filas = conexion.execute("SELECT * FROM contratos ORDER BY id").fetchall()
         return [dict(fila) for fila in filas]
@@ -64,7 +57,7 @@ def listar_contratos() -> list:
 
 @router.get("/api/contratos/{contrato_id}")
 def ver_contrato(contrato_id: int) -> dict:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         return _obtener(conexion, contrato_id)
     finally:
@@ -73,7 +66,7 @@ def ver_contrato(contrato_id: int) -> dict:
 
 @router.post("/api/contratos", status_code=201)
 def crear_contrato(entrada: ContratoEntrada, actor: str = Depends(actor_actual)) -> dict:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         _validar_referencias(conexion, entrada)
         cursor = conexion.execute(
@@ -113,7 +106,7 @@ def crear_contrato(entrada: ContratoEntrada, actor: str = Depends(actor_actual))
 def editar_contrato(
     contrato_id: int, entrada: ContratoEntrada, actor: str = Depends(actor_actual)
 ) -> dict:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         _obtener(conexion, contrato_id)
         _validar_referencias(conexion, entrada)
@@ -153,7 +146,7 @@ def editar_contrato(
 
 @router.delete("/api/contratos/{contrato_id}", status_code=204)
 def eliminar_contrato(contrato_id: int, actor: str = Depends(actor_actual)) -> None:
-    conexion = _conectar_con_filas()
+    conexion = conectar_con_filas()
     try:
         _obtener(conexion, contrato_id)
         conexion.execute("DELETE FROM contratos WHERE id = ?", (contrato_id,))
