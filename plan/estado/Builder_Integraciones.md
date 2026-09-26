@@ -2,7 +2,7 @@
 
 Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Detalle de cada tarea: `plan/PLAN.md`.
 
-Última actualización: 2026-09-26 · INT-16 terminada, pendiente de commit.
+Última actualización: 2026-09-26 · INT-17 terminada, pendiente de commit.
 
 ## En curso
 
@@ -25,14 +25,14 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 | INT-11 | Endpoint de documentos para Vania | pendiente | D-6, D-7, INT-10 |
 | INT-12 | Composición del pizarrón del mes | pendiente | D-10, DAT-13, INT-09, RES-03 |
 | INT-13 | Control de acceso mínimo | hecha (f4e9d55) | D-4, INT-04 |
-| INT-14 | Flujo de entrada en el teléfono | hecha (pendiente de commit) | D-4, INT-13, UI-03 |
+| INT-14 | Flujo de entrada en el teléfono | hecha (5380624) | D-4, INT-13, UI-03 |
 | INT-15 | Roles Admin y Editor | cancelada (D-5: sin roles) | — |
-| INT-16 | Acceso técnico del desarrollador | hecha (pendiente de commit) | D-4, INT-13 |
-| INT-17 | Vania solo cambia datos con la sesión de quien lo pide | pendiente | INT-13, DAT-19 |
+| INT-16 | Acceso técnico del desarrollador | hecha (1f21cab) | D-4, INT-13 |
+| INT-17 | Vania solo cambia datos con la sesión de quien lo pide | hecha (pendiente de commit) | INT-13, DAT-19 |
 
 ## Qué sigue
 
-INT-17 (DAT-19 tiene commit 8f0d871).
+sin tareas disponibles: INT-07 espera D-11; INT-08 espera D-9 y U-5; INT-09 espera D-7, U-3 y DAT-08; INT-10 a INT-12 esperan sus dependencias.
 
 ## Observaciones
 
@@ -71,3 +71,7 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-26 08:00 · INT-14 · hecha (pendiente de commit) · archivos: `web/acceso/index.html`, `web/acceso/acceso.css`, `web/acceso/acceso.js`, `tests/ui/test_int14_entrada.py`, `evidencia/INT-14/entrada-390.png`, `plan/estado/Builder_Integraciones.md`; prueba: `.venv/bin/python -m pytest tests/ui/test_int14_entrada.py -q` OK (2 passed)
 - 2026-09-26 08:00 · INT-16 · en curso · el usuario autoriza `app/seguridad/sesion.py`; retomo la tarea previamente bloqueada
 - 2026-09-26 08:00 · INT-16 · hecha (pendiente de commit) · archivos: `app/seguridad/admin.py`, `app/seguridad/sesion.py`, `tests/test_int16_admin.py`, `plan/estado/Builder_Integraciones.md`; prueba: `.venv/bin/python -m pytest tests/test_int16_admin.py -q` OK (3 passed)
+- 2026-09-26 08:41 · INT-14 · hecha (5380624) · commit detectado
+- 2026-09-26 08:41 · INT-16 · hecha (1f21cab) · commit detectado
+- 2026-09-26 08:41 · INT-17 · en curso · INT-13 y DAT-19 tienen commit; arranco la tarea
+- 2026-09-26 08:41 · INT-17 · hecha (pendiente de commit) · archivos: `app/seguridad/actor.py`, `app/seguridad/vania.py`, `docs/contrato-vania.md`, `tests/test_int17_vania_sesion.py`, `plan/estado/Builder_Integraciones.md`; prueba: `.venv/bin/python -m pytest tests/test_int17_vania_sesion.py -q` OK (4 passed)

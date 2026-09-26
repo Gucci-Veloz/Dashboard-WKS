@@ -18,6 +18,14 @@ MAN-06 en el VPS). Sin ese encabezado, o con un valor que no coincide, el
 servicio identifica a quien llama como `dashboard`, nunca como `vania` — y
 los endpoints que exigen credencial de servicio responden `401`.
 
+Para **crear, modificar, borrar o confirmar** un cambio, Vania también
+manda `X-Works-Solicitante: <número de WhatsApp>`. El servicio resuelve ese
+número en la configuración local del servidor; los números no se escriben
+en este repositorio. La persona de ese encabezado debe tener su propia
+sesión vigente: una sesión de David no autoriza una instrucción de Grecia,
+ni al revés. Un número desconocido o el del desarrollador responde `403`.
+Si falta la sesión correcta, responde `401` con `codigo: "sin_sesion"`.
+
 ## Endpoints por intención
 
 | Intención de la persona | Ejemplo | Endpoint |
@@ -41,10 +49,20 @@ los endpoints que exigen credencial de servicio responden `401`.
   detectó, ver DAT-07).
 - **No contacta inquilinos.** Ningún endpoint de este contrato envía nada a
   un tercero; eso lo hace Vania desde Hermes, fuera de esta API.
-- **Registra siempre con actor `vania`.** Cada escritura que Vania provoca
-  (por ejemplo `POST /api/pagos/registrar`) queda en la tabla `actividad`
-  con `actor = 'vania'`, gracias a la misma credencial de servicio
-  (`actor_actual()`, INT-04).
+- **Primero revisa la sesión de quien lo pidió.** Cuando alguien le pide un
+  cambio, Vania manda su número en `X-Works-Solicitante`. Si recibe
+  `401 sin_sesion`, pide un link; le explica que vence en 10 minutos y espera
+  a que la persona entre. No ejecuta el cambio hasta que la sesión correcta
+  esté vigente.
+- **Crea un pendiente, no el cambio oficial.** Cuando ya existe la sesión,
+  Vania crea el pre-registro y pregunta por WhatsApp: "¿Sí o No?". Con un
+  "Sí" confirma el pendiente; con "No" lo deja pendiente para que pueda
+  confirmarse durante las siguientes 24 horas. Pregunta si hay observaciones
+  y las incluye si la persona se las da.
+- **Registra solicitante y ejecutor.** Una escritura de Vania conserva a
+  David o Grecia como solicitante y guarda `vania` como ejecutor. El reporte
+  del día incluye ambos campos y las observaciones; Vania lo consulta y lo
+  manda solo cuando se lo piden.
 
 ## `origen_dato`: no significa lo mismo en todas las tablas
 
