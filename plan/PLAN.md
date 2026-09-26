@@ -421,6 +421,8 @@ Objetivo: aplicar `plan/REGLAS_OPERACION.md` sobre lo que ya está construido. *
 
 **Arranque:** ninguna tarea de esta fase empieza sin el `/luz-verde` del usuario, que la sesión maestra anota en "Respuestas" de `DECISIONES.md`. **Filas de estado:** cada agente agrega a su tabla de `plan/estado/<Agente>.md` sus tareas nuevas de esta fase, en `pendiente`, antes de empezar la primera.
 
+**Commits:** el aislamiento de Codex deja `.git` en solo lectura. Los agentes de Codex **no hacen commit**: al terminar una tarea la marcan `hecha (pendiente de commit)` y anotan en su bitácora la lista exacta de archivos. La sesión **Commit-Codex** corre la prueba, revisa que solo cambiaron esos archivos y hace el commit con el mensaje del plan. Cada vuelta de un agente es **una sola tarea**.
+
 **Pruebas y aislamiento:** los agentes que corren en Codex ya tienen acceso a la red local (`network_access = true`). Si una prueba falla por algo del entorno y no del código, anótalo como "bloqueada (entorno: <detalle>)". No la marques como fallida ni la arregles.
 
 ### DAT-17 · Una sola forma de conectarse a la base (VER-02, opción B)
@@ -733,7 +735,7 @@ Objetivo: el acceso restringido que el handshake exige antes de usar datos reale
 
 ### INT-13 · Control de acceso mínimo
 - **Dueño:** Builder_Integraciones · **Espera:** **D-4**, INT-04
-- **Archivos:** `app/db/migraciones/005_cuentas.sql`, `app/seguridad/sesion.py`, `app/seguridad/actor.py`, `app/api/acceso.py`, `tests/test_int13_acceso.py`
+- **Archivos:** `app/db/migraciones/005_cuentas.sql`, `app/seguridad/sesion.py`, `app/seguridad/actor.py`, `app/api/acceso.py`, `tests/test_int13_acceso.py` y, para que las pruebas existentes entren con una sesión de prueba y la actividad registre a la persona, `app/actividad/registrar.py`, `tests/conftest.py` y `tests/ui/conftest.py` (corrección del 2026-09-26)
 - **Entregable:** el mecanismo de D-4, según `plan/REGLAS_OPERACION.md` (acceso y sesiones):
   - `POST /api/acceso/enlace`: solo con la credencial de Vania y el número de WhatsApp de David o Grecia. Devuelve un link con token de un solo uso que vence a los **10 minutos**, junto con `vence_en`. El número del desarrollador o uno desconocido → 403.
   - Abrir el link consume el token y crea una sesión para ese dispositivo. Un token usado, vencido o inválido no sirve.
@@ -744,7 +746,7 @@ Objetivo: el acceso restringido que el handshake exige antes de usar datos reale
   - `actor_actual()` ahora identifica también a la persona (David o Grecia).
   - La credencial de servicio de Vania sigue funcionando.
   - Cookies con `Secure`, `HttpOnly` y `SameSite` (R4).
-- **Prueba:** `pytest tests/test_int13_acceso.py -q`: token usado dos veces → la segunda falla; token de 11 minutos → falla; sesión creada a las 17:00 vence a las 18:00 y una de las 19:00 vence a las 23:59 (reloj simulado); dos dispositivos de Grecia con sesión a la vez; sin sesión → 401; con sesión → 200 y la actividad registra a la persona; Vania con credencial → 200; la cookie trae los tres atributos.
+- **Prueba:** `pytest tests/test_int13_acceso.py -q` y la suite completa (`.venv/bin/python -m pytest -q`) en verde. En `test_int13_acceso.py`: token usado dos veces → la segunda falla; token de 11 minutos → falla; sesión creada a las 17:00 vence a las 18:00 y una de las 19:00 vence a las 23:59 (reloj simulado); dos dispositivos de Grecia con sesión a la vez; sin sesión → 401; con sesión → 200 y la actividad registra a la persona; Vania con credencial → 200; la cookie trae los tres atributos.
 - **Commit:** `INT-13: control de acceso mínimo`
 
 ### INT-14 · Flujo de entrada en el teléfono
