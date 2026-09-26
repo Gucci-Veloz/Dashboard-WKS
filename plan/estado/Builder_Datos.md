@@ -2,7 +2,7 @@
 
 Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Detalle de cada tarea: `plan/PLAN.md`.
 
-Última actualización: 2026-09-23 · creado por el planificador (Mapping). Plan aprobado el 2026-09-23; D-1, D-2 y D-3 resueltas.
+Última actualización: 2026-09-26 · DAT-21 terminada, pendiente de commit.
 
 ## En curso
 
@@ -31,12 +31,13 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 | DAT-17 | Una sola forma de conectarse a la base | hecha (9641113) | VER-03 |
 | DAT-18 | Cambios: pre-registro, confirmación e historial | hecha (e50b6af) | DAT-17 |
 | DAT-19 | Las APIs de las cuatro áreas pasan por cambios | hecha (8f0d871) | DAT-18, INT-13 |
-| DAT-20 | Aviso de posibles duplicados | hecha (pendiente de commit) | DAT-19 |
-| DAT-21 | Reporte del día | pendiente | DAT-19 |
+| DAT-20 | Aviso de posibles duplicados | hecha (bebd3a9) | DAT-19 |
+| DAT-21 | Reporte del día | hecha (pendiente de commit) | DAT-19 |
+| DAT-22 | Descartar un cambio pendiente | hecha (pendiente de commit) | DAT-19 |
 
 ## Qué sigue
 
-DAT-21 espera el commit de DAT-20.
+sin tareas disponibles: espero D-10, U-1 y los commits de DAT-21 y DAT-22.
 
 ## Observaciones
 
@@ -89,3 +90,8 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-26 07:50 · DAT-20 · hecha (pendiente de commit) · prueba exacta pasa (4 passed); archivos: app/cambios/duplicados.py, app/api/oficinas.py, app/api/inquilinos.py, app/api/contratos.py, app/api/pagos.py, tests/test_dat20_duplicados.py, plan/estado/Builder_Datos.md
 - 2026-09-26 08:41 · DAT-20 · en curso · retomo la corrección: excluir crear_de_todos_modos también de los PUT de las cuatro APIs
 - 2026-09-26 08:42 · DAT-20 · hecha (pendiente de commit) · corregida la exclusión de crear_de_todos_modos en los PUT; pruebas solicitadas pasan (7 passed); archivos: app/api/oficinas.py, app/api/inquilinos.py, app/api/contratos.py, app/api/pagos.py, plan/estado/Builder_Datos.md
+- 2026-09-26 09:17 · DAT-20 · hecha (bebd3a9) · commit confirmado; estado reconciliado
+- 2026-09-26 09:17 · DAT-22 · en curso · espera DAT-19 cumplida
+- 2026-09-26 09:18 · DAT-22 · hecha (pendiente de commit) · prueba exacta pasa (2 passed); archivos: app/cambios/servicio.py, app/api/cambios.py, tests/test_dat22_descartar.py, plan/estado/Builder_Datos.md
+- 2026-09-26 09:19 · DAT-21 · en curso · espera DAT-19 cumplida
+- 2026-09-26 09:21 · DAT-21 · hecha (pendiente de commit) · prueba exacta pasa (4 passed); archivos: app/cambios/reporte.py, app/api/reporte.py, tests/test_dat21_reporte.py, plan/estado/Builder_Datos.md
