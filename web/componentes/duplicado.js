@@ -42,7 +42,7 @@ export function abrirDuplicado({ error, alRevisar, alCancelar, alForzar }) {
   forzar.type = "button";
   forzar.className = "boton boton--secundario";
   forzar.dataset.duplicadoForzar = "true";
-  forzar.textContent = "Crear de todos modos";
+  forzar.textContent = "Reemplazar el existente";
   contenido.append(texto, resumen, revisar, cancelar, forzar);
   fondo.appendChild(contenido);
   document.body.appendChild(fondo);

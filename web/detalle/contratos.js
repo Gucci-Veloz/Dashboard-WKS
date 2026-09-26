@@ -92,7 +92,7 @@ async function renderFicha(contenedor, id) {
       ...campo,
       valor: contrato[campo.nombre] ?? "",
     })),
-    guardar: async (datos, { forzar } = {}) => {
+    guardar: async (datos, { forzar, duplicado: dup } = {}) => {
       const cuerpo = {
         oficina_id: valorEntero(datos.oficina_id),
         inquilino_id: valorEntero(datos.inquilino_id),
@@ -102,10 +102,11 @@ async function renderFicha(contenedor, id) {
         extras: contrato.extras,
       };
 
-      const respuestaGuardar = await fetch(`/api/contratos/${id}`, {
+      const urlGuardar = forzar && dup ? `/api/contratos/${dup.id}` : `/api/contratos/${id}`;
+      const respuestaGuardar = await fetch(urlGuardar, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(forzar ? { ...cuerpo, crear_de_todos_modos: true } : cuerpo),
+        body: JSON.stringify(cuerpo),
       });
 
       await lanzarSiDuplicado(respuestaGuardar);

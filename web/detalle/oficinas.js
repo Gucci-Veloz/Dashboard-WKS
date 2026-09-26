@@ -70,7 +70,7 @@ async function renderFicha(contenedor, id) {
       ...campo,
       valor: oficina[campo.nombre] ?? "",
     })),
-    guardar: async (datos, { forzar } = {}) => {
+    guardar: async (datos, { forzar, duplicado: dup } = {}) => {
       const cuerpo = {
         tipo: datos.tipo,
         numero: datos.numero,
@@ -80,10 +80,11 @@ async function renderFicha(contenedor, id) {
         extras: oficina.extras,
       };
 
-      const respuestaGuardar = await fetch(`/api/oficinas/${id}`, {
+      const urlGuardar = forzar && dup ? `/api/oficinas/${dup.id}` : `/api/oficinas/${id}`;
+      const respuestaGuardar = await fetch(urlGuardar, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(forzar ? { ...cuerpo, crear_de_todos_modos: true } : cuerpo),
+        body: JSON.stringify(cuerpo),
       });
 
       await lanzarSiDuplicado(respuestaGuardar);

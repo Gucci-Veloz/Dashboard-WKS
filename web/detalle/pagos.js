@@ -109,7 +109,7 @@ async function renderFicha(contenedor, id) {
         ...campo,
         valor: pagoActual[campo.nombre] ?? "",
       })),
-      guardar: async (datos, { forzar } = {}) => {
+      guardar: async (datos, { forzar, duplicado: dup } = {}) => {
         const cuerpo = {
           contrato_id: pagoActual.contrato_id,
           precio: valorNumerico(datos.precio),
@@ -120,10 +120,11 @@ async function renderFicha(contenedor, id) {
           extras: pagoActual.extras,
         };
 
-        const respuestaGuardar = await fetch(`/api/pagos/${id}`, {
+        const urlGuardar = forzar && dup ? `/api/pagos/${dup.id}` : `/api/pagos/${id}`;
+        const respuestaGuardar = await fetch(urlGuardar, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(forzar ? { ...cuerpo, crear_de_todos_modos: true } : cuerpo),
+          body: JSON.stringify(cuerpo),
         });
 
         await lanzarSiDuplicado(respuestaGuardar);
