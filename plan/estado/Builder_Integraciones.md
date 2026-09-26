@@ -25,14 +25,14 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 | INT-11 | Endpoint de documentos para Vania | pendiente | D-6, D-7, INT-10 |
 | INT-12 | Composición del pizarrón del mes | pendiente | D-10, DAT-13, INT-09, RES-03 |
 | INT-13 | Control de acceso mínimo | hecha (f4e9d55) | D-4, INT-04 |
-| INT-14 | Flujo de entrada en el teléfono | bloqueada (espera INT-13) | D-4, INT-13, UI-03 |
+| INT-14 | Flujo de entrada en el teléfono | hecha (pendiente de commit) | D-4, INT-13, UI-03 |
 | INT-15 | Roles Admin y Editor | cancelada (D-5: sin roles) | — |
-| INT-16 | Acceso técnico del desarrollador | bloqueada (registrar teléfonos fuera de git requiere que `app/seguridad/sesion.py` lea esa configuración, archivo fuera de los autorizados) | D-4, INT-13 |
+| INT-16 | Acceso técnico del desarrollador | hecha (490d305) | D-4, INT-13 |
 | INT-17 | Vania solo cambia datos con la sesión de quien lo pide | bloqueada (espera DAT-19: no tiene commit) | INT-13, DAT-19 |
 
 ## Qué sigue
 
-INT-14, después de que INT-16 tenga definición o ajuste de archivos.
+INT-17, cuando DAT-19 tenga commit.
 
 ## Observaciones
 
@@ -66,3 +66,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-26 07:30 · INT-13 · hecha (pendiente de commit) · archivos: `app/api/acceso.py`, `app/db/migraciones/005_cuentas.sql`, `app/seguridad/sesion.py`, `app/seguridad/actor.py`, `app/actividad/registrar.py`, `tests/test_int13_acceso.py`, `tests/conftest.py`, `tests/ui/conftest.py`; pruebas: 5 + 61 + 41 passed
 - 2026-09-26 07:32 · INT-13 · hecha (f4e9d55) · commit detectado; INT-16 en curso
 - 2026-09-26 07:32 · INT-16 · bloqueada (registrar teléfonos fuera de git requiere que `app/seguridad/sesion.py` lea esa configuración, archivo fuera de los autorizados) · no se modificaron archivos de la tarea
+- 2026-09-26 08:00 · INT-16 · hecha (490d305) · commit detectado; arranco INT-14
+- 2026-09-26 08:00 · INT-14 · en curso · D-4, INT-13 y UI-03 tienen commit; arranco flujo de entrada
+- 2026-09-26 08:00 · INT-14 · hecha (pendiente de commit) · archivos: `web/acceso/index.html`, `web/acceso/acceso.css`, `web/acceso/acceso.js`, `tests/ui/test_int14_entrada.py`, `evidencia/INT-14/entrada-390.png`, `plan/estado/Builder_Integraciones.md`; prueba: `.venv/bin/python -m pytest tests/ui/test_int14_entrada.py -q` OK (2 passed)

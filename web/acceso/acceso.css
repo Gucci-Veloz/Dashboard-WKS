@@ -1,0 +1,21 @@
+.acceso {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: var(--espacio-4);
+}
+
+.acceso__tarjeta {
+  width: min(100%, 390px);
+  text-align: center;
+}
+
+.acceso__titulo {
+  margin: 0 0 var(--espacio-3);
+  font-size: var(--texto-xl);
+}
+
+.acceso__mensaje-error {
+  color: var(--acento);
+  font-weight: 600;
+}
