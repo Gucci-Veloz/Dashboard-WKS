@@ -6,6 +6,7 @@
 
 import { crearAccionEliminar, crearFormulario } from "/componentes/formulario.js";
 import { mostrarPendientes } from "/componentes/confirmacion.js";
+import { lanzarSiDuplicado } from "/componentes/duplicado.js";
 
 const CAMPOS_EDICION = [
   { nombre: "precio", etiqueta: "Precio" },
@@ -108,7 +109,7 @@ async function renderFicha(contenedor, id) {
         ...campo,
         valor: pagoActual[campo.nombre] ?? "",
       })),
-      guardar: async (datos) => {
+      guardar: async (datos, { forzar } = {}) => {
         const cuerpo = {
           contrato_id: pagoActual.contrato_id,
           precio: valorNumerico(datos.precio),
@@ -122,9 +123,10 @@ async function renderFicha(contenedor, id) {
         const respuestaGuardar = await fetch(`/api/pagos/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(cuerpo),
+          body: JSON.stringify(forzar ? { ...cuerpo, crear_de_todos_modos: true } : cuerpo),
         });
 
+        await lanzarSiDuplicado(respuestaGuardar);
         if (!respuestaGuardar.ok) {
           const error = await respuestaGuardar.json().catch(() => ({}));
           throw new Error(error.detail || "No se pudo guardar el pago.");

@@ -49,3 +49,5 @@
 .ventana-confirmacion__contenido p,
 .cambio-pendiente p { width: 100%; margin: 0; }
 .cambio-pendiente { margin-block: var(--espacio-3); }
+
+.ventana-duplicado__resumen { font-weight: 600; }

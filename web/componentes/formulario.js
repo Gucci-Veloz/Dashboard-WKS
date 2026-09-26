@@ -1,6 +1,7 @@
 // Formulario que convierte la entrada en un pre-registro. UI-18.
 
 import { abrirConfirmacion, buscarPendiente } from "/componentes/confirmacion.js";
+import { abrirDuplicado } from "/componentes/duplicado.js";
 
 export function crearFormulario({ contenedor, campos, guardar, alConfirmar, alPendiente }) {
   contenedor.innerHTML = "";
@@ -46,14 +47,13 @@ export function crearFormulario({ contenedor, campos, guardar, alConfirmar, alPe
   boton.className = "boton";
   boton.textContent = "Guardar";
   form.append(grupoObservaciones, mensajeError, boton);
-  form.addEventListener("submit", async (evento) => {
-    evento.preventDefault();
+  const enviar = async (forzar) => {
     mensajeError.hidden = true;
     boton.disabled = true;
     const datos = Object.fromEntries(Object.entries(inputs).map(([nombre, input]) => [nombre, input.value]));
     datos.observaciones = observaciones.value || null;
     try {
-      const creado = await guardar(datos);
+      const creado = await guardar(datos, { forzar });
       // La muestra aislada de UI-09 no usa la API de cambios; se conserva
       // como verificación del componente sin servicio.
       if (!creado || !creado.id) {
@@ -74,11 +74,19 @@ export function crearFormulario({ contenedor, campos, guardar, alConfirmar, alPe
         alCerrar: () => alPendiente?.(cambio),
       });
     } catch (causa) {
+      if (causa.duplicado) {
+        abrirDuplicado({ error: causa, alForzar: () => enviar(true) });
+        return;
+      }
       mensajeError.textContent = causa.message || "No se pudo pedir el cambio. Intenta de nuevo.";
       mensajeError.hidden = false;
     } finally {
       boton.disabled = false;
     }
+  };
+  form.addEventListener("submit", (evento) => {
+    evento.preventDefault();
+    return enviar(false);
   });
   contenedor.appendChild(form);
   return form;

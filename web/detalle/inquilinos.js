@@ -3,6 +3,7 @@
 
 import { crearAccionEliminar, crearFormulario } from "/componentes/formulario.js";
 import { mostrarPendientes } from "/componentes/confirmacion.js";
+import { lanzarSiDuplicado } from "/componentes/duplicado.js";
 
 const CAMPOS = [
   { nombre: "titular", etiqueta: "Titular" },
@@ -61,7 +62,7 @@ async function renderFicha(contenedor, id) {
       ...campo,
       valor: inquilino[campo.nombre] ?? "",
     })),
-    guardar: async (datos) => {
+    guardar: async (datos, { forzar } = {}) => {
       const cuerpo = {
         titular: datos.titular,
         contacto: datos.contacto,
@@ -71,9 +72,10 @@ async function renderFicha(contenedor, id) {
       const respuestaGuardar = await fetch(`/api/inquilinos/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(cuerpo),
+        body: JSON.stringify(forzar ? { ...cuerpo, crear_de_todos_modos: true } : cuerpo),
       });
 
+      await lanzarSiDuplicado(respuestaGuardar);
       if (!respuestaGuardar.ok) {
         const error = await respuestaGuardar.json().catch(() => ({}));
         throw new Error(error.detail || "No se pudo guardar el inquilino.");

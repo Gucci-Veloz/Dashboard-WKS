@@ -4,6 +4,7 @@
 
 import { crearAccionEliminar, crearFormulario } from "/componentes/formulario.js";
 import { mostrarPendientes } from "/componentes/confirmacion.js";
+import { lanzarSiDuplicado } from "/componentes/duplicado.js";
 
 const CAMPOS = [
   { nombre: "oficina_id", etiqueta: "Oficina (id)" },
@@ -91,7 +92,7 @@ async function renderFicha(contenedor, id) {
       ...campo,
       valor: contrato[campo.nombre] ?? "",
     })),
-    guardar: async (datos) => {
+    guardar: async (datos, { forzar } = {}) => {
       const cuerpo = {
         oficina_id: valorEntero(datos.oficina_id),
         inquilino_id: valorEntero(datos.inquilino_id),
@@ -104,9 +105,10 @@ async function renderFicha(contenedor, id) {
       const respuestaGuardar = await fetch(`/api/contratos/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(cuerpo),
+        body: JSON.stringify(forzar ? { ...cuerpo, crear_de_todos_modos: true } : cuerpo),
       });
 
+      await lanzarSiDuplicado(respuestaGuardar);
       if (!respuestaGuardar.ok) {
         const error = await respuestaGuardar.json().catch(() => ({}));
         throw new Error(error.detail || "No se pudo guardar el contrato.");
