@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
-from app.actividad.registrar import registrar
+from app.cambios.servicio import crear_pendiente
 from app.db.conexion import conectar_con_filas
 from app.seguridad.actor import actor_actual
 
@@ -19,6 +19,7 @@ class OficinaEntrada(BaseModel):
     m2: Optional[float] = None
     estatus: Optional[str] = None
     extras: Optional[str] = None
+    observaciones: Optional[str] = None
 
 
 def _obtener(conexion, oficina_id: int):
@@ -47,33 +48,24 @@ def ver_oficina(oficina_id: int) -> dict:
         conexion.close()
 
 
-@router.post("/api/oficinas", status_code=201)
-def crear_oficina(entrada: OficinaEntrada, actor: str = Depends(actor_actual)) -> dict:
-    conexion = conectar_con_filas()
+def _pendiente(operacion: str, actor, valores: dict, oficina_id: int | None = None) -> dict:
+    solicitante = getattr(actor, "solicitante", None)
+    if solicitante is None:
+        raise HTTPException(status_code=403, detail="No se identificó a la persona que solicitó el cambio.")
     try:
-        cursor = conexion.execute(
-            """
-            INSERT INTO oficinas (tipo, numero, piso, m2, estatus, origen_dato, extras)
-            VALUES (?, ?, ?, ?, ?, 'manual', ?)
-            """,
-            (entrada.tipo, entrada.numero, entrada.piso, entrada.m2, entrada.estatus, entrada.extras),
+        cambio = crear_pendiente(
+            area="oficinas", operacion=operacion, registro_id=oficina_id,
+            valores_nuevos=valores, observaciones=valores.pop("observaciones", None),
+            solicitante=solicitante, ejecutor=solicitante if actor.ejecutor == "dashboard" else actor.ejecutor,
         )
-        conexion.commit()
-        oficina_id = cursor.lastrowid
-        oficina = _obtener(conexion, oficina_id)
-    finally:
-        conexion.close()
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error)) from error
+    return {"id": cambio["id"], "resumen": f"Cambio pendiente de confirmar para la oficina {valores.get('numero') or oficina_id or ''}."}
 
-    registrar(
-        actor=actor,
-        tipo="solicitada",
-        accion="crear_oficina",
-        area="oficinas",
-        referencia=str(oficina_id),
-        resumen=f"Se creó la oficina {entrada.numero or oficina_id}.",
-        origen_dato="real",
-    )
-    return oficina
+
+@router.post("/api/oficinas", status_code=201)
+def crear_oficina(entrada: OficinaEntrada, actor=Depends(actor_actual)) -> dict:
+    return _pendiente("alta", actor, entrada.model_dump())
 
 
 @router.put("/api/oficinas/{oficina_id}")
@@ -83,56 +75,16 @@ def editar_oficina(
     conexion = conectar_con_filas()
     try:
         _obtener(conexion, oficina_id)
-        conexion.execute(
-            """
-            UPDATE oficinas
-            SET tipo = ?, numero = ?, piso = ?, m2 = ?, estatus = ?, extras = ?,
-                actualizado_en = datetime('now')
-            WHERE id = ?
-            """,
-            (
-                entrada.tipo,
-                entrada.numero,
-                entrada.piso,
-                entrada.m2,
-                entrada.estatus,
-                entrada.extras,
-                oficina_id,
-            ),
-        )
-        conexion.commit()
-        oficina = _obtener(conexion, oficina_id)
     finally:
         conexion.close()
-
-    registrar(
-        actor=actor,
-        tipo="solicitada",
-        accion="editar_oficina",
-        area="oficinas",
-        referencia=str(oficina_id),
-        resumen=f"Se editó la oficina {entrada.numero or oficina_id}.",
-        origen_dato="real",
-    )
-    return oficina
+    return _pendiente("modificacion", actor, entrada.model_dump(), oficina_id)
 
 
-@router.delete("/api/oficinas/{oficina_id}", status_code=204)
-def eliminar_oficina(oficina_id: int, actor: str = Depends(actor_actual)) -> None:
+@router.delete("/api/oficinas/{oficina_id}")
+def eliminar_oficina(oficina_id: int, observaciones: str | None = None, actor=Depends(actor_actual)) -> dict:
     conexion = conectar_con_filas()
     try:
         _obtener(conexion, oficina_id)
-        conexion.execute("DELETE FROM oficinas WHERE id = ?", (oficina_id,))
-        conexion.commit()
     finally:
         conexion.close()
-
-    registrar(
-        actor=actor,
-        tipo="solicitada",
-        accion="eliminar_oficina",
-        area="oficinas",
-        referencia=str(oficina_id),
-        resumen=f"Se eliminó la oficina {oficina_id}.",
-        origen_dato="real",
-    )
+    return _pendiente("baja", actor, {"observaciones": observaciones}, oficina_id)

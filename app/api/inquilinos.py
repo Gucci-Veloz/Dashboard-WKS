@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
-from app.actividad.registrar import registrar
+from app.cambios.servicio import crear_pendiente
 from app.db.conexion import conectar_con_filas
 from app.seguridad.actor import actor_actual
 
@@ -16,6 +16,7 @@ class InquilinoEntrada(BaseModel):
     titular: Optional[str] = None
     contacto: Optional[str] = None
     extras: Optional[str] = None
+    observaciones: Optional[str] = None
 
 
 def _obtener(conexion, inquilino_id: int):
@@ -44,33 +45,24 @@ def ver_inquilino(inquilino_id: int) -> dict:
         conexion.close()
 
 
-@router.post("/api/inquilinos", status_code=201)
-def crear_inquilino(entrada: InquilinoEntrada, actor: str = Depends(actor_actual)) -> dict:
-    conexion = conectar_con_filas()
+def _pendiente(operacion: str, actor, valores: dict, inquilino_id: int | None = None) -> dict:
+    solicitante = getattr(actor, "solicitante", None)
+    if solicitante is None:
+        raise HTTPException(status_code=403, detail="No se identificó a la persona que solicitó el cambio.")
     try:
-        cursor = conexion.execute(
-            """
-            INSERT INTO inquilinos (titular, contacto, origen_dato, extras)
-            VALUES (?, ?, 'manual', ?)
-            """,
-            (entrada.titular, entrada.contacto, entrada.extras),
+        cambio = crear_pendiente(
+            area="inquilinos", operacion=operacion, registro_id=inquilino_id,
+            valores_nuevos=valores, observaciones=valores.pop("observaciones", None),
+            solicitante=solicitante, ejecutor=solicitante if actor.ejecutor == "dashboard" else actor.ejecutor,
         )
-        conexion.commit()
-        inquilino_id = cursor.lastrowid
-        inquilino = _obtener(conexion, inquilino_id)
-    finally:
-        conexion.close()
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error)) from error
+    return {"id": cambio["id"], "resumen": f"Cambio pendiente de confirmar para {valores.get('titular') or inquilino_id or 'el inquilino'}."}
 
-    registrar(
-        actor=actor,
-        tipo="solicitada",
-        accion="crear_inquilino",
-        area="inquilinos",
-        referencia=str(inquilino_id),
-        resumen=f"Se creó el inquilino {entrada.titular or inquilino_id}.",
-        origen_dato="real",
-    )
-    return inquilino
+
+@router.post("/api/inquilinos", status_code=201)
+def crear_inquilino(entrada: InquilinoEntrada, actor=Depends(actor_actual)) -> dict:
+    return _pendiente("alta", actor, entrada.model_dump())
 
 
 @router.put("/api/inquilinos/{inquilino_id}")
@@ -80,47 +72,16 @@ def editar_inquilino(
     conexion = conectar_con_filas()
     try:
         _obtener(conexion, inquilino_id)
-        conexion.execute(
-            """
-            UPDATE inquilinos
-            SET titular = ?, contacto = ?, extras = ?, actualizado_en = datetime('now')
-            WHERE id = ?
-            """,
-            (entrada.titular, entrada.contacto, entrada.extras, inquilino_id),
-        )
-        conexion.commit()
-        inquilino = _obtener(conexion, inquilino_id)
     finally:
         conexion.close()
-
-    registrar(
-        actor=actor,
-        tipo="solicitada",
-        accion="editar_inquilino",
-        area="inquilinos",
-        referencia=str(inquilino_id),
-        resumen=f"Se editó el inquilino {entrada.titular or inquilino_id}.",
-        origen_dato="real",
-    )
-    return inquilino
+    return _pendiente("modificacion", actor, entrada.model_dump(), inquilino_id)
 
 
-@router.delete("/api/inquilinos/{inquilino_id}", status_code=204)
-def eliminar_inquilino(inquilino_id: int, actor: str = Depends(actor_actual)) -> None:
+@router.delete("/api/inquilinos/{inquilino_id}")
+def eliminar_inquilino(inquilino_id: int, observaciones: str | None = None, actor=Depends(actor_actual)) -> dict:
     conexion = conectar_con_filas()
     try:
         _obtener(conexion, inquilino_id)
-        conexion.execute("DELETE FROM inquilinos WHERE id = ?", (inquilino_id,))
-        conexion.commit()
     finally:
         conexion.close()
-
-    registrar(
-        actor=actor,
-        tipo="solicitada",
-        accion="eliminar_inquilino",
-        area="inquilinos",
-        referencia=str(inquilino_id),
-        resumen=f"Se eliminó el inquilino {inquilino_id}.",
-        origen_dato="real",
-    )
+    return _pendiente("baja", actor, {"observaciones": observaciones}, inquilino_id)

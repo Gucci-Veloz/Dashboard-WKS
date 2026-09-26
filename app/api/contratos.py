@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
-from app.actividad.registrar import registrar
+from app.cambios.servicio import crear_pendiente
 from app.db.conexion import conectar_con_filas
 from app.seguridad.actor import actor_actual
 
@@ -21,6 +21,7 @@ class ContratoEntrada(BaseModel):
     fin: Optional[str] = None
     alerta_renovacion: Optional[str] = None
     extras: Optional[str] = None
+    observaciones: Optional[str] = None
 
 
 def _obtener(conexion, contrato_id: int):
@@ -64,42 +65,29 @@ def ver_contrato(contrato_id: int) -> dict:
         conexion.close()
 
 
+def _pendiente(operacion: str, actor, valores: dict, contrato_id: int | None = None) -> dict:
+    solicitante = getattr(actor, "solicitante", None)
+    if solicitante is None:
+        raise HTTPException(status_code=403, detail="No se identificó a la persona que solicitó el cambio.")
+    try:
+        cambio = crear_pendiente(
+            area="contratos", operacion=operacion, registro_id=contrato_id,
+            valores_nuevos=valores, observaciones=valores.pop("observaciones", None),
+            solicitante=solicitante, ejecutor=solicitante if actor.ejecutor == "dashboard" else actor.ejecutor,
+        )
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error)) from error
+    return {"id": cambio["id"], "resumen": f"Cambio pendiente de confirmar para el contrato {contrato_id or ''}."}
+
+
 @router.post("/api/contratos", status_code=201)
-def crear_contrato(entrada: ContratoEntrada, actor: str = Depends(actor_actual)) -> dict:
+def crear_contrato(entrada: ContratoEntrada, actor=Depends(actor_actual)) -> dict:
     conexion = conectar_con_filas()
     try:
         _validar_referencias(conexion, entrada)
-        cursor = conexion.execute(
-            """
-            INSERT INTO contratos
-                (oficina_id, inquilino_id, inicio, fin, alerta_renovacion, origen_dato, extras)
-            VALUES (?, ?, ?, ?, ?, 'manual', ?)
-            """,
-            (
-                entrada.oficina_id,
-                entrada.inquilino_id,
-                entrada.inicio,
-                entrada.fin,
-                entrada.alerta_renovacion,
-                entrada.extras,
-            ),
-        )
-        conexion.commit()
-        contrato_id = cursor.lastrowid
-        contrato = _obtener(conexion, contrato_id)
     finally:
         conexion.close()
-
-    registrar(
-        actor=actor,
-        tipo="solicitada",
-        accion="crear_contrato",
-        area="contratos",
-        referencia=str(contrato_id),
-        resumen=f"Se creó el contrato {contrato_id}.",
-        origen_dato="real",
-    )
-    return contrato
+    return _pendiente("alta", actor, entrada.model_dump())
 
 
 @router.put("/api/contratos/{contrato_id}")
@@ -110,56 +98,16 @@ def editar_contrato(
     try:
         _obtener(conexion, contrato_id)
         _validar_referencias(conexion, entrada)
-        conexion.execute(
-            """
-            UPDATE contratos
-            SET oficina_id = ?, inquilino_id = ?, inicio = ?, fin = ?, alerta_renovacion = ?,
-                extras = ?, actualizado_en = datetime('now')
-            WHERE id = ?
-            """,
-            (
-                entrada.oficina_id,
-                entrada.inquilino_id,
-                entrada.inicio,
-                entrada.fin,
-                entrada.alerta_renovacion,
-                entrada.extras,
-                contrato_id,
-            ),
-        )
-        conexion.commit()
-        contrato = _obtener(conexion, contrato_id)
     finally:
         conexion.close()
-
-    registrar(
-        actor=actor,
-        tipo="solicitada",
-        accion="editar_contrato",
-        area="contratos",
-        referencia=str(contrato_id),
-        resumen=f"Se editó el contrato {contrato_id}.",
-        origen_dato="real",
-    )
-    return contrato
+    return _pendiente("modificacion", actor, entrada.model_dump(), contrato_id)
 
 
-@router.delete("/api/contratos/{contrato_id}", status_code=204)
-def eliminar_contrato(contrato_id: int, actor: str = Depends(actor_actual)) -> None:
+@router.delete("/api/contratos/{contrato_id}")
+def eliminar_contrato(contrato_id: int, observaciones: str | None = None, actor=Depends(actor_actual)) -> dict:
     conexion = conectar_con_filas()
     try:
         _obtener(conexion, contrato_id)
-        conexion.execute("DELETE FROM contratos WHERE id = ?", (contrato_id,))
-        conexion.commit()
     finally:
         conexion.close()
-
-    registrar(
-        actor=actor,
-        tipo="solicitada",
-        accion="eliminar_contrato",
-        area="contratos",
-        referencia=str(contrato_id),
-        resumen=f"Se eliminó el contrato {contrato_id}.",
-        origen_dato="real",
-    )
+    return _pendiente("baja", actor, {"observaciones": observaciones}, contrato_id)

@@ -29,14 +29,14 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 | DAT-15 | Fuente Excel | pendiente | DAT-14, INT-13 |
 | DAT-16 | Reporte de calidad de la importación | pendiente | DAT-15 |
 | DAT-17 | Una sola forma de conectarse a la base | hecha (9641113) | VER-03 |
-| DAT-18 | Cambios: pre-registro, confirmación e historial | hecha (pendiente de commit) | DAT-17 |
-| DAT-19 | Las APIs de las cuatro áreas pasan por cambios | bloqueada (espera DAT-18 e INT-13 sin commit) | DAT-18, INT-13 |
+| DAT-18 | Cambios: pre-registro, confirmación e historial | hecha (e50b6af) | DAT-17 |
+| DAT-19 | Las APIs de las cuatro áreas pasan por cambios | hecha (pendiente de commit) | DAT-18, INT-13 |
 | DAT-20 | Aviso de posibles duplicados | pendiente | DAT-19 |
 | DAT-21 | Reporte del día | pendiente | DAT-19 |
 
 ## Qué sigue
 
-Sin tareas disponibles: DAT-19 espera los commits de DAT-18 e INT-13; DAT-20 y DAT-21 esperan DAT-19.
+DAT-20 espera el commit de DAT-19.
 
 ## Observaciones
 
@@ -81,3 +81,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-26 07:22 · DAT-17 · hecha (9641113) · commit confirmado; estado reconciliado
 - 2026-09-26 07:22 · DAT-18 · en curso · espera DAT-17 cumplida
 - 2026-09-26 07:25 · DAT-18 · hecha (pendiente de commit) · prueba exacta pasa (5 passed); archivos: app/db/migraciones/008_cambios.sql, app/cambios/__init__.py, app/cambios/servicio.py, tests/test_dat18_cambios.py, plan/estado/Builder_Datos.md
+- 2026-09-26 07:32 · DAT-18 · hecha (e50b6af) · commit confirmado; estado reconciliado
+- 2026-09-26 07:32 · DAT-19 · en curso · esperas DAT-18 e INT-13 cumplidas
+- 2026-09-26 07:38 · DAT-19 · hecha (pendiente de commit) · prueba exacta pasa (11 passed); archivos: app/api/oficinas.py, app/api/inquilinos.py, app/api/contratos.py, app/api/pagos.py, app/api/cambios.py, tests/test_dat09_oficinas.py, tests/test_dat10_inquilinos.py, tests/test_dat11_contratos.py, tests/test_dat12_pagos.py, tests/test_dat19_api_cambios.py, plan/estado/Builder_Datos.md
