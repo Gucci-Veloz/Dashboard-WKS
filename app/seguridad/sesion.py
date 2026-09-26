@@ -3,14 +3,16 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 import secrets
 from datetime import datetime, timedelta
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from fastapi import HTTPException
 
-from app.db.conexion import conectar
+from app.db.conexion import conectar, ruta_base_datos
 
 ZONA_HORARIA = ZoneInfo("America/Mexico_City")
 NOMBRE_COOKIE = "works_sesion"
@@ -27,10 +29,36 @@ def _hash(token: str) -> str:
 def persona_por_whatsapp(numero: str | None) -> str | None:
     if not numero:
         return None
+    for persona, telefono in leer_telefonos().items():
+        if numero == telefono:
+            return persona
     for persona in ("david", "grecia"):
         if numero == os.environ.get(f"WORKS_WHATSAPP_{persona.upper()}"):
             return persona
     return None
+
+
+def ruta_telefonos() -> Path:
+    """Devuelve la configuración local de teléfonos, siempre fuera del código."""
+    configurada = os.environ.get("WORKS_CUENTAS_CONFIG")
+    if configurada:
+        return Path(configurada)
+    return ruta_base_datos().parent / "works_cuentas.json"
+
+
+def leer_telefonos() -> dict[str, str]:
+    ruta = ruta_telefonos()
+    if not ruta.is_file():
+        return {}
+    with ruta.open(encoding="utf-8") as archivo:
+        datos = json.load(archivo)
+    if not isinstance(datos, dict):
+        return {}
+    return {
+        persona: telefono
+        for persona, telefono in datos.items()
+        if persona in {"david", "grecia"} and isinstance(telefono, str)
+    }
 
 
 def vencimiento_sesion(momento: datetime) -> datetime:

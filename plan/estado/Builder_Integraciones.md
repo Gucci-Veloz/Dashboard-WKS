@@ -2,7 +2,7 @@
 
 Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Detalle de cada tarea: `plan/PLAN.md`.
 
-Última actualización: 2026-09-23 · creado por el planificador (Mapping). Plan aprobado el 2026-09-23; D-1, D-2 y D-3 resueltas.
+Última actualización: 2026-09-26 · INT-16 terminada, pendiente de commit.
 
 ## En curso
 
@@ -27,12 +27,12 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 | INT-13 | Control de acceso mínimo | hecha (f4e9d55) | D-4, INT-04 |
 | INT-14 | Flujo de entrada en el teléfono | hecha (pendiente de commit) | D-4, INT-13, UI-03 |
 | INT-15 | Roles Admin y Editor | cancelada (D-5: sin roles) | — |
-| INT-16 | Acceso técnico del desarrollador | hecha (490d305) | D-4, INT-13 |
-| INT-17 | Vania solo cambia datos con la sesión de quien lo pide | bloqueada (espera DAT-19: no tiene commit) | INT-13, DAT-19 |
+| INT-16 | Acceso técnico del desarrollador | hecha (pendiente de commit) | D-4, INT-13 |
+| INT-17 | Vania solo cambia datos con la sesión de quien lo pide | pendiente | INT-13, DAT-19 |
 
 ## Qué sigue
 
-INT-17, cuando DAT-19 tenga commit.
+INT-17 (DAT-19 tiene commit 8f0d871).
 
 ## Observaciones
 
@@ -69,3 +69,5 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-26 08:00 · INT-16 · hecha (490d305) · commit detectado; arranco INT-14
 - 2026-09-26 08:00 · INT-14 · en curso · D-4, INT-13 y UI-03 tienen commit; arranco flujo de entrada
 - 2026-09-26 08:00 · INT-14 · hecha (pendiente de commit) · archivos: `web/acceso/index.html`, `web/acceso/acceso.css`, `web/acceso/acceso.js`, `tests/ui/test_int14_entrada.py`, `evidencia/INT-14/entrada-390.png`, `plan/estado/Builder_Integraciones.md`; prueba: `.venv/bin/python -m pytest tests/ui/test_int14_entrada.py -q` OK (2 passed)
+- 2026-09-26 08:00 · INT-16 · en curso · el usuario autoriza `app/seguridad/sesion.py`; retomo la tarea previamente bloqueada
+- 2026-09-26 08:00 · INT-16 · hecha (pendiente de commit) · archivos: `app/seguridad/admin.py`, `app/seguridad/sesion.py`, `tests/test_int16_admin.py`, `plan/estado/Builder_Integraciones.md`; prueba: `.venv/bin/python -m pytest tests/test_int16_admin.py -q` OK (3 passed)
