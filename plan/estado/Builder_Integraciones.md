@@ -24,14 +24,15 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 | INT-10 | Primer documento de Works | pendiente | D-6, INT-09 |
 | INT-11 | Endpoint de documentos para Vania | pendiente | D-6, D-7, INT-10 |
 | INT-12 | Composición del pizarrón del mes | pendiente | D-10, DAT-13, INT-09, RES-03 |
-| INT-13 | Control de acceso mínimo | pendiente | D-4, INT-04 |
-| INT-14 | Flujo de entrada en el teléfono | pendiente | D-4, INT-13, UI-03 |
-| INT-15 | Roles Admin y Editor | pendiente | D-5, INT-14 |
-| INT-16 | Acceso técnico del desarrollador | pendiente | D-4, INT-13 |
+| INT-13 | Control de acceso mínimo | hecha (pendiente de commit) | D-4, INT-04 |
+| INT-14 | Flujo de entrada en el teléfono | bloqueada (espera INT-13) | D-4, INT-13, UI-03 |
+| INT-15 | Roles Admin y Editor | cancelada (D-5: sin roles) | — |
+| INT-16 | Acceso técnico del desarrollador | bloqueada (espera INT-13) | D-4, INT-13 |
+| INT-17 | Vania solo cambia datos con la sesión de quien lo pide | bloqueada (espera DAT-19: no tiene commit) | INT-13, DAT-19 |
 
 ## Qué sigue
 
-DAT-12 ya tiene commit (4bd23f6): INT-05 hecha. Sin tareas disponibles: espero D-11 (INT-07), D-9/U-5 (INT-08), D-6/D-7/U-3 (INT-09 a INT-11), D-10 (INT-12) y D-4/D-5 (INT-13 a INT-16).
+INT-16, después del commit de INT-13.
 
 ## Observaciones
 
@@ -54,3 +55,12 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 · INT-06 · prueba OK (3 passed), hecha (01dd661) · DAT-12 aún sin commit, INT-05 sigue bloqueada; sin tareas disponibles
 - 2026-09-23 · INT-05 · works-94 avisa DAT-12 hecha (4bd23f6); arranco INT-05
 - 2026-09-23 · INT-05 · docs/contrato-vania.md escrito; prueba (extraer citas y compararlas contra /openapi.json) OK, 8/8 endpoints existen; documenté la diferencia de `origen_dato` entre `actividad` y las cuatro áreas, sin tocar el esquema
+- 2026-09-26 · INT-15 · cancelada (D-5: sin roles) · solo el desarrollador administra cuentas mediante INT-16
+- 2026-09-26 · INT-17 · pendiente · agregada con la fase 2b autorizada
+- 2026-09-26 06:24 · INT-13 · en curso · D-4 resuelta e INT-04 tiene commit 222394d
+- 2026-09-26 06:24 · INT-13 · bloqueada (requiere `app/actividad/registrar.py`, fuera de los archivos autorizados) · la prueba exacta deja `actividad.persona` en `null`, aunque la sesión identifica a Grecia
+- 2026-09-26 06:24 · INT-17 · bloqueada (espera DAT-19: no tiene commit) · `git log --oneline --grep '^DAT-19:'` no devolvió resultados
+- 2026-09-26 06:24 · INT-16 · bloqueada (espera INT-13) · INT-13 no puede cerrarse sin salir de los archivos autorizados
+- 2026-09-26 06:24 · INT-14 · bloqueada (espera INT-13) · UI-03 sí tiene commit 3013e1f
+- 2026-09-26 06:35 · INT-13 · en curso · corrección del plan autoriza `app/actividad/registrar.py` y los conftest; retomo el trabajo a medias
+- 2026-09-26 07:30 · INT-13 · hecha (pendiente de commit) · archivos: `app/api/acceso.py`, `app/db/migraciones/005_cuentas.sql`, `app/seguridad/sesion.py`, `app/seguridad/actor.py`, `app/actividad/registrar.py`, `tests/test_int13_acceso.py`, `tests/conftest.py`, `tests/ui/conftest.py`; pruebas: 5 + 61 + 41 passed

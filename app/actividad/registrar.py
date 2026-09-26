@@ -20,6 +20,9 @@ def registrar(
     if tipo not in TIPOS:
         raise ValueError(f"tipo inválido: {tipo!r}")
 
+    if persona is None:
+        persona = getattr(actor, "persona", None)
+
     conexion = conectar()
     try:
         cursor = conexion.execute(

@@ -13,6 +13,7 @@ import socket
 import sys
 import threading
 import time
+import urllib.request
 from pathlib import Path
 
 import pytest
@@ -72,6 +73,38 @@ def servicio_url(tmp_path_factory):
         os.environ.pop("WORKS_DB", None)
     else:
         os.environ["WORKS_DB"] = valor_anterior
+
+
+@pytest.fixture(scope="session")
+def sesion_de_prueba(servicio_url):
+    from app.seguridad.sesion import consumir_enlace, crear_enlace
+
+    enlace = crear_enlace("grecia")
+    return consumir_enlace(enlace["token"])["token"]
+
+
+@pytest.fixture(autouse=True)
+def pagina_con_sesion(request, servicio_url, sesion_de_prueba, monkeypatch):
+    if "page" not in request.fixturenames:
+        yield
+        return
+
+    from app.seguridad.sesion import NOMBRE_COOKIE
+
+    pagina = request.getfixturevalue("page")
+    pagina.context.add_cookies(
+        [{"name": NOMBRE_COOKIE, "value": sesion_de_prueba, "url": servicio_url}]
+    )
+    abrir_url = urllib.request.urlopen
+
+    def abrir_con_sesion(url, *args, **kwargs):
+        if isinstance(url, str) and url.startswith(servicio_url):
+            solicitud = urllib.request.Request(url, headers={"Cookie": f"{NOMBRE_COOKIE}={sesion_de_prueba}"})
+            return abrir_url(solicitud, *args, **kwargs)
+        return abrir_url(url, *args, **kwargs)
+
+    monkeypatch.setattr(urllib.request, "urlopen", abrir_con_sesion)
+    yield
 
 
 @pytest.fixture(params=["movil", "escritorio"])
