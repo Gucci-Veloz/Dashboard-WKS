@@ -415,6 +415,158 @@ Objetivo: el Dashboard no es de solo lectura. Se puede ver, crear, editar y elim
 
 ---
 
+## Fase 2b · Reglas de operación (2026-09-26)
+
+Objetivo: aplicar `plan/REGLAS_OPERACION.md` sobre lo que ya está construido. **Léelo completo antes de tomar cualquier tarea de esta fase.** Reemplaza el guardado inmediato de las fases 2 (UI-09 a UI-13, DAT-09 a DAT-12) y el acceso libre de Vania para escribir (INT-04, INT-05).
+
+**Arranque:** ninguna tarea de esta fase empieza sin el `/luz-verde` del usuario, que la sesión maestra anota en "Respuestas" de `DECISIONES.md`. **Filas de estado:** cada agente agrega a su tabla de `plan/estado/<Agente>.md` sus tareas nuevas de esta fase, en `pendiente`, antes de empezar la primera.
+
+**Pruebas y aislamiento:** los agentes que corren en Codex ya tienen acceso a la red local (`network_access = true`). Si una prueba falla por algo del entorno y no del código, anótalo como "bloqueada (entorno: <detalle>)". No la marques como fallida ni la arregles.
+
+### DAT-17 · Una sola forma de conectarse a la base (VER-02, opción B)
+- **Dueño:** Builder_Datos · **Espera:** VER-03
+- **Archivos:** `app/db/conexion.py`, `app/api/oficinas.py`, `app/api/inquilinos.py`, `app/api/contratos.py`, `app/api/pagos.py`, `app/api/estado.py` y, **con permiso explícito de esta tarea**, `app/api/actividad.py`, que es de Builder_Integraciones.
+- **Entregable:** `conectar_con_filas()` vive en `app/db/conexion.py`. Los seis helpers locales desaparecen. `app/api/` ya no importa `sqlite3`. No cambia ningún comportamiento.
+- **Prueba:** `grep -rn "sqlite3" app --include=*.py | grep -v "^app/db/"` no devuelve nada, y `.venv/bin/python -m pytest -q` (suite completa) pasa.
+- **Commit:** `DAT-17: conexión con filas centralizada en app/db`
+
+### DAT-18 · Cambios: pre-registro, confirmación e historial
+- **Dueño:** Builder_Datos · **Espera:** DAT-17
+- **Archivos:** `app/db/migraciones/008_cambios.sql`, `app/cambios/**`, `tests/test_dat18_cambios.py`
+- **Entregable:** una sola tabla `cambios` que sirve a la vez de pre-registro, historial y fuente del reporte (KISS):
+  - Columnas: `id`, `creado_en`, `vence_en` (creación + 24 h), `estado` (`pendiente`/`confirmado`), `area`, `registro_id`, `operacion` (`alta`/`modificacion`/`baja`), `valores_anteriores` y `valores_nuevos` (JSON), `observaciones` (opcional), `solicitante` (`david`/`grecia`), `ejecutor` (`david`/`grecia`/`vania`), `confirmado_en`.
+  - Funciones:
+    - `crear_pendiente()`.
+    - `confirmar(id, persona)`: aplica el cambio al dato oficial dentro de una transacción. Si el cambio venció, falla con un mensaje humano.
+    - `pendientes(area, registro_id)`.
+    - `historial(area, registro_id)`.
+    - `purgar_vencidos()`: la llaman las otras funciones, sin tareas programadas.
+  - Todo `solicitante` es David o Grecia. Vania solo puede ser `ejecutor`.
+- **Prueba:** `pytest tests/test_dat18_cambios.py -q`:
+  - Un pendiente no cambia el dato oficial.
+  - Al confirmarlo, el dato cambia y el historial guarda el valor anterior y el nuevo.
+  - Un pendiente con más de 24 h no se confirma y desaparece.
+  - Un cambio con `solicitante='vania'` se rechaza.
+  - La baja confirmada borra el registro y deja historial.
+- **Commit:** `DAT-18: cambios con pre-registro, confirmación e historial`
+
+### DAT-19 · Las APIs de las cuatro áreas pasan por cambios
+- **Dueño:** Builder_Datos · **Espera:** DAT-18, INT-13
+- **Archivos:** `app/api/oficinas.py`, `app/api/inquilinos.py`, `app/api/contratos.py`, `app/api/pagos.py`, `app/api/cambios.py`, `tests/test_dat09_oficinas.py`, `tests/test_dat10_*.py`, `tests/test_dat11_*.py`, `tests/test_dat12_*.py`, `tests/test_dat19_api_cambios.py`
+- **Entregable:**
+  - `POST`, `PUT` y `DELETE` de las cuatro áreas, y "registrar pago", ya no escriben el dato oficial. Crean un pendiente y responden con su `id` y un resumen.
+  - `POST /api/cambios/{id}/confirmar` lo aplica.
+  - `GET /api/cambios?area=&registro_id=&estado=pendiente` lista los pendientes, para cualquier dispositivo.
+  - Aceptan el campo opcional `observaciones`.
+  - `solicitante` y `ejecutor` salen de `actor_actual()` (INT-13 e INT-17). Nunca vienen del cuerpo de la petición.
+- **Prueba:** `pytest tests/test_dat19_api_cambios.py tests/test_dat09_oficinas.py tests/test_dat10_*.py tests/test_dat11_*.py tests/test_dat12_*.py -q`:
+  - `PUT` sin confirmar deja el `GET` igual.
+  - Al confirmar, el `GET` devuelve el valor nuevo.
+  - El pendiente aparece en `GET /api/cambios`.
+  - `/api/estado` pierde el asunto solo cuando se confirma el pago.
+- **Commit:** `DAT-19: APIs de las áreas con pre-registro y confirmación`
+
+### DAT-20 · Aviso de posibles duplicados
+- **Dueño:** Builder_Datos · **Espera:** DAT-19
+- **Archivos:** `app/cambios/duplicados.py`, `app/api/oficinas.py`, `app/api/inquilinos.py`, `app/api/contratos.py`, `app/api/pagos.py`, `tests/test_dat20_duplicados.py`
+- **Entregable:**
+  - Al crear, aplica **solo** los criterios de `REGLAS_OPERACION.md`, sin inventar otros.
+  - Si hay coincidencia, responde `409` con `posible_duplicado: {area, id, resumen}` y el texto "Ya existe un registro similar. ¿Quieres revisarlo antes de crear otro?".
+  - Con `crear_de_todos_modos: true` se crea el pendiente normal.
+- **Prueba:** `pytest tests/test_dat20_duplicados.py -q`: un caso por criterio (coincide → 409; con la bandera → pendiente creado), y un caso sin coincidencia que no avisa.
+- **Commit:** `DAT-20: aviso de posibles duplicados`
+
+### DAT-21 · Reporte del día
+- **Dueño:** Builder_Datos · **Espera:** DAT-19
+- **Archivos:** `app/cambios/reporte.py`, `app/api/reporte.py`, `tests/test_dat21_reporte.py`
+- **Entregable:**
+  - `GET /api/reporte?fecha=AAAA-MM-DD`. Sin fecha, usa hoy en `America/Mexico_City`.
+  - Una fila por cambio **confirmado** ese día, con: `id`, `fecha`, `inquilino` ("—" si no aplica), `concepto`, `observaciones`, `solicitante` y `ejecutor`. El `concepto` sigue la regla de `REGLAS_OPERACION.md`.
+  - Se calcula a partir de `cambios`, sin guardar el reporte aparte. Así cualquier día pasado queda consultable.
+- **Prueba:** `pytest tests/test_dat21_reporte.py -q`:
+  - Los pendientes no aparecen.
+  - Un cambio de las 23:30 de Querétaro cae en su día, no en el siguiente.
+  - Un pago muestra su estatus como concepto.
+  - Un cambio hecho por Vania muestra `solicitante=grecia, ejecutor=vania`.
+- **Commit:** `DAT-21: reporte del día`
+
+### INT-17 · Vania solo cambia datos con la sesión de quien lo pide
+- **Dueño:** Builder_Integraciones · **Espera:** INT-13, DAT-19
+- **Archivos:** `app/seguridad/actor.py`, `app/seguridad/vania.py`, `docs/contrato-vania.md`, `tests/test_int17_vania_sesion.py`
+- **Entregable:**
+  - Para escribir, Vania usa su credencial de servicio **y** el encabezado `X-Works-Solicitante: <número de WhatsApp>`. El número se resuelve a David o Grecia con la configuración del servidor.
+  - Si esa persona no tiene una sesión vigente, la respuesta es `401` con `codigo: "sin_sesion"`. Vania entonces pide el link (INT-13).
+  - Con sesión vigente, `actor_actual()` devuelve `solicitante=<persona>, ejecutor=vania`.
+  - Las lecturas de Vania no cambian.
+  - `docs/contrato-vania.md` explica el flujo completo: pedir link, crear pendiente, preguntar "¿Sí o No?", confirmar, observaciones y reporte.
+- **Prueba:** `pytest tests/test_int17_vania_sesion.py -q`:
+  - Vania escribe para Grecia sin sesión de Grecia → 401 `sin_sesion`.
+  - Con sesión de David, pero la instrucción es de Grecia → 401.
+  - Con sesión de Grecia → pendiente creado con `ejecutor=vania`.
+  - Un número desconocido o el del desarrollador → 403.
+- **Commit:** `INT-17: Vania escribe solo con la sesión del solicitante`
+
+### UI-18 · Ventana de confirmación y cambios pendientes
+- **Dueño:** Builder_UI · **Espera:** DAT-19, INT-14
+- **Archivos:** `web/componentes/formulario.js`, `web/componentes/confirmacion.js`, `web/estilos/formulario.css`, `web/detalle/**`, `tests/ui/test_ui09_formulario.py`, `tests/ui/test_ui10_*.py` a `tests/ui/test_ui13_*.py`, `tests/ui/test_ui18_confirmar.py`, `evidencia/UI-18/`
+- **Entregable:**
+  - Al presionar Enter o el botón sale "**[Nombre], ¿deseas confirmar el cambio?**" con Sí y No. El nombre sale de la sesión.
+  - Con Sí, el cambio se confirma y se ve el dato nuevo.
+  - Con No, o si la persona cierra, el registro muestra "**Cambio pendiente de confirmar**" y la opción de confirmar o descartar.
+  - Casilla opcional "Observaciones".
+  - Crear, modificar y borrar se comportan igual.
+  - Texto escrito sin presionar Enter se pierde al cerrar, y eso es correcto.
+- **Prueba:** `pytest tests/ui/test_ui18_confirmar.py` más las pruebas de UI-09 a UI-13, actualizadas y en viewport de teléfono:
+  - Sí → dato nuevo.
+  - No → el dato no cambia y aparece el pendiente.
+  - Recargar la página, que simula otro dispositivo → el pendiente sigue ahí.
+  - Borrar pide confirmación.
+- **Commit:** `UI-18: confirmación de cambios y pendientes`
+
+### UI-19 · Aviso de posible duplicado
+- **Dueño:** Builder_UI · **Espera:** DAT-20, UI-18
+- **Archivos:** `web/componentes/duplicado.js`, `web/estilos/formulario.css`, `tests/ui/test_ui19_duplicado.py`
+- **Entregable:** ante un `409 posible_duplicado`, muestra "Ya existe un registro similar. ¿Quieres revisarlo antes de crear otro?" con tres opciones:
+  - **Revisar:** abre el registro existente.
+  - **Cancelar.**
+  - **Crear de todos modos.**
+- **Prueba:** `pytest tests/ui/test_ui19_duplicado.py`: las tres opciones hacen lo que dicen.
+- **Commit:** `UI-19: aviso de posible duplicado`
+
+### UI-20 · Botón y pantalla "Reporte del día"
+- **Dueño:** Builder_UI · **Espera:** DAT-21, UI-18
+- **Archivos:** `web/reporte/**`, `web/navegacion/rutas.js`, `web/app.js`, `tests/ui/test_ui20_reporte.py`, `evidencia/UI-20/`
+- **Entregable:**
+  - Botón "Reporte del día" junto a las áreas del detalle. **No va en el nivel 1**, que sigue sin tablas ni cifras.
+  - Tabla con las 7 columnas y selector de fecha para ver días pasados.
+  - Se nota a simple vista cuándo ejecutó Vania y cuándo una persona.
+- **Prueba:** `pytest tests/ui/test_ui20_reporte.py` en viewport de teléfono:
+  - El botón abre el reporte de hoy.
+  - Cambiar la fecha muestra ese día.
+  - El nivel 1 no muestra ninguna tabla.
+- **Commit:** `UI-20: reporte del día en el Dashboard`
+
+### MAN-10 · Vania: link de entrada, confirmación Sí/No y observaciones (MANUAL, Hermes)
+- **Espera:** INT-17, MAN-01
+- **Entregable:** configurar en Hermes y SOUL.md lo siguiente:
+  - Vania pide el link (`POST /api/acceso/enlace`) solo cuando la persona lo solicita, y avisa que tiene 10 minutos.
+  - Crea el cambio, pregunta "¿Sí o No?" y confirma.
+  - Pregunta si hay alguna observación que registrar.
+  - Manda el reporte del día cuando se lo piden.
+
+### VER-09 · Verificación de la fase 2b
+- **Dueño:** Verificador · **Espera:** las tareas de la fase 2b hechas o bloqueadas · **Archivos:** `plan/verificacion/VER-09.md`
+- **Entregable:** vuelve a correr las pruebas de la fase. Revisa, contra `REGLAS_OPERACION.md`:
+  - Ningún camino escribe el dato oficial sin confirmación: recorrer las rutas de escritura de `/openapi.json`.
+  - Vania nunca aparece como solicitante.
+  - Un pendiente vencido no se confirma.
+  - El reporte solo muestra cambios confirmados.
+  - Las sesiones vencen a las 18:00, o a las 23:59 si se crearon después.
+  - No hay números de teléfono en git: `git grep -nE "\+?52 ?1? ?[0-9]{2,3} ?[0-9]{3,4} ?[0-9]{4}"` no devuelve nada.
+- **Commit:** `VER-09: verificación de la fase 2b`
+
+---
+
 ## Fase 3 · Rastro de Vania
 
 ### INT-02 · API de actividad
@@ -582,21 +734,26 @@ Objetivo: el acceso restringido que el handshake exige antes de usar datos reale
 ### INT-13 · Control de acceso mínimo
 - **Dueño:** Builder_Integraciones · **Espera:** **D-4**, INT-04
 - **Archivos:** `app/db/migraciones/005_cuentas.sql`, `app/seguridad/sesion.py`, `app/seguridad/actor.py`, `app/api/acceso.py`, `tests/test_int13_acceso.py`
-- **Entregable:** el mecanismo de D-4.
+- **Entregable:** el mecanismo de D-4, según `plan/REGLAS_OPERACION.md` (acceso y sesiones):
+  - `POST /api/acceso/enlace`: solo con la credencial de Vania y el número de WhatsApp de David o Grecia. Devuelve un link con token de un solo uso que vence a los **10 minutos**, junto con `vence_en`. El número del desarrollador o uno desconocido → 403.
+  - Abrir el link consume el token y crea una sesión para ese dispositivo. Un token usado, vencido o inválido no sirve.
+  - Varias sesiones por persona y por dispositivo al mismo tiempo. Una sesión nueva no invalida las otras.
+  - La sesión vence a las **18:00 de `America/Mexico_City`** del día en que se creó, o a las 23:59 si se creó a las 18:00 o después.
+  - Los números de WhatsApp viven en la configuración del servidor (`var/` o variables de entorno). **Nunca en git.**
   - Sin sesión válida, todo `/api/*` responde 401, excepto `/api/salud` y el propio flujo de entrada.
   - `actor_actual()` ahora identifica también a la persona (David o Grecia).
   - La credencial de servicio de Vania sigue funcionando.
   - Cookies con `Secure`, `HttpOnly` y `SameSite` (R4).
-- **Prueba:** `pytest tests/test_int13_acceso.py -q`: sin sesión → 401; con sesión → 200 y la actividad registra a la persona; Vania con credencial → 200; la cookie trae los tres atributos.
+- **Prueba:** `pytest tests/test_int13_acceso.py -q`: token usado dos veces → la segunda falla; token de 11 minutos → falla; sesión creada a las 17:00 vence a las 18:00 y una de las 19:00 vence a las 23:59 (reloj simulado); dos dispositivos de Grecia con sesión a la vez; sin sesión → 401; con sesión → 200 y la actividad registra a la persona; Vania con credencial → 200; la cookie trae los tres atributos.
 - **Commit:** `INT-13: control de acceso mínimo`
 
 ### INT-14 · Flujo de entrada en el teléfono
 - **Dueño:** Builder_Integraciones · **Espera:** **D-4**, INT-13, UI-03 · **Archivos:** `web/acceso/**`, `tests/ui/test_int14_entrada.py`, `evidencia/INT-14/`
-- **Entregable:** la pantalla o pantallas de entrada según D-4, con los componentes neumórficos de UI-03. Sin instrucciones técnicas y en muy pocos pasos. Incluye el ícono en la pantalla de inicio si D-4 lo incluye.
+- **Entregable:** la pantalla o pantallas de entrada según D-4, con los componentes neumórficos de UI-03. Sin instrucciones técnicas y en muy pocos pasos. Sin ícono en la pantalla de inicio (D-4). Link vencido o ya usado → "Este enlace ya no sirve. Pídele a Vania uno nuevo."
 - **Prueba:** `pytest tests/ui/test_int14_entrada.py`: el flujo completo en viewport de teléfono termina en el nivel 1; un enlace o credencial vencidos muestran un mensaje humano con qué hacer.
 - **Commit:** `INT-14: flujo de entrada al Dashboard`
 
-### INT-15 · Roles `Admin` y `Editor`
+### INT-15 · Roles `Admin` y `Editor` · CANCELADA (D-5, 2026-09-26: sin roles; solo el desarrollador administra cuentas con INT-16)
 - **Dueño:** Builder_Integraciones · **Espera:** **D-5** (solo si D-5 = B), INT-14 · **Archivos:** `app/db/migraciones/006_roles.sql`, `app/seguridad/roles.py`, `web/acceso/cuentas.*`, `tests/test_int15_roles.py`
 - **Entregable:** David (`Admin`) puede desactivar y reactivar la cuenta de Grecia. Grecia (`Editor`) ve y edita lo mismo, pero no puede administrar la cuenta de David. No cambia nada de lo que cada quien ve.
 - **Prueba:** `pytest tests/test_int15_roles.py -q`: Editor intenta desactivar a Admin → 403; Admin desactiva a Editor → la sesión de Editor deja de valer; los dos obtienen la misma respuesta de `/api/estado`.
@@ -604,7 +761,7 @@ Objetivo: el acceso restringido que el handshake exige antes de usar datos reale
 
 ### INT-16 · Acceso técnico del desarrollador
 - **Dueño:** Builder_Integraciones · **Espera:** **D-4**, INT-13 · **Archivos:** `app/seguridad/admin.py`, `tests/test_int16_admin.py`
-- **Entregable:** comando `python -m app.seguridad.admin` para crear, desactivar y listar cuentas y revocar sesiones. Solo se usa en el servidor y no está expuesto en el Dashboard. Queda separado de `Admin`/`Editor`.
+- **Entregable:** comando `python -m app.seguridad.admin` para crear, desactivar y listar cuentas, registrar el número de WhatsApp de cada cuenta (se guarda fuera de git) y revocar sesiones. Solo se usa en el servidor y no está expuesto en el Dashboard. Queda separado de `Admin`/`Editor`.
 - **Prueba:** `pytest tests/test_int16_admin.py -q`: crear una cuenta, revocar sus sesiones y comprobar que ya no puede entrar.
 - **Commit:** `INT-16: comando de administración técnica`
 
