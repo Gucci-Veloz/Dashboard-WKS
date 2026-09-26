@@ -28,10 +28,15 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 | DAT-14 | Mapeo del Excel al modelo | pendiente | U-1 (Excel) |
 | DAT-15 | Fuente Excel | pendiente | DAT-14, INT-13 |
 | DAT-16 | Reporte de calidad de la importación | pendiente | DAT-15 |
+| DAT-17 | Una sola forma de conectarse a la base | hecha (9641113) | VER-03 |
+| DAT-18 | Cambios: pre-registro, confirmación e historial | hecha (pendiente de commit) | DAT-17 |
+| DAT-19 | Las APIs de las cuatro áreas pasan por cambios | bloqueada (espera DAT-18 e INT-13 sin commit) | DAT-18, INT-13 |
+| DAT-20 | Aviso de posibles duplicados | pendiente | DAT-19 |
+| DAT-21 | Reporte del día | pendiente | DAT-19 |
 
 ## Qué sigue
 
-Sin tareas propias disponibles: DAT-13 espera D-10 y DAT-09 (DAT-09 hecha, D-10 abierta); DAT-14 espera U-1 (Excel, no existe); DAT-15 espera DAT-14 e INT-13; DAT-16 espera DAT-15. Aviso a works-94 con el resultado de la suite.
+Sin tareas disponibles: DAT-19 espera los commits de DAT-18 e INT-13; DAT-20 y DAT-21 esperan DAT-19.
 
 ## Observaciones
 
@@ -68,3 +73,11 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 06:31 · DAT-11 · hecha (b0159c3) · prueba pasa (4 passed), incluida oficina inexistente → 400 con mensaje humano; suite completa 47 passed
 - 2026-09-23 06:32 · DAT-12 · en curso · espera DAT-11 cumplida
 - 2026-09-23 06:42 · DAT-12 · hecha (4bd23f6) · prueba pasa (4 passed), incluida la comprobación de que /api/estado pierde un asunto al registrar el pago pendiente; suite completa 51 passed
+- 2026-09-26 06:24 · DAT-17 · en curso · espera VER-03 cumplida (2b60460)
+- 2026-09-26 06:25 · DAT-17 · prueba pasa (pendiente de commit) · grep vacío y suite completa 92 passed
+- 2026-09-26 06:26 · DAT-17 · bloqueada (entorno: `.git` es de solo lectura; `git commit` no pudo crear `index.lock`) · implementación y prueba quedan sin commit
+- 2026-09-26 06:26 · DAT-18 · bloqueada (espera DAT-17 bloqueada)
+- 2026-09-26 06:26 · DAT-19 · bloqueada (espera DAT-18 e INT-13 sin commit)
+- 2026-09-26 07:22 · DAT-17 · hecha (9641113) · commit confirmado; estado reconciliado
+- 2026-09-26 07:22 · DAT-18 · en curso · espera DAT-17 cumplida
+- 2026-09-26 07:25 · DAT-18 · hecha (pendiente de commit) · prueba exacta pasa (5 passed); archivos: app/db/migraciones/008_cambios.sql, app/cambios/__init__.py, app/cambios/servicio.py, tests/test_dat18_cambios.py, plan/estado/Builder_Datos.md
