@@ -29,10 +29,13 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 | UI-15 | Botón seguir con Vania | pendiente | INT-08, UI-13 |
 | UI-16 | Ajustar el detalle a los campos reales | pendiente | DAT-15, UI-13 |
 | UI-17 | Efecto de sorpresa por calidad | pendiente | D-15, UI-07 |
+| UI-18 | Ventana de confirmación y cambios pendientes | bloqueada (falta API para descartar un pendiente) | DAT-19, INT-14 |
+| UI-19 | Aviso de posible duplicado | pendiente | DAT-20, UI-18 |
+| UI-20 | Botón y pantalla "Reporte del día" | pendiente | DAT-21, UI-18 |
 
 ## Qué sigue
 
-sin tareas disponibles: UI-15 espera INT-08 (Builder_Integraciones, sin commit todavía); UI-16 espera DAT-15 (sin commit todavía); UI-14 y UI-17 esperan D-8 y D-15 del usuario, sin respuesta — no se tocan, por instrucción de works-94.
+sin tareas disponibles: UI-18 bloqueada (falta API para descartar un pendiente); UI-19 espera DAT-20 y UI-20 espera DAT-21; UI-15 espera INT-08, UI-16 espera DAT-15, y UI-14/UI-17 esperan D-8/D-15 del usuario.
 
 ## Observaciones
 
@@ -71,3 +74,5 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 08:35 · UI-12 · hecha (ceeda51) · sigue UI-13
 - 2026-09-23 08:36 · UI-13 · en curso · detalle de pagos y registrar pago
 - 2026-09-23 08:55 · UI-13 · hecha · corregí un bug propio: al registrar el pago, borraba de inmediato el contenedor de la acción (`zonaAccion.innerHTML = ""`) antes de que formulario.js alcanzara a mostrar la confirmación, así que la confirmación quedaba en un nodo ya desprendido del DOM y nunca se veía. Ahora solo actualizo los campos de la edición general en vivo, sin destruir el formulario de acción. Sin tareas disponibles: espero INT-08 (UI-15) y DAT-15 (UI-16); UI-14 y UI-17 esperan D-8/D-15 del usuario, no las toco.
+- 2026-09-26  · UI-18 · en curso · DAT-19 (8f0d871) e INT-14 (5380624) tienen commit; agregadas también las filas pendientes UI-19 y UI-20 antes de iniciar la fase 2b.
+- 2026-09-26  · UI-18 · bloqueada (falta API para descartar un pendiente) · DAT-19 expone crear, listar y confirmar, pero no descartar; archivos tocados: `plan/estado/Builder_UI.md`; no se corrieron pruebas porque no hubo implementación posible dentro de los archivos autorizados.

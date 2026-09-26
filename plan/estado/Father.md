@@ -7,8 +7,9 @@ Nota de relevo para retomar **sin releer todo**. Solo la sesión maestra escribe
 ## Cómo se trabaja ahora
 - Los builders corren en **Codex**: Builder_Datos, Builder_Integraciones y Builder_UI. Builder_1 hace la verificación y la revisión.
 - El aislamiento de Codex deja `.git` en solo lectura. Los agentes hacen **una tarea por vuelta** y no hacen commit.
-- **Father lanza y cierra cada vuelta** (Commit-Codex ya no se usa, 2026-09-26). Permiso fijo del usuario para commits de rutina: la prueba de la tarea pasa, la suite no suma fallas nuevas y solo se tocan los archivos de la tarea. Si algo sale raro, se le pregunta.
+- **Father lanza y cierra cada vuelta** (Commit-Codex ya no se usa, 2026-09-26). **Antes de lanzar tareas, pedir `/luz-verde`.** Encargos nuevos: `/tmp/claude-1000/-home-gusta-Projects-DASHBOARDS-Works/b9cd5006-78dd-4925-82fc-b28f31da3cdf/scratchpad/` (`datos.md`, `integ.md`, `ui.md`). Permiso fijo del usuario para commits de rutina: la prueba de la tarea pasa, la suite no suma fallas nuevas y solo se tocan los archivos de la tarea. Si algo sale raro, se le pregunta.
 - Ahorro de tokens (regla del usuario): leer solo el final de la salida de pruebas; no releer lo que ya se sabe.
+- Para saber si una tarea terminó, `status` muestra `| completed |` (no `Status: completed`). Las esperas deben buscar eso.
 - Si el usuario lanza una tarea desde su terminal, se revisa con `node <script> status <task-id> --cwd ~/Projects/DASHBOARDS/Works`.
 - Fallas que ya había antes de la fase 2b (no las causa cada tarea): 8 en `tests/ui` y `test_int13_acceso.py::test_dos_dispositivos_y_acceso_protegido`.
 - Pruebas: `.venv/bin/python -m pytest` (no hay `pytest` suelto).
@@ -17,12 +18,11 @@ Nota de relevo para retomar **sin releer todo**. Solo la sesión maestra escribe
 - Codex necesitó un perfil de AppArmor para `/usr/bin/bwrap` y `network_access = true` en `~/.codex/config.toml`. Ya están puestos.
 
 ## Dónde vamos: fase 2b (reglas de `plan/REGLAS_OPERACION.md`)
-- **Hechas:** DAT-17, DAT-18, DAT-19, INT-13, INT-14, INT-16.
-- **DAT-20: hecha pero sin commit, con una falla.** En los PUT, `crear_de_todos_modos` se queda en los valores y da 400 (rompe `test_dat19_api_cambios.py::test_put_solo_cambia_al_confirmar_y_se_lista_pendiente`). Hay que devolverla a Builder_Datos para que la corrija en las cuatro APIs.
+- **Hechas:** DAT-17 a DAT-20, INT-13, INT-14, INT-16, INT-17.
+- **UI-18 bloqueada:** DAT-19 no tiene API para descartar un pendiente. Hay que decidir con el usuario quién la agrega (cambio al plan).
 - **Siguen:**
-  - INT-17: ya puede arrancar.
-  - DAT-21: espera DAT-20.
-  - UI-18 a UI-20: Builder_UI ya puede arrancar.
+  - DAT-21: ya puede arrancar.
+  - UI-19 y UI-20: esperan UI-18.
   - VER-09 con Builder_1, al final de la fase.
 - **Al terminar la fase 2b:** reportar al usuario y proponer qué sigue.
 
