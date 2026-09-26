@@ -492,6 +492,15 @@ Objetivo: aplicar `plan/REGLAS_OPERACION.md` sobre lo que ya está construido. *
   - Un cambio hecho por Vania muestra `solicitante=grecia, ejecutor=vania`.
 - **Commit:** `DAT-21: reporte del día`
 
+### DAT-22 · Descartar un cambio pendiente (agregada el 2026-09-26: la pide UI-18)
+- **Dueño:** Builder_Datos · **Espera:** DAT-19
+- **Archivos:** `app/cambios/servicio.py`, `app/api/cambios.py`, `tests/test_dat22_descartar.py`
+- **Entregable:**
+  - `descartar(cambio_id, persona)` en el servicio: borra el pendiente, igual que cuando vence. Si no existe o ya se confirmó, da error.
+  - `POST /api/cambios/{cambio_id}/descartar`, con la misma validación de persona que `confirmar`. Deja una actividad, como `confirmar`.
+- **Prueba:** `pytest tests/test_dat22_descartar.py -q`: un pendiente descartado ya no sale en la lista ni cambia el registro; descartar uno confirmado da 400.
+- **Commit:** `DAT-22: descartar un cambio pendiente`
+
 ### INT-17 · Vania solo cambia datos con la sesión de quien lo pide
 - **Dueño:** Builder_Integraciones · **Espera:** INT-13, DAT-19
 - **Archivos:** `app/seguridad/actor.py`, `app/seguridad/vania.py`, `docs/contrato-vania.md`, `tests/test_int17_vania_sesion.py`
@@ -509,7 +518,7 @@ Objetivo: aplicar `plan/REGLAS_OPERACION.md` sobre lo que ya está construido. *
 - **Commit:** `INT-17: Vania escribe solo con la sesión del solicitante`
 
 ### UI-18 · Ventana de confirmación y cambios pendientes
-- **Dueño:** Builder_UI · **Espera:** DAT-19, INT-14
+- **Dueño:** Builder_UI · **Espera:** DAT-19, INT-14, DAT-22
 - **Archivos:** `web/componentes/formulario.js`, `web/componentes/confirmacion.js`, `web/estilos/formulario.css`, `web/detalle/**`, `tests/ui/test_ui09_formulario.py`, `tests/ui/test_ui10_*.py` a `tests/ui/test_ui13_*.py`, `tests/ui/test_ui18_confirmar.py`, `evidencia/UI-18/`
 - **Entregable:**
   - Al presionar Enter o el botón sale "**[Nombre], ¿deseas confirmar el cambio?**" con Sí y No. El nombre sale de la sesión.
