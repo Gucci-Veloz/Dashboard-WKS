@@ -7,7 +7,7 @@ import json
 from fastapi import APIRouter, Depends, HTTPException, Query
 
 from app.actividad.registrar import registrar
-from app.cambios.servicio import AREAS, confirmar, purgar_vencidos
+from app.cambios.servicio import AREAS, confirmar, descartar, purgar_vencidos
 from app.db.conexion import conectar_con_filas
 from app.seguridad.actor import actor_actual
 
@@ -67,6 +67,27 @@ def confirmar_cambio(cambio_id: int, actor=Depends(actor_actual)) -> dict:
         area=cambio["area"],
         referencia=str(cambio["registro_id"]),
         resumen="Se confirmó el cambio solicitado.",
+        origen_dato="real",
+    )
+    return cambio
+
+
+@router.post("/api/cambios/{cambio_id}/descartar")
+def descartar_cambio(cambio_id: int, actor=Depends(actor_actual)) -> dict:
+    solicitante = getattr(actor, "solicitante", None)
+    if solicitante is None:
+        raise HTTPException(status_code=403, detail="No se identificó a la persona que descarta el cambio.")
+    try:
+        cambio = descartar(cambio_id, solicitante)
+    except ValueError as error:
+        raise HTTPException(status_code=400, detail=str(error)) from error
+    registrar(
+        actor=actor,
+        tipo="solicitada",
+        accion=f"descartar_{cambio['operacion']}_{cambio['area']}",
+        area=cambio["area"],
+        referencia=str(cambio["registro_id"]),
+        resumen="Se descartó el cambio solicitado.",
         origen_dato="real",
     )
     return cambio

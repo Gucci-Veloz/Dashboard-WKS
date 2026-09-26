@@ -207,6 +207,33 @@ def confirmar(cambio_id: int, persona: str) -> dict:
         conexion.close()
 
 
+def descartar(cambio_id: int, persona: str) -> dict:
+    """Descarta un pendiente sin modificar el dato oficial."""
+    if persona not in PERSONAS:
+        raise ValueError("Solo David o Grecia pueden descartar un cambio.")
+
+    conexion = conectar_con_filas()
+    try:
+        purgar_vencidos(conexion)
+        fila = conexion.execute(
+            "SELECT * FROM cambios WHERE id = ? AND estado = 'pendiente'", (cambio_id,)
+        ).fetchone()
+        if fila is None:
+            raise ValueError("No existe un cambio pendiente con ese número.")
+        if fila["solicitante"] != persona:
+            raise ValueError("Solo la persona que solicitó el cambio puede descartarlo.")
+
+        cambio = _fila_cambio(fila)
+        conexion.execute("DELETE FROM cambios WHERE id = ?", (cambio_id,))
+        conexion.commit()
+        return cambio
+    except Exception:
+        conexion.rollback()
+        raise
+    finally:
+        conexion.close()
+
+
 def pendientes(area: str, registro_id: int | None = None) -> list[dict]:
     _validar_area(area)
     conexion = conectar_con_filas()
