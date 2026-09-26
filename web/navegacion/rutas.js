@@ -23,6 +23,10 @@ export function analizarHash(hash) {
     return { vista: "detalle-general" };
   }
 
+  if (limpio === "reporte") {
+    return { vista: "reporte" };
+  }
+
   if (AREAS.has(limpio)) {
     return { vista: "registro", area: limpio, id: undefined };
   }

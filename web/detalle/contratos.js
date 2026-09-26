@@ -2,7 +2,8 @@
 // contra app/api/contratos.py (DAT-11). Las fechas también se
 // muestran en forma humana ("vence en 12 días").
 
-import { crearFormulario } from "/componentes/formulario.js";
+import { crearAccionEliminar, crearFormulario } from "/componentes/formulario.js";
+import { mostrarPendientes } from "/componentes/confirmacion.js";
 
 const CAMPOS = [
   { nombre: "oficina_id", etiqueta: "Oficina (id)" },
@@ -81,6 +82,8 @@ async function renderFicha(contenedor, id) {
 
   const zonaFormulario = document.createElement("div");
   contenedor.appendChild(zonaFormulario);
+  const zonaPendientes = document.createElement("div");
+  contenedor.appendChild(zonaPendientes);
 
   crearFormulario({
     contenedor: zonaFormulario,
@@ -109,18 +112,13 @@ async function renderFicha(contenedor, id) {
         throw new Error(error.detail || "No se pudo guardar el contrato.");
       }
 
-      const actualizado = await respuestaGuardar.json();
-      vencimiento.textContent = fraseVencimiento(actualizado.fin);
-
-      return {
-        oficina_id: actualizado.oficina_id ?? "",
-        inquilino_id: actualizado.inquilino_id ?? "",
-        inicio: actualizado.inicio ?? "",
-        fin: actualizado.fin ?? "",
-        alerta_renovacion: actualizado.alerta_renovacion ?? "",
-      };
+      return respuestaGuardar.json();
     },
+    alConfirmar: () => window.location.reload(),
+    alPendiente: () => window.location.reload(),
   });
+  crearAccionEliminar({ contenedor: zonaFormulario, url: `/api/contratos/${id}`, alConfirmar: () => window.location.hash = "#contratos" });
+  await mostrarPendientes({ contenedor: zonaPendientes, area: "contratos", registroId: id, alConfirmar: () => window.location.reload() });
 }
 
 export async function renderDetalle(contenedor, id) {

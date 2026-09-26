@@ -4,6 +4,7 @@ import { renderNivel1 } from "/nivel1/nivel1.js";
 import { renderNivel2 } from "/nivel2/nivel2.js";
 import { renderIndicadores } from "/indicadores/indicadores.js";
 import { analizarHash, cargarPantallaDetalle } from "/navegacion/rutas.js";
+import { renderReporte } from "/reporte/reporte.js";
 
 const contenedor = document.getElementById("app");
 
@@ -49,6 +50,29 @@ function renderDetalleGeneral() {
   const titulo = document.createElement("h2");
   titulo.textContent = "Detalle";
   contenedor.appendChild(titulo);
+
+  const areas = document.createElement("nav");
+  areas.className = "detalle-general__areas";
+  areas.setAttribute("aria-label", "Áreas del detalle");
+  for (const [ruta, etiqueta] of Object.entries({
+    oficinas: "Oficinas",
+    inquilinos: "Inquilinos",
+    contratos: "Contratos",
+    pagos: "Pagos",
+  })) {
+    const enlace = document.createElement("a");
+    enlace.href = `#${ruta}`;
+    enlace.className = "enlace-discreto";
+    enlace.textContent = etiqueta;
+    areas.appendChild(enlace);
+  }
+  const reporte = document.createElement("a");
+  reporte.href = "#reporte";
+  reporte.className = "enlace-discreto detalle-general__reporte";
+  reporte.dataset.abrirReporte = "true";
+  reporte.textContent = "Reporte del día";
+  areas.appendChild(reporte);
+  contenedor.appendChild(areas);
   renderVolver();
 }
 
@@ -78,6 +102,12 @@ async function renderRuta() {
 
   if (ruta.vista === "registro") {
     await renderRegistro(ruta.area, ruta.id);
+    return;
+  }
+
+  if (ruta.vista === "reporte") {
+    await renderReporte(contenedor);
+    renderVolver();
     return;
   }
 

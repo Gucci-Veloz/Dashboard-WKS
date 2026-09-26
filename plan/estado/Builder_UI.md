@@ -2,7 +2,7 @@
 
 Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Detalle de cada tarea: `plan/PLAN.md`.
 
-Última actualización: 2026-09-23 · Builder_UI, UI-02 hecha.
+Última actualización: 2026-09-26 · Builder_UI, UI-20 hecha (pendiente de commit).
 
 ## En curso
 
@@ -29,13 +29,13 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 | UI-15 | Botón seguir con Vania | pendiente | INT-08, UI-13 |
 | UI-16 | Ajustar el detalle a los campos reales | pendiente | DAT-15, UI-13 |
 | UI-17 | Efecto de sorpresa por calidad | pendiente | D-15, UI-07 |
-| UI-18 | Ventana de confirmación y cambios pendientes | bloqueada (falta API para descartar un pendiente) | DAT-19, INT-14 |
-| UI-19 | Aviso de posible duplicado | pendiente | DAT-20, UI-18 |
-| UI-20 | Botón y pantalla "Reporte del día" | pendiente | DAT-21, UI-18 |
+| UI-18 | Ventana de confirmación y cambios pendientes | hecha (pendiente de commit) | DAT-19, INT-14, DAT-22 |
+| UI-19 | Aviso de posible duplicado | bloqueada (la lista autorizada no incluye el punto de integración para manejar el 409) | DAT-20, UI-18 |
+| UI-20 | Botón y pantalla "Reporte del día" | hecha (pendiente de commit) | DAT-21, UI-18 |
 
 ## Qué sigue
 
-sin tareas disponibles: UI-18 bloqueada (falta API para descartar un pendiente); UI-19 espera DAT-20 y UI-20 espera DAT-21; UI-15 espera INT-08, UI-16 espera DAT-15, y UI-14/UI-17 esperan D-8/D-15 del usuario.
+sin tareas disponibles: UI-19 requiere autorizar el punto de integración que maneja el 409; UI-15 espera INT-08, UI-16 espera DAT-15, y UI-14/UI-17 esperan D-8/D-15 del usuario.
 
 ## Observaciones
 
@@ -76,3 +76,10 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-23 08:55 · UI-13 · hecha · corregí un bug propio: al registrar el pago, borraba de inmediato el contenedor de la acción (`zonaAccion.innerHTML = ""`) antes de que formulario.js alcanzara a mostrar la confirmación, así que la confirmación quedaba en un nodo ya desprendido del DOM y nunca se veía. Ahora solo actualizo los campos de la edición general en vivo, sin destruir el formulario de acción. Sin tareas disponibles: espero INT-08 (UI-15) y DAT-15 (UI-16); UI-14 y UI-17 esperan D-8/D-15 del usuario, no las toco.
 - 2026-09-26  · UI-18 · en curso · DAT-19 (8f0d871) e INT-14 (5380624) tienen commit; agregadas también las filas pendientes UI-19 y UI-20 antes de iniciar la fase 2b.
 - 2026-09-26  · UI-18 · bloqueada (falta API para descartar un pendiente) · DAT-19 expone crear, listar y confirmar, pero no descartar; archivos tocados: `plan/estado/Builder_UI.md`; no se corrieron pruebas porque no hubo implementación posible dentro de los archivos autorizados.
+- 2026-09-26 · UI-18 · hecha (624a261) · el bloqueo previo ya tiene commit; DAT-22 (8e3e427) habilita descartar.
+- 2026-09-26 · UI-18 · en curso · DAT-19, INT-14 y DAT-22 hechos; empiezo ventana de confirmación y pendientes.
+- 2026-09-26 · UI-18 · hecha (pendiente de commit) · ventana Sí/No, observaciones, pendientes persistentes, confirmar/descartar y borrar con confirmación; archivos tocados: `web/componentes/formulario.js`, `web/componentes/confirmacion.js`, `web/estilos/formulario.css`, `web/detalle/oficinas.js`, `web/detalle/inquilinos.js`, `web/detalle/contratos.js`, `web/detalle/pagos.js`, `tests/ui/test_ui10_oficinas.py`, `tests/ui/test_ui11_inquilinos.py`, `tests/ui/test_ui12_contratos.py`, `tests/ui/test_ui13_pagos.py`, `tests/ui/test_ui18_confirmar.py`, `plan/estado/Builder_UI.md`; `.venv/bin/python -m pytest tests/ui` → 46 passed.
+- 2026-09-26 · UI-19 · en curso · DAT-20 (bebd3a9) está hecha; reviso la integración del aviso de duplicado.
+- 2026-09-26 · UI-19 · bloqueada (la lista autorizada no incluye el punto de integración para manejar el 409) · `web/componentes/duplicado.js` no se carga desde ningún archivo autorizado y los únicos `fetch` de altas/ediciones están en `web/componentes/formulario.js` y `web/detalle/*.js`, fuera de la lista de UI-19; archivos tocados: `plan/estado/Builder_UI.md`; no se corrieron pruebas porque no hay implementación posible dentro de los archivos autorizados.
+- 2026-09-26 11:26 · UI-20 · en curso · DAT-21 (6b480dc) y UI-18 están hechas; empiezo el reporte del día.
+- 2026-09-26 11:26 · UI-20 · hecha (pendiente de commit) · reporte con selector de fecha, siete columnas y distinción de ejecutor; archivos tocados: `web/reporte/reporte.js`, `web/reporte/reporte.css`, `web/navegacion/rutas.js`, `web/app.js`, `tests/ui/test_ui20_reporte.py`, `evidencia/UI-20/reporte-390.png`, `plan/estado/Builder_UI.md`; `.venv/bin/python -m pytest tests/ui/test_ui20_reporte.py` → 2 passed.

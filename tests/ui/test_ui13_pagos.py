@@ -26,11 +26,12 @@ def test_registrar_desde_el_asunto_y_desaparece_del_nivel_1(servicio_url, page):
     asunto_pago.click()
     page.wait_for_selector("[data-accion-registrar-pago]")
 
-    page.locator("[data-accion-registrar-pago] .campo-texto__control").fill(
-        "transferencia"
-    )
+    page.locator("#campo-forma_pago_registro").fill("transferencia")
     page.locator("[data-accion-registrar-pago] button[type=submit]").click()
-    page.wait_for_selector("[data-accion-registrar-pago] [data-confirmacion]")
+    page.wait_for_selector("[data-ventana-confirmacion]")
+    page.locator("[data-confirmar-cambio]").click()
+    page.wait_for_selector("[data-ventana-confirmacion]", state="detached")
+    page.wait_for_selector("#campo-estatus_pago")
 
     # El estatus de la edición general se refleja de inmediato.
     assert page.locator("#campo-estatus_pago").input_value() == "pagado"

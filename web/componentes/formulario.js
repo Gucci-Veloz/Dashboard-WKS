@@ -1,29 +1,20 @@
-// Formulario editable y guardado. UI-09.
-// Al guardar con éxito, muestra confirmación y deja el dato
-// actualizado a la vista. Si hay un error, lo dice en palabras
-// normales y conserva lo que la persona escribió: los campos nunca
-// se limpian ni se revierten cuando falla el guardado.
+// Formulario que convierte la entrada en un pre-registro. UI-18.
 
-import { mostrarConfirmacion } from "/componentes/confirmacion.js";
+import { abrirConfirmacion, buscarPendiente } from "/componentes/confirmacion.js";
 
-export function crearFormulario({ contenedor, campos, guardar }) {
+export function crearFormulario({ contenedor, campos, guardar, alConfirmar, alPendiente }) {
   contenedor.innerHTML = "";
-
   const form = document.createElement("form");
   form.className = "formulario";
   form.noValidate = true;
-
-  const inputsPorNombre = {};
-
+  const inputs = {};
   for (const campo of campos) {
     const grupo = document.createElement("div");
     grupo.className = "campo-texto";
-
     const etiqueta = document.createElement("label");
     etiqueta.className = "campo-texto__etiqueta";
     etiqueta.htmlFor = `campo-${campo.nombre}`;
     etiqueta.textContent = campo.etiqueta;
-
     const input = document.createElement("input");
     input.className = "campo-texto__control";
     input.id = `campo-${campo.nombre}`;
@@ -31,58 +22,85 @@ export function crearFormulario({ contenedor, campos, guardar }) {
     input.type = "text";
     input.value = campo.valor ?? "";
     input.dataset.campo = campo.nombre;
-
-    grupo.appendChild(etiqueta);
-    grupo.appendChild(input);
+    grupo.append(etiqueta, input);
     form.appendChild(grupo);
-
-    inputsPorNombre[campo.nombre] = input;
+    inputs[campo.nombre] = input;
   }
-
+  const grupoObservaciones = document.createElement("div");
+  grupoObservaciones.className = "campo-texto";
+  const etiquetaObservaciones = document.createElement("label");
+  etiquetaObservaciones.className = "campo-texto__etiqueta";
+  etiquetaObservaciones.htmlFor = "campo-observaciones";
+  etiquetaObservaciones.textContent = "Observaciones (opcional)";
+  const observaciones = document.createElement("textarea");
+  observaciones.className = "campo-texto__control";
+  observaciones.id = "campo-observaciones";
+  observaciones.name = "observaciones";
+  grupoObservaciones.append(etiquetaObservaciones, observaciones);
   const mensajeError = document.createElement("p");
   mensajeError.className = "formulario__mensaje-error";
   mensajeError.dataset.errorGuardar = "true";
   mensajeError.hidden = true;
-
   const boton = document.createElement("button");
   boton.type = "submit";
   boton.className = "boton";
   boton.textContent = "Guardar";
-
-  form.appendChild(mensajeError);
-  form.appendChild(boton);
-
+  form.append(grupoObservaciones, mensajeError, boton);
   form.addEventListener("submit", async (evento) => {
     evento.preventDefault();
-
     mensajeError.hidden = true;
     boton.disabled = true;
-
-    const datos = {};
-    for (const [nombre, input] of Object.entries(inputsPorNombre)) {
-      datos[nombre] = input.value;
-    }
-
+    const datos = Object.fromEntries(Object.entries(inputs).map(([nombre, input]) => [nombre, input.value]));
+    datos.observaciones = observaciones.value || null;
     try {
-      const actualizado = await guardar(datos);
-      if (actualizado) {
-        for (const [nombre, input] of Object.entries(inputsPorNombre)) {
-          if (nombre in actualizado) {
-            input.value = actualizado[nombre];
-          }
+      const creado = await guardar(datos);
+      // La muestra aislada de UI-09 no usa la API de cambios; se conserva
+      // como verificación del componente sin servicio.
+      if (!creado || !creado.id) {
+        for (const [nombre, input] of Object.entries(inputs)) {
+          if (nombre in (creado || {})) input.value = creado[nombre];
         }
+        const aviso = document.createElement("p");
+        aviso.className = "confirmacion";
+        aviso.dataset.confirmacion = "true";
+        aviso.textContent = "Guardado. Los datos ya están actualizados.";
+        form.appendChild(aviso);
+        return;
       }
-      mostrarConfirmacion(form, "Guardado. Los datos ya están actualizados.");
-    } catch (error) {
-      mensajeError.textContent =
-        (error && error.message) || "No se pudo guardar. Intenta de nuevo.";
+      const cambio = await buscarPendiente(creado.id);
+      abrirConfirmacion({
+        cambio,
+        alConfirmar: async (confirmado) => alConfirmar?.(confirmado),
+        alCerrar: () => alPendiente?.(cambio),
+      });
+    } catch (causa) {
+      mensajeError.textContent = causa.message || "No se pudo pedir el cambio. Intenta de nuevo.";
       mensajeError.hidden = false;
-      // Los campos no se tocan: conservan lo que la persona escribió.
     } finally {
       boton.disabled = false;
     }
   });
-
   contenedor.appendChild(form);
   return form;
+}
+
+export function crearAccionEliminar({ contenedor, url, alConfirmar }) {
+  const boton = document.createElement("button");
+  boton.type = "button";
+  boton.className = "boton boton--secundario";
+  boton.dataset.eliminarRegistro = "true";
+  boton.textContent = "Borrar";
+  boton.addEventListener("click", async () => {
+    boton.disabled = true;
+    try {
+      const respuesta = await fetch(url, { method: "DELETE" });
+      if (!respuesta.ok) throw new Error("No se pudo pedir que se borre el registro.");
+      const cambio = await buscarPendiente((await respuesta.json()).id);
+      abrirConfirmacion({ cambio, alConfirmar });
+    } finally {
+      boton.disabled = false;
+    }
+  });
+  contenedor.appendChild(boton);
+  return boton;
 }

@@ -1,7 +1,8 @@
 // Detalle de inquilinos. UI-11. Igual patrón que UI-10 (oficinas),
 // contra app/api/inquilinos.py (DAT-10).
 
-import { crearFormulario } from "/componentes/formulario.js";
+import { crearAccionEliminar, crearFormulario } from "/componentes/formulario.js";
+import { mostrarPendientes } from "/componentes/confirmacion.js";
 
 const CAMPOS = [
   { nombre: "titular", etiqueta: "Titular" },
@@ -51,6 +52,8 @@ async function renderFicha(contenedor, id) {
 
   const zonaFormulario = document.createElement("div");
   contenedor.appendChild(zonaFormulario);
+  const zonaPendientes = document.createElement("div");
+  contenedor.appendChild(zonaPendientes);
 
   crearFormulario({
     contenedor: zonaFormulario,
@@ -76,13 +79,13 @@ async function renderFicha(contenedor, id) {
         throw new Error(error.detail || "No se pudo guardar el inquilino.");
       }
 
-      const actualizado = await respuestaGuardar.json();
-      return {
-        titular: actualizado.titular ?? "",
-        contacto: actualizado.contacto ?? "",
-      };
+      return respuestaGuardar.json();
     },
+    alConfirmar: () => window.location.reload(),
+    alPendiente: () => window.location.reload(),
   });
+  crearAccionEliminar({ contenedor: zonaFormulario, url: `/api/inquilinos/${id}`, alConfirmar: () => window.location.hash = "#inquilinos" });
+  await mostrarPendientes({ contenedor: zonaPendientes, area: "inquilinos", registroId: id, alConfirmar: () => window.location.reload() });
 }
 
 export async function renderDetalle(contenedor, id) {

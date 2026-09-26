@@ -2,7 +2,8 @@
 // Sin id: lista de oficinas, cada una enlaza a su ficha. Con id:
 // ficha editable contra la API real (app/api/oficinas.py, DAT-09).
 
-import { crearFormulario } from "/componentes/formulario.js";
+import { crearAccionEliminar, crearFormulario } from "/componentes/formulario.js";
+import { mostrarPendientes } from "/componentes/confirmacion.js";
 
 const CAMPOS = [
   { nombre: "tipo", etiqueta: "Tipo" },
@@ -59,6 +60,8 @@ async function renderFicha(contenedor, id) {
 
   const zonaFormulario = document.createElement("div");
   contenedor.appendChild(zonaFormulario);
+  const zonaPendientes = document.createElement("div");
+  contenedor.appendChild(zonaPendientes);
 
   crearFormulario({
     contenedor: zonaFormulario,
@@ -87,16 +90,13 @@ async function renderFicha(contenedor, id) {
         throw new Error(error.detail || "No se pudo guardar la oficina.");
       }
 
-      const actualizada = await respuestaGuardar.json();
-      return {
-        tipo: actualizada.tipo ?? "",
-        numero: actualizada.numero ?? "",
-        piso: actualizada.piso ?? "",
-        m2: actualizada.m2 ?? "",
-        estatus: actualizada.estatus ?? "",
-      };
+      return respuestaGuardar.json();
     },
+    alConfirmar: () => window.location.reload(),
+    alPendiente: () => window.location.reload(),
   });
+  crearAccionEliminar({ contenedor: zonaFormulario, url: `/api/oficinas/${id}`, alConfirmar: () => window.location.hash = "#oficinas" });
+  await mostrarPendientes({ contenedor: zonaPendientes, area: "oficinas", registroId: id, alConfirmar: () => window.location.reload() });
 }
 
 export async function renderDetalle(contenedor, id) {

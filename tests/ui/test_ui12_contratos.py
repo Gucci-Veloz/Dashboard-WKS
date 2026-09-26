@@ -19,7 +19,9 @@ def test_editar_guardar_recargar_y_ver_el_valor_nuevo(servicio_url, page):
 
     page.locator("#campo-alerta_renovacion").fill("alerta de prueba UI-12")
     page.locator("button[type=submit]").click()
-    page.wait_for_selector("[data-confirmacion]")
+    page.wait_for_selector("[data-ventana-confirmacion]")
+    page.locator("[data-confirmar-cambio]").click()
+    page.wait_for_selector("[data-ventana-confirmacion]", state="detached")
 
     page.reload()
     page.wait_for_selector("#campo-alerta_renovacion")
@@ -39,7 +41,9 @@ def test_fecha_se_muestra_en_forma_humana(servicio_url, page):
     page.wait_for_selector("#campo-fin")
     page.locator("#campo-fin").fill(nueva_fecha_fin)
     page.locator("button[type=submit]").click()
-    page.wait_for_selector("[data-confirmacion]")
+    page.wait_for_selector("[data-ventana-confirmacion]")
+    page.locator("[data-confirmar-cambio]").click()
+    page.wait_for_selector("[data-ventana-confirmacion]", state="detached")
 
     texto_vencimiento = page.locator("[data-vencimiento]").inner_text()
     assert "12 días" in texto_vencimiento
@@ -58,7 +62,9 @@ def test_guardar_deja_actividad_con_actor_dashboard(servicio_url, page):
     page.wait_for_selector("#campo-inicio")
     page.locator("#campo-inicio").fill(date.today().isoformat())
     page.locator("button[type=submit]").click()
-    page.wait_for_selector("[data-confirmacion]")
+    page.wait_for_selector("[data-ventana-confirmacion]")
+    page.locator("[data-confirmar-cambio]").click()
+    page.wait_for_selector("[data-ventana-confirmacion]", state="detached")
 
     actividad_despues = _get_json(f"{servicio_url}/api/actividad?area=contratos")
     assert actividad_despues["total"] == actividad_antes + 1

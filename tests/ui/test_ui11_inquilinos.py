@@ -18,7 +18,9 @@ def test_editar_guardar_recargar_y_ver_el_valor_nuevo(servicio_url, page):
 
     page.locator("#campo-contacto").fill("contacto-prueba@works.local")
     page.locator("button[type=submit]").click()
-    page.wait_for_selector("[data-confirmacion]")
+    page.wait_for_selector("[data-ventana-confirmacion]")
+    page.locator("[data-confirmar-cambio]").click()
+    page.wait_for_selector("[data-ventana-confirmacion]", state="detached")
 
     page.reload()
     page.wait_for_selector("#campo-contacto")
@@ -40,7 +42,9 @@ def test_guardar_deja_actividad_con_actor_dashboard(servicio_url, page):
     page.wait_for_selector("#campo-titular")
     page.locator("#campo-titular").fill("Titular Sintético 07 (editado)")
     page.locator("button[type=submit]").click()
-    page.wait_for_selector("[data-confirmacion]")
+    page.wait_for_selector("[data-ventana-confirmacion]")
+    page.locator("[data-confirmar-cambio]").click()
+    page.wait_for_selector("[data-ventana-confirmacion]", state="detached")
 
     actividad_despues = _get_json(f"{servicio_url}/api/actividad?area=inquilinos")
     assert actividad_despues["total"] == actividad_antes + 1

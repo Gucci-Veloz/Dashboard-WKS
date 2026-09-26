@@ -4,7 +4,8 @@
 // formulario general de edición: es a donde llega directo un asunto
 // de pago pendiente del nivel 2.
 
-import { crearFormulario } from "/componentes/formulario.js";
+import { crearAccionEliminar, crearFormulario } from "/componentes/formulario.js";
+import { mostrarPendientes } from "/componentes/confirmacion.js";
 
 const CAMPOS_EDICION = [
   { nombre: "precio", etiqueta: "Precio" },
@@ -69,10 +70,10 @@ function renderAccionRegistrarPago(contenedor, pago, alRegistrar) {
         throw new Error(error.detail || "No se pudo registrar el pago.");
       }
 
-      const pagoActualizado = await respuesta.json();
-      alRegistrar(pagoActualizado);
-      return { forma_pago_registro: pagoActualizado.forma_pago ?? "" };
+      return respuesta.json();
     },
+    alConfirmar: () => window.location.reload(),
+    alPendiente: () => window.location.reload(),
   });
 }
 
@@ -97,6 +98,8 @@ async function renderFicha(contenedor, id) {
 
   const zonaEdicion = document.createElement("div");
   contenedor.appendChild(zonaEdicion);
+  const zonaPendientes = document.createElement("div");
+  contenedor.appendChild(zonaPendientes);
 
   function renderEdicion(pagoActual) {
     crearFormulario({
@@ -127,38 +130,20 @@ async function renderFicha(contenedor, id) {
           throw new Error(error.detail || "No se pudo guardar el pago.");
         }
 
-        const actualizado = await respuestaGuardar.json();
-        return {
-          precio: actualizado.precio ?? "",
-          deposito_garantia: actualizado.deposito_garantia ?? "",
-          fecha_pago: actualizado.fecha_pago ?? "",
-          forma_pago: actualizado.forma_pago ?? "",
-          estatus_pago: actualizado.estatus_pago ?? "",
-        };
+        return respuestaGuardar.json();
       },
+      alConfirmar: () => window.location.reload(),
+      alPendiente: () => window.location.reload(),
     });
   }
 
   renderEdicion(pago);
+  crearAccionEliminar({ contenedor: zonaEdicion, url: `/api/pagos/${id}`, alConfirmar: () => window.location.hash = "#pagos" });
 
   if (pago.estatus_pago === "pendiente") {
-    renderAccionRegistrarPago(zonaAccion, pago, (pagoActualizado) => {
-      // No se destruye la zona de acción: así la confirmación de
-      // formulario.js, que se agrega después de que esta función
-      // regresa, queda visible. Solo se refleja el cambio en la
-      // edición general, con datos frescos.
-      for (const [nombre, valor] of Object.entries({
-        precio: pagoActualizado.precio,
-        deposito_garantia: pagoActualizado.deposito_garantia,
-        fecha_pago: pagoActualizado.fecha_pago,
-        forma_pago: pagoActualizado.forma_pago,
-        estatus_pago: pagoActualizado.estatus_pago,
-      })) {
-        const campo = zonaEdicion.querySelector(`[data-campo="${nombre}"]`);
-        if (campo) campo.value = valor ?? "";
-      }
-    });
+    renderAccionRegistrarPago(zonaAccion, pago);
   }
+  await mostrarPendientes({ contenedor: zonaPendientes, area: "pagos", registroId: id, alConfirmar: () => window.location.reload() });
 }
 
 export async function renderDetalle(contenedor, id) {
