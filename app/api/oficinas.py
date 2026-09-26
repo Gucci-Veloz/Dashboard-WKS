@@ -1,9 +1,11 @@
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from app.cambios.servicio import crear_pendiente
+from app.cambios.duplicados import buscar_posible_duplicado
 from app.db.conexion import conectar_con_filas
 from app.seguridad.actor import actor_actual
 
@@ -20,6 +22,7 @@ class OficinaEntrada(BaseModel):
     estatus: Optional[str] = None
     extras: Optional[str] = None
     observaciones: Optional[str] = None
+    crear_de_todos_modos: bool = False
 
 
 def _obtener(conexion, oficina_id: int):
@@ -65,7 +68,15 @@ def _pendiente(operacion: str, actor, valores: dict, oficina_id: int | None = No
 
 @router.post("/api/oficinas", status_code=201)
 def crear_oficina(entrada: OficinaEntrada, actor=Depends(actor_actual)) -> dict:
-    return _pendiente("alta", actor, entrada.model_dump())
+    valores = entrada.model_dump(exclude={"crear_de_todos_modos"})
+    conexion = conectar_con_filas()
+    try:
+        duplicado = buscar_posible_duplicado(conexion, "oficinas", valores)
+    finally:
+        conexion.close()
+    if duplicado and not entrada.crear_de_todos_modos:
+        return JSONResponse(status_code=409, content={"mensaje": "Ya existe un registro similar. ¿Quieres revisarlo antes de crear otro?", "posible_duplicado": duplicado})
+    return _pendiente("alta", actor, valores)
 
 
 @router.put("/api/oficinas/{oficina_id}")
@@ -77,7 +88,10 @@ def editar_oficina(
         _obtener(conexion, oficina_id)
     finally:
         conexion.close()
-    return _pendiente("modificacion", actor, entrada.model_dump(), oficina_id)
+    return _pendiente(
+        "modificacion", actor,
+        entrada.model_dump(exclude={"crear_de_todos_modos"}), oficina_id,
+    )
 
 
 @router.delete("/api/oficinas/{oficina_id}")

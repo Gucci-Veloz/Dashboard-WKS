@@ -1,9 +1,11 @@
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from app.cambios.servicio import crear_pendiente
+from app.cambios.duplicados import buscar_posible_duplicado
 from app.db.conexion import conectar_con_filas
 from app.seguridad.actor import actor_actual
 
@@ -22,6 +24,7 @@ class ContratoEntrada(BaseModel):
     alerta_renovacion: Optional[str] = None
     extras: Optional[str] = None
     observaciones: Optional[str] = None
+    crear_de_todos_modos: bool = False
 
 
 def _obtener(conexion, contrato_id: int):
@@ -82,12 +85,16 @@ def _pendiente(operacion: str, actor, valores: dict, contrato_id: int | None = N
 
 @router.post("/api/contratos", status_code=201)
 def crear_contrato(entrada: ContratoEntrada, actor=Depends(actor_actual)) -> dict:
+    valores = entrada.model_dump(exclude={"crear_de_todos_modos"})
     conexion = conectar_con_filas()
     try:
         _validar_referencias(conexion, entrada)
+        duplicado = buscar_posible_duplicado(conexion, "contratos", valores)
     finally:
         conexion.close()
-    return _pendiente("alta", actor, entrada.model_dump())
+    if duplicado and not entrada.crear_de_todos_modos:
+        return JSONResponse(status_code=409, content={"mensaje": "Ya existe un registro similar. ¿Quieres revisarlo antes de crear otro?", "posible_duplicado": duplicado})
+    return _pendiente("alta", actor, valores)
 
 
 @router.put("/api/contratos/{contrato_id}")
@@ -100,7 +107,10 @@ def editar_contrato(
         _validar_referencias(conexion, entrada)
     finally:
         conexion.close()
-    return _pendiente("modificacion", actor, entrada.model_dump(), contrato_id)
+    return _pendiente(
+        "modificacion", actor,
+        entrada.model_dump(exclude={"crear_de_todos_modos"}), contrato_id,
+    )
 
 
 @router.delete("/api/contratos/{contrato_id}")

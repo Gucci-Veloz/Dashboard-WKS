@@ -30,13 +30,13 @@ Solo **Builder_Datos** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. D
 | DAT-16 | Reporte de calidad de la importación | pendiente | DAT-15 |
 | DAT-17 | Una sola forma de conectarse a la base | hecha (9641113) | VER-03 |
 | DAT-18 | Cambios: pre-registro, confirmación e historial | hecha (e50b6af) | DAT-17 |
-| DAT-19 | Las APIs de las cuatro áreas pasan por cambios | hecha (pendiente de commit) | DAT-18, INT-13 |
-| DAT-20 | Aviso de posibles duplicados | pendiente | DAT-19 |
+| DAT-19 | Las APIs de las cuatro áreas pasan por cambios | hecha (8f0d871) | DAT-18, INT-13 |
+| DAT-20 | Aviso de posibles duplicados | hecha (pendiente de commit) | DAT-19 |
 | DAT-21 | Reporte del día | pendiente | DAT-19 |
 
 ## Qué sigue
 
-DAT-20 espera el commit de DAT-19.
+DAT-21 espera el commit de DAT-20.
 
 ## Observaciones
 
@@ -84,3 +84,8 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-26 07:32 · DAT-18 · hecha (e50b6af) · commit confirmado; estado reconciliado
 - 2026-09-26 07:32 · DAT-19 · en curso · esperas DAT-18 e INT-13 cumplidas
 - 2026-09-26 07:38 · DAT-19 · hecha (pendiente de commit) · prueba exacta pasa (11 passed); archivos: app/api/oficinas.py, app/api/inquilinos.py, app/api/contratos.py, app/api/pagos.py, app/api/cambios.py, tests/test_dat09_oficinas.py, tests/test_dat10_inquilinos.py, tests/test_dat11_contratos.py, tests/test_dat12_pagos.py, tests/test_dat19_api_cambios.py, plan/estado/Builder_Datos.md
+- 2026-09-26 07:47 · DAT-19 · hecha (8f0d871) · commit confirmado; estado reconciliado
+- 2026-09-26 07:47 · DAT-20 · en curso · espera DAT-19 cumplida
+- 2026-09-26 07:50 · DAT-20 · hecha (pendiente de commit) · prueba exacta pasa (4 passed); archivos: app/cambios/duplicados.py, app/api/oficinas.py, app/api/inquilinos.py, app/api/contratos.py, app/api/pagos.py, tests/test_dat20_duplicados.py, plan/estado/Builder_Datos.md
+- 2026-09-26 08:41 · DAT-20 · en curso · retomo la corrección: excluir crear_de_todos_modos también de los PUT de las cuatro APIs
+- 2026-09-26 08:42 · DAT-20 · hecha (pendiente de commit) · corregida la exclusión de crear_de_todos_modos en los PUT; pruebas solicitadas pasan (7 passed); archivos: app/api/oficinas.py, app/api/inquilinos.py, app/api/contratos.py, app/api/pagos.py, plan/estado/Builder_Datos.md

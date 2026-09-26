@@ -2,9 +2,11 @@ from datetime import date
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 from app.cambios.servicio import crear_pendiente
+from app.cambios.duplicados import buscar_posible_duplicado
 from app.db.conexion import conectar_con_filas
 from app.seguridad.actor import actor_actual
 
@@ -24,6 +26,7 @@ class PagoEntrada(BaseModel):
     estatus_pago: Optional[str] = None
     extras: Optional[str] = None
     observaciones: Optional[str] = None
+    crear_de_todos_modos: bool = False
 
 
 class RegistrarPagoEntrada(BaseModel):
@@ -98,13 +101,16 @@ def _pendiente(operacion: str, actor, valores: dict, pago_id: int | None = None)
 
 @router.post("/api/pagos", status_code=201)
 def crear_pago(entrada: PagoEntrada, actor=Depends(actor_actual)) -> dict:
+    valores = entrada.model_dump(exclude={"crear_de_todos_modos"})
     conexion = conectar_con_filas()
     try:
         _validar_contrato(conexion, entrada)
+        duplicado = buscar_posible_duplicado(conexion, "pagos", valores)
     finally:
         conexion.close()
-    valores = entrada.model_dump()
     valores["estatus_pago"] = valores["estatus_pago"] or "pendiente"
+    if duplicado and not entrada.crear_de_todos_modos:
+        return JSONResponse(status_code=409, content={"mensaje": "Ya existe un registro similar. ¿Quieres revisarlo antes de crear otro?", "posible_duplicado": duplicado})
     return _pendiente("alta", actor, valores)
 
 
@@ -116,7 +122,10 @@ def editar_pago(pago_id: int, entrada: PagoEntrada, actor: str = Depends(actor_a
         _validar_contrato(conexion, entrada)
     finally:
         conexion.close()
-    return _pendiente("modificacion", actor, entrada.model_dump(), pago_id)
+    return _pendiente(
+        "modificacion", actor,
+        entrada.model_dump(exclude={"crear_de_todos_modos"}), pago_id,
+    )
 
 
 @router.delete("/api/pagos/{pago_id}")
