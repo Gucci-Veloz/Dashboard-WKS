@@ -2,7 +2,7 @@
 
 Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.** No leas `REANUDAR.md` completo. Del plan, lee solo el bloque de la tarea que vayas a lanzar.
 
-Última actualización: 2026-09-26, cerca de las 13:00.
+Última actualización: 2026-09-26, noche.
 
 ## 1. Cómo abrir una sesión nueva (para el usuario)
 1. En la sesión vieja: `Ctrl + C` dos veces. Si pregunta por trabajos en segundo plano, elige "Exit and stop tasks".
@@ -12,8 +12,11 @@ Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.
 
 ## 2. Dónde vamos
 - **Fase 2b: COMPLETA.** Todos los commits están en master: DAT-17 a DAT-22, INT-13, INT-14, INT-16, INT-17, UI-18, UI-19, UI-20, VER-09. 125 pruebas pasan; solo falla la histórica `test_dos_dispositivos_y_acceso_protegido`.
-- **Siguiente paso inmediato:** revisar lo visual. El usuario quiere abrir el Dashboard en su navegador con datos de prueba (números ficticios en variables de entorno, sin Hermes) antes de seguir construyendo pantallas. Proponerle cómo hacerlo y pedir `/luz-verde`.
-- **El resto del proyecto** (unas 17 tareas) continúa después de la revisión visual. Las decisiones D-6 a D-15 ya están respondidas en `plan/DECISIONES.md`.
+- **En curso: rediseño visual (fase 2c de `PLAN.md`).** Fuente de verdad: `plan/rediseno/DASHBOARD_DESIGN_SPEC.md` (ya revisado y limpio). Solo cambia el aspecto; la funcionalidad queda igual.
+  - **UI-21 (base)** lanzada con Builder_UI en Codex. Al terminar: revisar, enseñarle al usuario las capturas de `evidencia/UI-21/` y, con su visto bueno, hacer el commit.
+  - Después, **UI-22 (Builder_UI_2) y UI-23 (Builder_UI_3) en paralelo**; sus archivos no se cruzan. El encargo es igual, con el nombre del agente y la tarea.
+  - Decisiones ya tomadas (en `DECISIONES.md`): el acento es azul `#0A66D9`; Inter y Lucide se guardan en el proyecto; el gris tenue no va en texto; verde, ámbar y rojo solo para estados; las pruebas existentes no se editan.
+- **El resto del proyecto** (unas 17 tareas) continúa después del rediseño. Las decisiones D-6 a D-15 ya están respondidas en `plan/DECISIONES.md`.
 
 ## 3. Reglas del usuario
 - **Luz verde:** `/luz-verde` = adelante. `/luz-amarilla` = espera. Sin luz verde no se lanzan tareas, no se cambia el plan y no se hacen commits fuera de rutina.
@@ -43,4 +46,4 @@ Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.
 - **Lección:** explicar cada decisión con un ejemplo concreto (quién, qué ve, qué pasa), nunca con el lenguaje del plan.
 
 ## 6. Sin commit todavía
-- Solo `plan/estado/Father.md` (este archivo). Todo lo demás está commiteado.
+- Solo `evidencia/UI-20/reporte-390.png` (captura regenerada) y lo que deje Builder_UI con UI-21.

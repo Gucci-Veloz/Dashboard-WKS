@@ -896,6 +896,64 @@ Reglas: solo web pública, nada del VPS. Formato igual al del Scavenge: fuentes 
 
 ---
 
+## Fase 2c · Rediseño visual (2026-09-26)
+
+**Fuente de verdad:** `plan/rediseno/DASHBOARD_DESIGN_SPEC.md` (en adelante, "el documento"). Manda sobre cualquier regla visual anterior de este plan (paleta, acento terracota, sombras de UI-02 y UI-03).
+
+**Reglas de la fase (valen para UI-21, UI-22 y UI-23):**
+- **Solo cambia el aspecto y la respuesta de los controles.** No cambian datos, textos de negocio, acciones, flujos, rutas, sesiones, confirmación, pendientes, duplicados ni reporte. No se quita ni se esconde nada que hoy se vea (sección 1.11 del documento: la app no tiene nada clasificado como secundario).
+- **Las pruebas que ya existen no se editan.** Tienen que seguir pasando igual. Si una falla por un cambio visual, la tarea queda `bloqueada (<prueba> falla por <motivo>)`.
+- **Recursos locales, sin internet al abrir la app:** la letra Inter Variable (`.woff2`) y los íconos Lucide (`.svg` sueltos, solo los que se usen) se guardan dentro de `web/`. Sus licencias (OFL e ISC) van junto a los archivos. Nada se carga desde un CDN.
+- `python3 scripts/contraste.py web/estilos/tokens.css` sigue terminando en 0.
+- **Uso de los grises y los colores de estado** (decisión del usuario): el texto principal va en `#202734`. El texto secundario y las notas chicas van en `#596575`. El gris tenue `#7B8794` **nunca va en texto**: solo en íconos secundarios, bordes, separadores y adornos. Verde, ámbar y rojo se usan solo para estados (íconos, señales, bordes y fondos tonales), no para texto chico dentro de campos.
+- Se respeta `prefers-reduced-motion: reduce`: sin movimientos, solo cambios de color y sombra.
+- Evidencia de cada tarea: capturas a 390 px y a 1280 px en `evidencia/<ID>/`.
+
+### UI-21 · Base del rediseño: sistema visual y controles
+- **Dueño:** Builder_UI · **Espera:** — (libre)
+- **Archivos:** `web/estilos/tokens.css`, `web/estilos/base.css`, `web/estilos/componentes.css`, `web/fuentes/**` (nuevo), `web/iconos/**` (nuevo), `web/componentes/icono.js` (nuevo), `web/muestras/componentes.html`, `tests/ui/test_ui21_base.py` (nuevo), `evidencia/UI-21/`
+- **Entregable:**
+  - Secciones 1.2 a 1.12 del documento en `tokens.css` y `base.css`: colores, Inter local, escala tipográfica, niveles de profundidad N0, N1, N2, N-1 y N3, radios, espaciado, retícula y tiempos de movimiento.
+  - `icono.js`: una función que pone un ícono Lucide de `web/iconos/` en línea, con tamaño y grosor del documento (1.8).
+  - Los controles C-01 a C-10 (sección 2) en `componentes.css`, con todos sus estados: reposo, hover, presionado, soltar, foco, procesando, éxito, error y deshabilitado, según el control.
+  - `web/muestras/componentes.html` pasa a ser la pantalla S-02: enseña la gramática plano → elevado → hundido → overlay con todos los controles C-01 a C-10 y sus estados.
+- **Prueba:** `pytest tests/ui/test_ui21_base.py` a 390 px:
+  - Una superficie estática tiene `box-shadow: none` y un botón no.
+  - Al presionar C-01 cambian `transform` y `box-shadow`.
+  - Un campo C-04 tiene sombra `inset`.
+  - La letra que se usa es Inter y se sirve desde el propio servidor.
+  - Ninguna petición sale a otro dominio.
+  - El documento no se desborda a lo ancho (`scrollWidth <= 390`).
+  - Se guardan las capturas.
+  - Además: la suite completa, sin fallas nuevas.
+- **Commit:** `UI-21: base del rediseño visual`
+
+### UI-22 · Rediseño de entrada, tablero y áreas
+- **Dueño:** Builder_UI_2 · **Espera:** UI-21 (con commit y visto bueno del usuario)
+- **Archivos:** `web/acceso/acceso.css`, `web/acceso/index.html` (solo marcado visual; `acceso.js` no se toca), `web/nivel1/**`, `web/nivel2/**`, `web/indicadores/**`, `web/navegacion/navegacion.css`, `web/detalle/{oficinas,inquilinos,contratos,pagos}.js` (solo clases e íconos, sin tocar lógica ni llamadas), `tests/ui/test_ui22_pantallas.py` (nuevo), `evidencia/UI-22/`
+- **Entregable:** las pantallas S-01, S-03, S-04 y S-05 del documento, más "Entrada a áreas, listas y fichas" (sección 6), usando solo la base de UI-21. Si necesita un control o un token que la base no tiene, no lo inventa: queda `bloqueada (falta <cosa> en la base)`.
+- **Prueba:** `pytest tests/ui/test_ui22_pantallas.py` a 390 px:
+  - Cada pantalla carga sin desbordarse a lo ancho.
+  - Los bloques solo informativos tienen `box-shadow: none`.
+  - Los estados llevan ícono, no solo texto.
+  - Se guardan las capturas.
+  - Además: la suite completa, sin fallas nuevas.
+- **Commit:** `UI-22: rediseño de entrada, tablero y áreas`
+
+### UI-23 · Rediseño de formulario, reporte y ventanas
+- **Dueño:** Builder_UI_3 · **Espera:** UI-21 (con commit y visto bueno del usuario)
+- **Archivos:** `web/estilos/formulario.css`, `web/componentes/{formulario,confirmacion,duplicado}.js` (solo clases e íconos, sin tocar lógica ni llamadas), `web/reporte/**`, `web/muestras/formulario.html`, `tests/ui/test_ui23_formularios.py` (nuevo), `evidencia/UI-23/`
+- **Entregable:** las pantallas S-06 y S-07 del documento, más la ventana de confirmación, el aviso de duplicado y los cambios pendientes (sección 6), usando solo la base de UI-21. Aplica la misma regla de bloqueo que UI-22.
+- **Prueba:** `pytest tests/ui/test_ui23_formularios.py` a 390 px:
+  - El reporte no desborda el documento (`scrollWidth <= 390`) y su tabla se desplaza dentro de su propio contenedor, sin cortar columnas.
+  - La fecha y los campos tienen sombra `inset`.
+  - La ventana de confirmación y el aviso de duplicado abren como hoja inferior.
+  - Se guardan las capturas.
+  - Además: la suite completa, sin fallas nuevas.
+- **Commit:** `UI-23: rediseño de formulario, reporte y ventanas`
+
+**Paralelo:** UI-22 y UI-23 corren al mismo tiempo; sus archivos no se cruzan. Ninguna de las dos toca `web/estilos/{tokens,base,componentes}.css`, `web/index.html` ni `web/app.js`.
+
 ## Mapa de dependencias por fase
 
 ```text

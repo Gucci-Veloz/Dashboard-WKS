@@ -32,6 +32,7 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 | UI-18 | Ventana de confirmación y cambios pendientes | hecha (pendiente de commit) | DAT-19, INT-14, DAT-22 |
 | UI-19 | Aviso de posible duplicado | bloqueada (la lista autorizada no incluye el punto de integración para manejar el 409) | DAT-20, UI-18 |
 | UI-20 | Botón y pantalla "Reporte del día" | hecha (pendiente de commit) | DAT-21, UI-18 |
+| UI-21 | Base del rediseño: sistema visual y controles | pendiente | — (libre) |
 
 ## Qué sigue
 
