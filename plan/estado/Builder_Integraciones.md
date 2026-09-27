@@ -2,7 +2,7 @@
 
 Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Detalle de cada tarea: `plan/PLAN.md`.
 
-Última actualización: 2026-09-27 · INT-18 hecha, pendiente de commit.
+Última actualización: 2026-09-27 · INT-07 corrección documental hecha, pendiente de commit.
 
 ## En curso
 
@@ -18,7 +18,7 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 | INT-04 | Credencial de servicio para Vania y actor_actual | hecha (222394d) | DAT-01 |
 | INT-05 | Contrato de uso para Vania | hecha (94ff4ca) | DAT-08, DAT-12, INT-02, INT-04 |
 | INT-06 | Resumen de avisos agrupados | hecha (01dd661) | DAT-07 |
-| INT-07 | Preferencias para reducir o silenciar avisos | hecha (bb6112c) | D-11, INT-06 |
+| INT-07 | Preferencias para reducir o silenciar avisos | hecha (pendiente de commit) | D-11, INT-06 |
 | INT-08 | Mecanismo para pasar el contexto a Vania | pendiente | D-9, U-5, INT-02 |
 | INT-09 | Tubería de documento imprimible | pendiente | D-7, U-3, DAT-08 |
 | INT-10 | Primer documento de Works | pendiente | D-6, INT-09 |
@@ -29,7 +29,7 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 | INT-15 | Roles Admin y Editor | cancelada (D-5: sin roles) | — |
 | INT-16 | Acceso técnico del desarrollador | hecha (1f21cab) | D-4, INT-13 |
 | INT-17 | Vania solo cambia datos con la sesión de quien lo pide | hecha (71b496c) | INT-13, DAT-19 |
-| INT-18 | Arreglar la prueba histórica de dos dispositivos | hecha (pendiente de commit) | — |
+| INT-18 | Arreglar la prueba histórica de dos dispositivos | hecha (16b20a7) | — |
 
 ## Qué sigue
 
@@ -85,3 +85,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-27 13:51 · INT-07 · hecha (bb6112c) · commit detectado
 - 2026-09-27 13:51 · INT-18 · en curso · la prueba aislada falla con `IndexError` porque el alta queda pendiente y aún no existe actividad; coincide con la falta de confirmar con Sí
 - 2026-09-27 13:53 · INT-18 · hecha (pendiente de commit) · archivos: `tests/test_int13_acceso.py`, `plan/estado/Builder_Integraciones.md`; pruebas: `.venv/bin/python -m pytest tests/test_int13_acceso.py -q` OK (5 passed), `.venv/bin/python -m pytest -q` OK (150 passed)
+- 2026-09-27 14:17 · INT-18 · hecha (16b20a7) · commit detectado
+- 2026-09-27 14:17 · INT-07 · en curso · corrección documental por H-01 de `plan/verificacion/VER-04.md`
+- 2026-09-27 14:20 · INT-07 · hecha (pendiente de commit) · archivos: `docs/contrato-vania.md`, `plan/estado/Builder_Integraciones.md`; pruebas: rutas citadas contra `GET /openapi.json` OK (10/10 endpoints existen), `.venv/bin/python -m pytest -q` OK (150 passed, 1 warning)

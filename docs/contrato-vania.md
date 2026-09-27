@@ -38,6 +38,93 @@ Si falta la sesión correcta, responde `401` con `codigo: "sin_sesion"`.
 | Consultar inquilinos | "¿quién ocupa la 204?" | `GET /api/inquilinos` |
 | Consultar contratos | "¿cuándo vence el contrato de la 204?" | `GET /api/contratos` |
 | Consultar el rastro de lo que ya se hizo | "¿qué registraste hoy?" | `GET /api/actividad` |
+| Guardar una preferencia de avisos | "Vania, ya no me avises de contratos hasta fin de mes" | `PATCH /api/vania/preferencias-avisos` |
+| Consultar las preferencias de avisos | "¿de qué me tienes silenciado?" | `GET /api/vania/preferencias-avisos` |
+| Quitar una preferencia de avisos | "vuelve a avisarme de contratos" | `PATCH /api/vania/preferencias-avisos/quitar` |
+
+## Preferencias de avisos (D-11)
+
+Las tres rutas requieren solamente la credencial de servicio
+`Authorization: Bearer <WORKS_TOKEN_VANIA>`; no usan
+`X-Works-Solicitante`. Sin una credencial válida responden `401`.
+
+Antes de guardar una preferencia, Vania confirma con la persona qué tipo
+de aviso quiere silenciar y hasta cuándo. `persona` solo permite `david` o
+`grecia`. `tipo_evento` es una cadena de 1 a 80 caracteres; el servicio le
+quita espacios al principio y al final y la convierte a minúsculas. No es
+un enum: para los asuntos que hoy produce el estado, los valores que
+coinciden son `contratos`, `pagos` e `inquilinos`. `hasta` acepta una fecha
+y hora o `null`; `null` significa silencio indefinido.
+
+### Guardar: `PATCH /api/vania/preferencias-avisos`
+
+Para "Vania, ya no me avises de contratos hasta fin de mes", el cuerpo es:
+
+```json
+{
+  "persona": "grecia",
+  "tipo_evento": "contratos",
+  "hasta": "2026-09-30T23:59:59-06:00"
+}
+```
+
+Responde `200` con la preferencia guardada. `hasta` queda normalizado a UTC:
+
+```json
+{
+  "persona": "grecia",
+  "tipo_evento": "contratos",
+  "hasta": "2026-10-01T05:59:59+00:00"
+}
+```
+
+Si `hasta` se omite o vale `null`, el silencio es indefinido. Una entrada
+inválida responde `422`.
+
+### Consultar: `GET /api/vania/preferencias-avisos`
+
+Para "¿de qué me tienes silenciado?", se manda `persona` como parámetro de
+consulta:
+
+```text
+GET /api/vania/preferencias-avisos?persona=grecia
+```
+
+Responde `200`:
+
+```json
+{
+  "preferencias": [
+    {
+      "persona": "grecia",
+      "tipo_evento": "contratos",
+      "hasta": "2026-10-01T05:59:59+00:00"
+    }
+  ]
+}
+```
+
+`persona` es opcional; sin el parámetro devuelve las preferencias de ambas
+personas. Una `persona` distinta de `david` o `grecia` responde `422`.
+
+### Quitar: `PATCH /api/vania/preferencias-avisos/quitar`
+
+Para "vuelve a avisarme de contratos", ambos datos van como parámetros de
+consulta:
+
+```text
+PATCH /api/vania/preferencias-avisos/quitar?persona=grecia&tipo_evento=contratos
+```
+
+Responde `204` sin cuerpo, incluso si la preferencia ya no existía. Si falta
+un parámetro, `persona` no es `david` o `grecia`, o `tipo_evento` no cumple
+la longitud de 1 a 80 caracteres, responde `422`.
+
+Cada asunto se avisa una sola vez a cada persona mientras no cambie. Si
+cambian sus datos relevantes, o desaparece y después vuelve a aparecer,
+puede avisarse de nuevo. Silenciar un tipo solo filtra los avisos de Vania:
+no oculta ni cambia nada en el Dashboard. Al quitar la preferencia, los
+asuntos de ese tipo pueden volver a avisarse.
 
 ## Reglas del handshake que Vania debe respetar
 
