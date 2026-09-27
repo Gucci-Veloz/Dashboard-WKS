@@ -593,6 +593,7 @@ Objetivo: aplicar `plan/REGLAS_OPERACION.md` sobre lo que ya está construido. *
 - **Commit:** `INT-03: actividad sintética de Vania`
 
 ### UI-14 · Rastro de Vania visible
+- **CERRADA sin código (2026-09-27, `/luz-verde`):** la cubre el Reporte del día (columna Ejecutor, DAT-21 y UI-20), según D-8. No se hace bitácora aparte.
 - **Dueño:** Builder_UI. La representación visual queda en Builder_UI para mantener un solo lenguaje visual; los datos y la API son de Builder_Integraciones.
 - **Espera:** **D-8**, INT-02, INT-03, UI-07
 - **Archivos:** `web/rastro/rastro.js`, `web/rastro/rastro.css`, `tests/ui/test_ui14_rastro.py`, `evidencia/UI-14/`

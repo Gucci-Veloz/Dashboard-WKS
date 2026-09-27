@@ -430,6 +430,7 @@ La sesión maestra anota aquí cada respuesta del usuario, con fecha, y actualiz
 - **2026-09-26 · D-7: A.** El usuario delegó la decisión en la sesión maestra, pidiendo la más limpia y la que menos gente necesite. El Dashboard solo genera el PDF; Vania lo imprime con la herramienta que ya tiene en Hermes. Pendientes prácticos (no bloquean el código): reservar la IP de la impresora (`192.168.1.176`, IPP, PDF) en el router y definir qué equipo de la oficina queda encendido. Detalle: `vinculacion-hp-smart-tank-750-ubuntu.md`. Es de las funciones que más van a impresionar a David.
 - **2026-09-26 · D-6: el documento se elige cuando llegue el Excel.** Mientras tanto, documento de prueba. Vania solo imprime los tipos aprobados (A).
 - **2026-09-26 · D-8: el Reporte del día cubre el rastro de Vania** (columna Ejecutor, DAT-21 y UI-20). No se hace una bitácora aparte.
+- **2026-09-27 · Corrección del plan (`/luz-verde`):** UI-14 se cierra sin código; el Reporte del día ya es el rastro de Vania (D-8).
 - **2026-09-26 · D-9: A.** Botón junto al dato que abre WhatsApp con Vania y el mensaje ya escrito.
 - **2026-09-26 · D-10: se queda en el plan, pero nunca bloquea nada y no se le dedica tiempo ahora.** Es para Grecia: cumpleaños de las ~70 personas de los 19 inquilinos y efemérides del mes, para su pizarrón de la oficina.
 - **2026-09-26 · D-11: A + (i).** Vania sí escribe por su cuenta, sin que le pregunten, pero sin atosigar: cada asunto una sola vez, y se apaga pidiéndoselo por WhatsApp.
