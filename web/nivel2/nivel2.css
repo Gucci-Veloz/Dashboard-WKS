@@ -12,31 +12,43 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--espacio-3);
+  gap: var(--espacio-4);
+  margin-bottom: var(--espacio-6);
 }
 
 .nivel2__asunto {
-  display: block;
-  background: var(--superficie-alta);
-  border-radius: var(--radio-md);
-  box-shadow: var(--sombra-superficie);
-  padding: var(--espacio-4);
+  grid-template-columns: 36px minmax(0, 1fr);
+  min-height: 112px;
   color: var(--texto-principal);
   text-decoration: none;
 }
 
-.nivel2__asunto:hover {
-  box-shadow: var(--sombra-hundida);
+.nivel2__icono.icono {
+  grid-row: auto;
+  align-self: start;
+  width: 28px;
+  height: 28px;
+  margin-top: 1px;
+  color: var(--atencion);
+}
+
+.nivel2__contenido {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--espacio-2);
 }
 
 .nivel2__frase {
-  margin: 0 0 var(--espacio-1);
+  display: block;
   font-size: var(--texto-base);
-  font-weight: 500;
+  font-weight: 650;
+  line-height: 1.45;
 }
 
 .nivel2__por-que-importa {
-  margin: 0;
+  display: block;
   color: var(--texto-secundario);
   font-size: var(--texto-sm);
+  line-height: 1.46;
 }

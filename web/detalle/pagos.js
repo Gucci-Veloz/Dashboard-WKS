@@ -7,6 +7,7 @@
 import { crearAccionEliminar, crearFormulario } from "/componentes/formulario.js";
 import { mostrarPendientes } from "/componentes/confirmacion.js";
 import { lanzarSiDuplicado } from "/componentes/duplicado.js";
+import { ponerIcono } from "/componentes/icono.js";
 
 const CAMPOS_EDICION = [
   { nombre: "precio", etiqueta: "Precio" },
@@ -15,6 +16,23 @@ const CAMPOS_EDICION = [
   { nombre: "forma_pago", etiqueta: "Forma de pago" },
   { nombre: "estatus_pago", etiqueta: "Estatus de pago" },
 ];
+
+function estadoVisualPago(estatusPago) {
+  const estatus = typeof estatusPago === "string"
+    ? estatusPago.trim().toLowerCase()
+    : "";
+
+  if (estatus === "pagado") {
+    return { icono: "check", clase: "c-indicador--bien" };
+  }
+  if (estatus === "pendiente") {
+    return { icono: "circle-alert", clase: "c-indicador--atencion" };
+  }
+  if (["moroso", "vencido", "atrasado"].includes(estatus)) {
+    return { icono: "circle-x", clase: "c-indicador--error" };
+  }
+  return { icono: "arrow-right", clase: "" };
+}
 
 async function renderLista(contenedor) {
   const respuesta = await fetch("/api/pagos");
@@ -28,12 +46,20 @@ async function renderLista(contenedor) {
   lista.className = "detalle-lista";
 
   for (const pago of pagos) {
+    const estado = estadoVisualPago(pago.estatus_pago);
     const item = document.createElement("li");
     const enlace = document.createElement("a");
     enlace.href = `#pago-${pago.id}`;
-    enlace.className = "enlace-discreto";
+    enlace.className = "enlace-discreto detalle-lista__enlace c-tarjeta-tocable";
+    if (estado.clase) enlace.classList.add(estado.clase);
     enlace.dataset.pagoId = String(pago.id);
-    enlace.textContent = `Pago ${pago.id} · ${pago.estatus_pago ?? "sin estatus"}`;
+    const icono = document.createElement("span");
+    icono.dataset.icono = estado.icono;
+    void ponerIcono(icono, estado.icono, { tamano: 26, grosor: 2.8 });
+    const texto = document.createElement("span");
+    texto.className = "detalle-lista__texto";
+    texto.textContent = `Pago ${pago.id} · ${pago.estatus_pago ?? "sin estatus"}`;
+    enlace.append(icono, texto);
     item.appendChild(enlace);
     lista.appendChild(item);
   }

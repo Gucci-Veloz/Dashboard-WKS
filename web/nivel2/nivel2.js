@@ -4,6 +4,8 @@
 // destino real (el registro exacto) lo define UI-08. En estado
 // tranquilo no se renderiza nada.
 
+import { ponerIcono } from "/componentes/icono.js";
+
 export function renderNivel2(contenedor, estado) {
   const anterior = contenedor.querySelector(".nivel2");
   if (anterior) anterior.remove();
@@ -20,21 +22,31 @@ export function renderNivel2(contenedor, estado) {
     const item = document.createElement("li");
 
     const enlace = document.createElement("a");
-    enlace.className = "nivel2__asunto";
+    enlace.className = "nivel2__asunto c-tarjeta-tocable";
     enlace.dataset.asuntoId = asunto.id;
     enlace.dataset.orden = String(asunto.orden);
     // Destino provisional: UI-08 define la navegación real al registro.
     enlace.href = `#${asunto.referencia.tipo}-${asunto.referencia.id}`;
 
-    const frase = document.createElement("p");
+    const icono = document.createElement("span");
+    icono.className = "nivel2__icono";
+    icono.dataset.iconoEstado = "atencion";
+    void ponerIcono(icono, "circle-alert", { tamano: 28, grosor: 2.8 });
+    enlace.appendChild(icono);
+
+    const contenido = document.createElement("span");
+    contenido.className = "nivel2__contenido";
+
+    const frase = document.createElement("span");
     frase.className = "nivel2__frase";
     frase.textContent = asunto.frase;
-    enlace.appendChild(frase);
+    contenido.appendChild(frase);
 
-    const porQueImporta = document.createElement("p");
+    const porQueImporta = document.createElement("span");
     porQueImporta.className = "nivel2__por-que-importa";
     porQueImporta.textContent = asunto.por_que_importa;
-    enlace.appendChild(porQueImporta);
+    contenido.appendChild(porQueImporta);
+    enlace.appendChild(contenido);
 
     item.appendChild(enlace);
     lista.appendChild(item);

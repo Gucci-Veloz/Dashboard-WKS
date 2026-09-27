@@ -4,6 +4,7 @@
 import { crearAccionEliminar, crearFormulario } from "/componentes/formulario.js";
 import { mostrarPendientes } from "/componentes/confirmacion.js";
 import { lanzarSiDuplicado } from "/componentes/duplicado.js";
+import { ponerIcono } from "/componentes/icono.js";
 
 const CAMPOS = [
   { nombre: "titular", etiqueta: "Titular" },
@@ -25,9 +26,15 @@ async function renderLista(contenedor) {
     const item = document.createElement("li");
     const enlace = document.createElement("a");
     enlace.href = `#inquilino-${inquilino.id}`;
-    enlace.className = "enlace-discreto";
+    enlace.className = "enlace-discreto detalle-lista__enlace c-tarjeta-tocable";
     enlace.dataset.inquilinoId = String(inquilino.id);
-    enlace.textContent = inquilino.titular ?? `Inquilino ${inquilino.id}`;
+    const icono = document.createElement("span");
+    icono.dataset.icono = "arrow-right";
+    void ponerIcono(icono, "arrow-right", { tamano: 26, grosor: 2.8 });
+    const texto = document.createElement("span");
+    texto.className = "detalle-lista__texto";
+    texto.textContent = inquilino.titular ?? `Inquilino ${inquilino.id}`;
+    enlace.append(icono, texto);
     item.appendChild(enlace);
     lista.appendChild(item);
   }

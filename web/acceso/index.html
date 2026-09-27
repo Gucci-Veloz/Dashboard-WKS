@@ -12,10 +12,35 @@
   <body>
     <main class="acceso" aria-live="polite">
       <section class="tarjeta acceso__tarjeta">
-        <h1 class="acceso__titulo">Entrando a Works</h1>
-        <p data-acceso-mensaje>Estamos preparando tu acceso.</p>
+        <div class="acceso__estado" aria-hidden="true">
+          <span
+            class="acceso__icono acceso__icono--cargando"
+            data-icono-acceso="loader-circle"
+          ></span>
+          <span
+            class="acceso__icono acceso__icono--error"
+            data-icono-acceso="circle-x"
+          ></span>
+        </div>
+        <div class="acceso__contenido">
+          <p class="acceso__etiqueta">Acceso seguro</p>
+          <h1 class="acceso__titulo">Entrando a Works</h1>
+          <p class="acceso__mensaje" data-acceso-mensaje>
+            Estamos preparando tu acceso.
+          </p>
+        </div>
       </section>
     </main>
     <script type="module" src="/acceso/acceso.js"></script>
+    <script type="module">
+      import { ponerIcono } from "/componentes/icono.js";
+
+      document.querySelectorAll("[data-icono-acceso]").forEach((elemento) => {
+        ponerIcono(elemento, elemento.dataset.iconoAcceso, {
+          tamano: 28,
+          grosor: 2.8,
+        });
+      });
+    </script>
   </body>
 </html>

@@ -5,6 +5,7 @@
 import { crearAccionEliminar, crearFormulario } from "/componentes/formulario.js";
 import { mostrarPendientes } from "/componentes/confirmacion.js";
 import { lanzarSiDuplicado } from "/componentes/duplicado.js";
+import { ponerIcono } from "/componentes/icono.js";
 
 const CAMPOS = [
   { nombre: "oficina_id", etiqueta: "Oficina (id)" },
@@ -28,6 +29,23 @@ export function fraseVencimiento(fechaFin, hoy = new Date()) {
   return `Venció hace ${Math.abs(dias)} días.`;
 }
 
+function estadoVisualContrato(contrato, hoy = new Date()) {
+  const fechaFin = typeof contrato.fin === "string" ? contrato.fin.trim() : "";
+  if (!fechaFin) return { icono: "info", clase: "" };
+
+  const fin = new Date(`${fechaFin}T00:00:00`);
+  if (Number.isNaN(fin.getTime())) return { icono: "info", clase: "" };
+
+  const inicioHoy = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+  if (fin < inicioHoy) {
+    return { icono: "circle-x", clase: "c-indicador--error" };
+  }
+  if (contrato.alerta_renovacion === "cerca_de_vencer") {
+    return { icono: "circle-alert", clase: "c-indicador--atencion" };
+  }
+  return { icono: "check", clase: "c-indicador--bien" };
+}
+
 async function renderLista(contenedor) {
   const respuesta = await fetch("/api/contratos");
   const contratos = await respuesta.json();
@@ -40,12 +58,20 @@ async function renderLista(contenedor) {
   lista.className = "detalle-lista";
 
   for (const contrato of contratos) {
+    const estado = estadoVisualContrato(contrato);
     const item = document.createElement("li");
     const enlace = document.createElement("a");
     enlace.href = `#contrato-${contrato.id}`;
-    enlace.className = "enlace-discreto";
+    enlace.className = "enlace-discreto detalle-lista__enlace c-tarjeta-tocable";
+    if (estado.clase) enlace.classList.add(estado.clase);
     enlace.dataset.contratoId = String(contrato.id);
-    enlace.textContent = `Contrato ${contrato.id} · ${fraseVencimiento(contrato.fin)}`;
+    const icono = document.createElement("span");
+    icono.dataset.icono = estado.icono;
+    void ponerIcono(icono, estado.icono, { tamano: 26, grosor: 2.8 });
+    const texto = document.createElement("span");
+    texto.className = "detalle-lista__texto";
+    texto.textContent = `Contrato ${contrato.id} · ${fraseVencimiento(contrato.fin)}`;
+    enlace.append(icono, texto);
     item.appendChild(enlace);
     lista.appendChild(item);
   }

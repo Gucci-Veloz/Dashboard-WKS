@@ -1,3 +1,5 @@
+@import url("/estilos/componentes.css");
+
 /*
   Nivel 1: estado general. UI-04.
 
@@ -10,23 +12,69 @@
 .nivel1 {
   display: flex;
   flex-direction: column;
-  gap: var(--espacio-3);
+  gap: var(--espacio-4);
+  margin-bottom: var(--espacio-6);
+  box-shadow: none;
+}
+
+#app:has(> .nivel1) {
+  max-width: 600px;
 }
 
 .nivel1__aviso {
   align-self: flex-start;
   margin: 0;
-  padding: var(--espacio-1) var(--espacio-3);
-  border-radius: var(--radio-sm);
-  background: var(--superficie);
+  padding: 0;
+  background: transparent;
   color: var(--texto-secundario);
-  font-size: var(--texto-xs);
+  font-size: var(--texto-caption);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.nivel1__estado {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-5);
+  box-shadow: none;
+}
+
+.nivel1__icono {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  border-radius: var(--radio-md);
+  background: var(--fondo);
+  box-shadow: var(--sombra-n2);
+}
+
+.nivel1__icono--bien {
+  color: var(--bien);
+}
+
+.nivel1__icono--atencion {
+  color: var(--atencion);
 }
 
 .nivel1__conclusion {
   margin: 0;
+  max-width: 18ch;
   color: var(--texto-principal);
-  font-size: var(--texto-2xl);
-  font-weight: 600;
-  line-height: 1.2;
+  font-size: clamp(var(--texto-titulo-principal), 7vw, var(--texto-frase));
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+@media (min-width: 768px) {
+  .nivel1__estado {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .nivel1__conclusion {
+    max-width: 22ch;
+  }
 }
