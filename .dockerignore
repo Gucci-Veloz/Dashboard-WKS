@@ -1,0 +1,7 @@
+# Lista blanca: a la imagen solo entra lo que corre el Dashboard.
+*
+!app/
+!web/
+!pyproject.toml
+**/__pycache__
+**/*.pyc
