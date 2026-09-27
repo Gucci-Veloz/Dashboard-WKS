@@ -2,7 +2,7 @@
 
 Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Detalle de cada tarea: `plan/PLAN.md`.
 
-Última actualización: 2026-09-26 · INT-17 terminada, pendiente de commit.
+Última actualización: 2026-09-27 · INT-07 terminada, pendiente de commit.
 
 ## En curso
 
@@ -18,7 +18,7 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 | INT-04 | Credencial de servicio para Vania y actor_actual | hecha (222394d) | DAT-01 |
 | INT-05 | Contrato de uso para Vania | hecha (94ff4ca) | DAT-08, DAT-12, INT-02, INT-04 |
 | INT-06 | Resumen de avisos agrupados | hecha (01dd661) | DAT-07 |
-| INT-07 | Preferencias para reducir o silenciar avisos | pendiente | D-11, INT-06 |
+| INT-07 | Preferencias para reducir o silenciar avisos | hecha (pendiente de commit) | D-11, INT-06 |
 | INT-08 | Mecanismo para pasar el contexto a Vania | pendiente | D-9, U-5, INT-02 |
 | INT-09 | Tubería de documento imprimible | pendiente | D-7, U-3, DAT-08 |
 | INT-10 | Primer documento de Works | pendiente | D-6, INT-09 |
@@ -28,11 +28,11 @@ Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDA
 | INT-14 | Flujo de entrada en el teléfono | hecha (5380624) | D-4, INT-13, UI-03 |
 | INT-15 | Roles Admin y Editor | cancelada (D-5: sin roles) | — |
 | INT-16 | Acceso técnico del desarrollador | hecha (1f21cab) | D-4, INT-13 |
-| INT-17 | Vania solo cambia datos con la sesión de quien lo pide | hecha (pendiente de commit) | INT-13, DAT-19 |
+| INT-17 | Vania solo cambia datos con la sesión de quien lo pide | hecha (71b496c) | INT-13, DAT-19 |
 
 ## Qué sigue
 
-sin tareas disponibles: INT-07 espera D-11; INT-08 espera D-9 y U-5; INT-09 espera D-7, U-3 y DAT-08; INT-10 a INT-12 esperan sus dependencias.
+fin de vuelta; no se inicia otra tarea.
 
 ## Observaciones
 
@@ -75,3 +75,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-26 08:41 · INT-16 · hecha (1f21cab) · commit detectado
 - 2026-09-26 08:41 · INT-17 · en curso · INT-13 y DAT-19 tienen commit; arranco la tarea
 - 2026-09-26 08:41 · INT-17 · hecha (pendiente de commit) · archivos: `app/seguridad/actor.py`, `app/seguridad/vania.py`, `docs/contrato-vania.md`, `tests/test_int17_vania_sesion.py`, `plan/estado/Builder_Integraciones.md`; prueba: `.venv/bin/python -m pytest tests/test_int17_vania_sesion.py -q` OK (4 passed)
+- 2026-09-27 13:09 · INT-17 · hecha (71b496c) · commit detectado
+- 2026-09-27 13:09 · INT-07 · en curso · D-11 resuelta como A + (i) e INT-06 tiene commit 01dd661
+- 2026-09-27 13:17 · INT-07 · hecha (pendiente de commit) · archivos: `app/db/migraciones/003_preferencias_avisos.sql`, `app/api/avisos.py`, `tests/test_int07_preferencias.py`, `plan/estado/Builder_Integraciones.md`; pruebas: `.venv/bin/python -m pytest tests/test_int07_preferencias.py -q` OK (6 passed), `tests/test_int06_avisos.py` dentro de la corrida conjunta OK (3 passed), suite completa 148 passed y 1 falla preexistente en `tests/test_int13_acceso.py::test_dos_dispositivos_y_acceso_protegido`, reproducida también en una copia limpia de HEAD
