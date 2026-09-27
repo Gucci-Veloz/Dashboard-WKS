@@ -17,7 +17,7 @@ Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.
 - **UI-22 (entrada, tablero y áreas): COMPLETA** `3f68da4`. Cada fila de contratos, pagos e inquilinos muestra el ícono de su propio estado.
 - **UI-23 (formulario, reporte y ventanas): COMPLETA** `4d7a7bd` más dos vueltas de corrección: `99d60c3` (foco centrado y separación en ventanas, margen de la tabla, enlace Volver) y `3a20659` (aviso "Desliza →" debajo de la tabla). 142 pruebas pasan; solo falla la histórica.
 - **Fase 2c (rediseño visual): TERMINADA.**
-- **UI-14 cerrada sin código** (la cubre el Reporte del día, D-8). **En curso: INT-07** (preferencias de avisos, D-11 = A + (i)). **Lección:** antes de lanzar una tarea vieja, lee su decisión en el registro final de `DECISIONES.md` (línea ~420 en adelante); el plan puede estar desfasado.
+- **UI-14 cerrada sin código** (la cubre el Reporte del día, D-8). **INT-07 hecha** (`8c75f76` + `bb6112c`: el aviso no se repite por el paso de los días). **INT-18 hecha** (suite 150/150). **Siguiente propuesta: VER-04** (verificación de fases 3 y 4). **Lección:** antes de lanzar una tarea vieja, lee su decisión en el registro final de `DECISIONES.md` (línea ~420 en adelante); el plan puede estar desfasado.
 - **Otras libres:** DAT-13 (datos del pizarrón, fase 7; D-10 dice que no se le dedica tiempo ahora), UI-17 (efecto de sorpresa; D-15 dice que se resolvió en el rediseño, revisar si también se cierra) y RES-01 a RES-04 (investigación).
   - **Ojo:** `plan/estado/Builder_UI.md` todavía dice que UI-19 está bloqueada, pero UI-19 ya tiene commit (fase 2b). Solo Builder_UI escribe ahí; se corrige en su próxima vuelta.
   - **Lección:** el usuario juzga el resultado a simple vista. No le presentes como listo algo que se ve débil: compáralo tú primero con las referencias (recorta de cerca con PIL y compara antes/después) y di con honestidad qué falla. Si el usuario manda una instrucción directa de diseño, guárdala en `plan/rediseno/` tal cual y ejecútala, sin debatir.
@@ -55,4 +55,4 @@ Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.
 
 ## 6. Sin commit todavía
 - Nada. Las capturas viejas ya quedaron en commits y la copia duplicada del contrato se borró.
-- **La falla histórica** `test_dos_dispositivos_y_acceso_protegido` se arregla actualizando la prueba para que confirme el alta con "Sí" antes de revisar la actividad (tarea futura de Builder_Integraciones, no planeada todavía).
+- **La falla histórica ya no existe:** INT-18 (`2026-09-27`) arregló `test_dos_dispositivos_y_acceso_protegido`. Desde entonces la suite completa pasa sin fallas (150). Cualquier falla es nueva.
