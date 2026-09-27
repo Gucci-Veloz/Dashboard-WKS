@@ -12,6 +12,7 @@ Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.
 
 ## 2. Dónde vamos
 - **Fase de la limpia (2026-09-27, commits `42012f4` y `286f124`):** todo el material de construcción (plan, capturas, scavenge, manuales, handshake y notas) vive en `archivo_construccion/`. En la raíz solo queda lo funcional: `app`, `web`, `contratos`, `docs`, `datos_sinteticos`, `scripts`, `tests` y `pyproject.toml`. `evidencia/` sigue en la raíz, pero ahora el historial la ignora (la suite la regenera). Las rutas de esta nota, de las reglas de los agentes, de `REANUDAR.md`, de `PLAN.md` y de `cadena.sh` ya apuntan a la nueva ubicación. El usuario dirá qué sigue después de la limpia.
+- **Docker Compose para el VPS (2026-09-27, commit `21b3d42`):** ya existe y está probado en local (arranca, `/api/salud` responde, queda healthy y los datos sobreviven a rehacer el contenedor). Archivos en la raíz: `Dockerfile`, `docker-compose.yml`, `.dockerignore`, `.env.example`; guía en `docs/despliegue-docker.md`. `.env` está ignorado. No volver a armarlo desde cero. Subirlo al VPS y adaptarlo a su protocolo lo hace el usuario; Father no entra al VPS.
 - **Terminadas y con commit:** fases 0, 1, 2, 2b (reglas de operación), 2c (rediseño visual: UI-21, UI-22, UI-23), 3 y 4 (VER-04 pasó). Hoy también: INT-07 (silenciar avisos, cada asunto una sola vez) e INT-18 (arregló la prueba histórica).
 - **Suite: 150 de 150, sin fallas.** Cualquier falla es nueva.
 - **Cerradas sin código o NO autorizadas (2026-09-27, instrucción del usuario):**
