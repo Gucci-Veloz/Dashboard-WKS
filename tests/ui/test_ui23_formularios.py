@@ -76,6 +76,39 @@ def test_s07_reporte_contiene_su_desplazamiento(servicio_url, page):
     assert tabla.evaluate("el => getComputedStyle(el).overflowX") == "auto"
     assert tabla.evaluate("el => el.scrollWidth > el.clientWidth")
     assert tabla.evaluate("el => { el.scrollLeft = 240; return el.scrollLeft; }") > 0
+    caja_tabla = tabla.bounding_box()
+    assert MOVIL["width"] - caja_tabla["x"] - caja_tabla["width"] >= 36
+    assert "rgb(7, 88, 184)" in tabla.evaluate(
+        "el => getComputedStyle(el).scrollbarColor"
+    )
+    indicador_desplazamiento = tabla.evaluate(
+        """el => {
+          const estilo = getComputedStyle(el, '::after');
+          return { content: estilo.content, position: estilo.position };
+        }"""
+    )
+    assert indicador_desplazamiento == {
+        "content": '"Desliza →"',
+        "position": "sticky",
+    }
+    volver = page.locator(".navegacion__volver")
+    estilo_volver = volver.evaluate(
+        """el => {
+          const estilo = getComputedStyle(el);
+          return {
+            color: estilo.color,
+            fontSize: estilo.fontSize,
+            fontWeight: estilo.fontWeight,
+            textDecorationLine: estilo.textDecorationLine
+          };
+        }"""
+    )
+    assert estilo_volver == {
+        "color": "rgb(7, 88, 184)",
+        "fontSize": "16px",
+        "fontWeight": "600",
+        "textDecorationLine": "underline",
+    }
     _sin_desborde(page, 390)
     _capturar(page, "reporte", MOVIL)
 
@@ -99,6 +132,30 @@ def test_confirmacion_y_duplicado_son_hojas_inferiores(servicio_url, page):
     caja = contenido.bounding_box()
     assert abs(caja["y"] + caja["height"] - MOVIL["height"]) <= 2
     assert "c-modal" in (contenido.get_attribute("class") or "")
+    boton_si = page.locator("[data-confirmar-cambio]")
+    boton_no = page.locator("[data-no-confirmar-cambio]")
+    caja_si = boton_si.bounding_box()
+    caja_no = boton_no.bounding_box()
+    assert abs(caja_no["y"] - caja_si["y"] - caja_si["height"] - 16) <= 1
+    estilo_foco = boton_si.evaluate(
+        """el => {
+          const estilo = getComputedStyle(el);
+          return {
+            outlineColor: estilo.outlineColor,
+            outlineOffset: estilo.outlineOffset,
+            outlineStyle: estilo.outlineStyle,
+            outlineWidth: estilo.outlineWidth,
+            zIndex: estilo.zIndex
+          };
+        }"""
+    )
+    assert estilo_foco == {
+        "outlineColor": "rgba(10, 102, 217, 0.38)",
+        "outlineOffset": "4px",
+        "outlineStyle": "solid",
+        "outlineWidth": "3px",
+        "zIndex": "1",
+    }
     _capturar(page, "confirmacion", MOVIL, full_page=False)
 
     _capturar(page, "confirmacion", ESCRITORIO, full_page=False)
@@ -126,6 +183,13 @@ def test_confirmacion_y_duplicado_son_hojas_inferiores(servicio_url, page):
     page.wait_for_function(
         "document.getAnimations().every(animacion => animacion.playState === 'finished')"
     )
+    botones_duplicado = page.locator("[data-ventana-duplicado] .boton")
+    cajas_duplicado = [
+        botones_duplicado.nth(indice).bounding_box()
+        for indice in range(botones_duplicado.count())
+    ]
+    for anterior, siguiente in zip(cajas_duplicado, cajas_duplicado[1:]):
+        assert abs(siguiente["y"] - anterior["y"] - anterior["height"] - 16) <= 1
     _capturar(page, "duplicado", MOVIL, full_page=False)
     caja = contenido.bounding_box()
     assert abs(caja["y"] + caja["height"] - MOVIL["height"]) <= 2

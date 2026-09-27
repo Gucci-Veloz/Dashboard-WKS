@@ -28,7 +28,26 @@
 }
 
 .reporte__tabla {
+  width: calc(100% - var(--espacio-4));
+  max-width: calc(100% - var(--espacio-4));
   margin-top: var(--espacio-5);
+  scrollbar-color: var(--acento) rgba(89, 101, 117, 0.16);
+  scrollbar-width: auto;
+}
+
+.reporte__tabla::-webkit-scrollbar {
+  height: 12px;
+}
+
+.reporte__tabla::-webkit-scrollbar-track {
+  border-radius: var(--radio-pill);
+  background: rgba(89, 101, 117, 0.16);
+}
+
+.reporte__tabla::-webkit-scrollbar-thumb {
+  border: 3px solid var(--fondo);
+  border-radius: var(--radio-pill);
+  background: var(--acento);
 }
 
 .reporte__tabla table {
@@ -64,6 +83,36 @@
   margin: 0;
   padding: var(--espacio-5);
   color: var(--texto-secundario);
+}
+
+#app.reporte > .navegacion__volver {
+  color: var(--acento);
+  font-size: var(--texto-base);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+  .reporte__tabla::after {
+    position: sticky;
+    bottom: var(--espacio-2);
+    left: calc(100% - 92px);
+    z-index: 2;
+    display: block;
+    width: max-content;
+    margin-top: -34px;
+    padding: var(--espacio-1) var(--espacio-2);
+    border-radius: var(--radio-pill);
+    background: rgba(231, 232, 235, 0.94);
+    color: var(--acento);
+    box-shadow: var(--sombra-n1);
+    content: "Desliza \2192";
+    font-size: var(--texto-caption);
+    font-weight: 600;
+    pointer-events: none;
+  }
 }
 
 @media (min-width: 1024px) {

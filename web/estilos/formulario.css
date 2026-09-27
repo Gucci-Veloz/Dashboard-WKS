@@ -113,6 +113,15 @@
   justify-content: center;
 }
 
+.ventana-confirmacion__contenido > .boton + .boton {
+  margin-top: var(--espacio-4);
+}
+
+.ventana-confirmacion__contenido > .boton:focus-visible {
+  position: relative;
+  z-index: 1;
+}
+
 .ventana-confirmacion__contenido > .formulario__mensaje-error {
   margin-top: var(--espacio-2);
 }
