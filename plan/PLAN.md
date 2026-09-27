@@ -674,6 +674,7 @@ Objetivo: que Vania pueda consultar y actuar a través de la API, con el mismo e
 ## Fase 5 · Seguir la conversación con Vania desde el Dashboard
 
 ### INT-08 · Mecanismo para pasar el contexto
+- **NO AUTORIZADA (2026-09-27, instrucción del usuario):** el usuario no quiere un botón que abra WhatsApp con Vania y el mensaje ya escrito. No se construye ni se propone.
 - **Dueño:** Builder_Integraciones · **Espera:** **D-9**, U-5 (número de Vania), INT-02
 - **Archivos:** `web/componentes/continuar-con-vania.js`, `tests/ui/test_int08_contexto.py`. Si D-9 = B o C, además `app/api/contexto.py` y `app/db/migraciones/007_contextos.sql`.
 - **Entregable:** función `enlaceParaVania(asunto)`, que produce el enlace o la referencia según D-9. El número de Vania se configura en un solo lugar y no se escribe en el código.
@@ -681,6 +682,7 @@ Objetivo: que Vania pueda consultar y actuar a través de la API, con el mismo e
 - **Commit:** `INT-08: paso de contexto del Dashboard a Vania`
 
 ### UI-15 · Botón "seguir con Vania" en asuntos y detalle
+- **NO AUTORIZADA (2026-09-27, instrucción del usuario):** el usuario no quiere un botón que abra WhatsApp con Vania y el mensaje ya escrito. No se construye ni se propone.
 - **Dueño:** Builder_UI · **Espera:** INT-08, UI-13 · **Archivos:** `web/nivel2/nivel2.js`, `web/detalle/*.js`, `tests/ui/test_ui15_seguir_con_vania.py`, `evidencia/UI-15/`
 - **Entregable:** en cada asunto y en cada ficha, una acción discreta que usa `enlaceParaVania`. No hay chat dentro del Dashboard.
 - **Prueba:** `pytest tests/ui/test_ui15_seguir_con_vania.py`: la acción existe en asuntos y fichas y su `href` sale de `enlaceParaVania`.

@@ -435,6 +435,7 @@ La sesión maestra anota aquí cada respuesta del usuario, con fecha, y actualiz
 - **2026-09-27 · Corrección del plan (`/luz-verde`):** UI-17 se cierra sin código; la cubre el rediseño de la fase 2c (D-15).
 - **2026-09-27 · Instrucción del usuario:** RES-01 cerrada (lo resuelve D-4: enlace de 10 minutos y un solo uso, sesión hasta las 23:59, al día siguiente se pide otro a Vania). RES-02 **no autorizada**: el usuario no quiere enlaces de WhatsApp con texto prellenado. RES-04 cerrada: la impresora ya imprime desde varias computadoras de la oficina y acepta PDF por IPP.
 - **2026-09-27 · D-10, aclarada por el usuario:** el pizarrón de Grecia es un **módulo expandible para ofrecerle más adelante**. No se hace nada de él (DAT-13, INT-12, RES-03) salvo que Grecia lo pida.
+- **2026-09-27 · D-9 ANULADA por el usuario:** no quiere el botón "seguir con Vania" que abre WhatsApp con el mensaje ya escrito. INT-08 y UI-15 quedan no autorizadas. La línea siguiente (D-9: A) ya no vale.
 - **2026-09-26 · D-9: A.** Botón junto al dato que abre WhatsApp con Vania y el mensaje ya escrito.
 - **2026-09-26 · D-10: se queda en el plan, pero nunca bloquea nada y no se le dedica tiempo ahora.** Es para Grecia: cumpleaños de las ~70 personas de los 19 inquilinos y efemérides del mes, para su pizarrón de la oficina.
 - **2026-09-26 · D-11: A + (i).** Vania sí escribe por su cuenta, sin que le pregunten, pero sin atosigar: cada asunto una sola vez, y se apaga pidiéndoselo por WhatsApp.
