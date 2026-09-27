@@ -87,6 +87,11 @@ export async function renderReporte(contenedor) {
   const envoltura = document.createElement("div");
   envoltura.className = "reporte__tabla c-tabla-contenedor";
   contenedor.appendChild(envoltura);
+  const desliza = document.createElement("span");
+  desliza.className = "reporte__desliza";
+  desliza.setAttribute("aria-hidden", "true");
+  desliza.textContent = "Desliza →";
+  contenedor.appendChild(desliza);
   await cargarReporte(envoltura, fecha.value);
   fecha.addEventListener("change", () => cargarReporte(envoltura, fecha.value));
 }

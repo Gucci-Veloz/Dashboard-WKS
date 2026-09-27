@@ -81,16 +81,29 @@ def test_s07_reporte_contiene_su_desplazamiento(servicio_url, page):
     assert "rgb(7, 88, 184)" in tabla.evaluate(
         "el => getComputedStyle(el).scrollbarColor"
     )
-    indicador_desplazamiento = tabla.evaluate(
-        """el => {
-          const estilo = getComputedStyle(el, '::after');
-          return { content: estilo.content, position: estilo.position };
-        }"""
+    indicador_desplazamiento = page.locator(".reporte__desliza")
+    assert indicador_desplazamiento.is_visible()
+    assert indicador_desplazamiento.inner_text() == "Desliza →"
+    assert indicador_desplazamiento.evaluate(
+        "el => el.previousElementSibling.classList.contains('reporte__tabla')"
     )
-    assert indicador_desplazamiento == {
-        "content": '"Desliza →"',
-        "position": "sticky",
-    }
+    caja_indicador = indicador_desplazamiento.bounding_box()
+    assert caja_indicador["y"] >= caja_tabla["y"] + caja_tabla["height"] + 8
+    assert abs(
+        caja_indicador["x"]
+        + caja_indicador["width"]
+        - caja_tabla["x"]
+        - caja_tabla["width"]
+    ) <= 1
+    celdas = page.locator("[data-tabla-reporte] th, [data-tabla-reporte] td")
+    for celda in celdas.all():
+        caja_celda = celda.bounding_box()
+        assert not (
+            caja_indicador["x"] < caja_celda["x"] + caja_celda["width"]
+            and caja_indicador["x"] + caja_indicador["width"] > caja_celda["x"]
+            and caja_indicador["y"] < caja_celda["y"] + caja_celda["height"]
+            and caja_indicador["y"] + caja_indicador["height"] > caja_celda["y"]
+        )
     volver = page.locator(".navegacion__volver")
     estilo_volver = volver.evaluate(
         """el => {
@@ -113,6 +126,8 @@ def test_s07_reporte_contiene_su_desplazamiento(servicio_url, page):
     _capturar(page, "reporte", MOVIL)
 
     _capturar(page, "reporte", ESCRITORIO)
+    assert tabla.evaluate("el => el.scrollWidth <= el.clientWidth")
+    assert not indicador_desplazamiento.is_visible()
     _sin_desborde(page, 1280)
 
 

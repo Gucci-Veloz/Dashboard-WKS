@@ -85,6 +85,10 @@
   color: var(--texto-secundario);
 }
 
+.reporte__desliza {
+  display: none;
+}
+
 #app.reporte > .navegacion__volver {
   color: var(--acento);
   font-size: var(--texto-base);
@@ -95,20 +99,15 @@
 }
 
 @media (max-width: 767px) {
-  .reporte__tabla::after {
-    position: sticky;
-    bottom: var(--espacio-2);
-    left: calc(100% - 92px);
-    z-index: 2;
+  .reporte__tabla:has(table) + .reporte__desliza {
     display: block;
     width: max-content;
-    margin-top: -34px;
+    margin: var(--espacio-2) var(--espacio-4) 0 auto;
     padding: var(--espacio-1) var(--espacio-2);
     border-radius: var(--radio-pill);
     background: rgba(231, 232, 235, 0.94);
     color: var(--acento);
     box-shadow: var(--sombra-n1);
-    content: "Desliza \2192";
     font-size: var(--texto-caption);
     font-weight: 600;
     pointer-events: none;
