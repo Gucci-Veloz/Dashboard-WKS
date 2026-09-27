@@ -2,7 +2,7 @@
 
 Etapa: 03 · Mapping. Fecha: 2026-09-23. Estado: **aprobado el 2026-09-23**. D-1, D-2 y D-3 resueltas (ver `DECISIONES.md`, "Respuestas"). Las demás D-x siguen abiertas.
 
-Fuente de verdad del producto: `handshake_vania_dashboard.md`. Hechos y vacíos: `SCAVENGE-Vania-Dashboard.md`. Decisiones pendientes: `plan/DECISIONES.md`. Protocolo de trabajo: `plan/REANUDAR.md`.
+Fuente de verdad del producto: `archivo_construccion/handshake_vania_dashboard.md`. Hechos y vacíos: `archivo_construccion/SCAVENGE-Vania-Dashboard.md`. Decisiones pendientes: `archivo_construccion/plan/DECISIONES.md`. Protocolo de trabajo: `archivo_construccion/plan/REANUDAR.md`.
 
 ## Resumen
 
@@ -66,11 +66,11 @@ Cada agente trabaja **una tarea a la vez**. Dos agentes distintos pueden trabaja
 | Builder_Datos | `pyproject.toml` y dependencias, `.gitignore`, `app/main.py`, `app/api/__init__.py`, `app/api/{salud,estado,oficinas,inquilinos,contratos,pagos,personas}.py`, `app/db/**` (migraciones 000, 001, 004), `app/fuentes/**` excepto `actividad_sintetica.py`, `app/estado/**`, `contratos/**`, `datos_sinteticos/**`, `docs/mapeo-excel.md`, `tests/conftest.py`, `tests/test_dat*.py` | `app/actividad/`, `app/seguridad/` |
 | Builder_Integraciones | `app/actividad/**`, `app/seguridad/**`, `app/documentos/**`, `app/api/{actividad,avisos,contexto,documentos}.py`, `app/fuentes/actividad_sintetica.py`, migraciones 002, 003, 005, 006, 007, `web/acceso/**`, `web/componentes/continuar-con-vania.js`, `docs/contrato-vania.md`, `tests/test_int*.py`, `tests/ui/test_int*.py` | todo lo demás |
 | Builder_UI | `web/**` excepto `web/acceso/**` y `web/componentes/continuar-con-vania.js`, `scripts/**`, `tests/ui/**` excepto `test_int*`, `evidencia/**` | `contratos/`, `app/` |
-| Verificador | `plan/verificacion/**` | todo |
-| Researcher | `plan/investigacion/**` | todo |
-| Sesión maestra | `plan/PLAN.md`, `plan/DECISIONES.md`, `plan/REANUDAR.md`, `plan/estado/Manual.md` | todo |
+| Verificador | `archivo_construccion/plan/verificacion/**` | todo |
+| Researcher | `archivo_construccion/plan/investigacion/**` | todo |
+| Sesión maestra | `archivo_construccion/plan/PLAN.md`, `archivo_construccion/plan/DECISIONES.md`, `archivo_construccion/plan/REANUDAR.md`, `archivo_construccion/plan/estado/Manual.md` | todo |
 
-Además, cada agente escribe **solo** en su `plan/estado/<Agente>.md`.
+Además, cada agente escribe **solo** en su `archivo_construccion/plan/estado/<Agente>.md`.
 
 **Archivos compartidos que nunca se tocan al mismo tiempo**
 - `pyproject.toml` (dependencias): DAT-01, INT-09 y DAT-15. Si una está `en curso`, las otras dos esperan. DAT-01 debe instalar desde el inicio todas las dependencias de prueba que fijen D-1 y D-2, Playwright incluido, para que nadie más necesite tocarlo.
@@ -144,7 +144,7 @@ Objetivo: el servicio arranca, la base se migra, existe la página base y los to
 ### VER-01 · Verificación de la fase 0
 - **Dueño:** Verificador
 - **Espera:** DAT-01, DAT-02, UI-01, UI-02, UI-03
-- **Archivos:** `plan/verificacion/VER-01.md`
+- **Archivos:** `archivo_construccion/plan/verificacion/VER-01.md`
 - **Entregable:**
   - Reporte con el resultado de volver a correr la prueba de cada tarea: comando, salida resumida y PASA o FALLA.
   - Lista de revisión contra el handshake: paleta perla, blanco, crema y gris claro; neumorphism no dogmático, con acento y bordes; mobile-first.
@@ -158,7 +158,7 @@ Objetivo: el servicio arranca, la base se migra, existe la página base y los to
 
 ## Fase 1 · Estado de atención y niveles 1 y 2
 
-Objetivo: la pantalla de nivel 1, la pieza que `siguientes_pasos.md` recomienda empezar primero, vive con datos sintéticos y después con el estado real calculado por el servicio.
+Objetivo: la pantalla de nivel 1, la pieza que `archivo_construccion/siguientes_pasos.md` recomienda empezar primero, vive con datos sintéticos y después con el estado real calculado por el servicio.
 
 ### DAT-03 · Contrato del estado de atención
 - **Dueño:** Builder_Datos
@@ -319,7 +319,7 @@ Objetivo: la pantalla de nivel 1, la pieza que `siguientes_pasos.md` recomienda 
 ### VER-02 · Verificación de la fase 1
 - **Dueño:** Verificador
 - **Espera:** todas las tareas de la fase 1 hechas o bloqueadas
-- **Archivos:** `plan/verificacion/VER-02.md`
+- **Archivos:** `archivo_construccion/plan/verificacion/VER-02.md`
 - **Entregable:** vuelve a correr las pruebas de la fase. Revisión contra el handshake, con comandos concretos:
   - No hay KPI dominante ni `%` o `$` en el nivel 1.
   - En estado tranquilo no hay actividad artificial.
@@ -405,7 +405,7 @@ Objetivo: el Dashboard no es de solo lectura. Se puede ver, crear, editar y elim
 - **Commit:** `UI-13: detalle de pagos y registrar pago`
 
 ### VER-03 · Verificación de la fase 2
-- **Dueño:** Verificador · **Espera:** todas las tareas de la fase 2 hechas o bloqueadas · **Archivos:** `plan/verificacion/VER-03.md`
+- **Dueño:** Verificador · **Espera:** todas las tareas de la fase 2 hechas o bloqueadas · **Archivos:** `archivo_construccion/plan/verificacion/VER-03.md`
 - **Entregable:** vuelve a correr las pruebas. Revisión:
   - Cada escritura deja actividad con el actor correcto.
   - El nivel 3 no aparece al abrir.
@@ -417,9 +417,9 @@ Objetivo: el Dashboard no es de solo lectura. Se puede ver, crear, editar y elim
 
 ## Fase 2b · Reglas de operación (2026-09-26)
 
-Objetivo: aplicar `plan/REGLAS_OPERACION.md` sobre lo que ya está construido. **Léelo completo antes de tomar cualquier tarea de esta fase.** Reemplaza el guardado inmediato de las fases 2 (UI-09 a UI-13, DAT-09 a DAT-12) y el acceso libre de Vania para escribir (INT-04, INT-05).
+Objetivo: aplicar `archivo_construccion/plan/REGLAS_OPERACION.md` sobre lo que ya está construido. **Léelo completo antes de tomar cualquier tarea de esta fase.** Reemplaza el guardado inmediato de las fases 2 (UI-09 a UI-13, DAT-09 a DAT-12) y el acceso libre de Vania para escribir (INT-04, INT-05).
 
-**Arranque:** ninguna tarea de esta fase empieza sin el `/luz-verde` del usuario, que la sesión maestra anota en "Respuestas" de `DECISIONES.md`. **Filas de estado:** cada agente agrega a su tabla de `plan/estado/<Agente>.md` sus tareas nuevas de esta fase, en `pendiente`, antes de empezar la primera.
+**Arranque:** ninguna tarea de esta fase empieza sin el `/luz-verde` del usuario, que la sesión maestra anota en "Respuestas" de `DECISIONES.md`. **Filas de estado:** cada agente agrega a su tabla de `archivo_construccion/plan/estado/<Agente>.md` sus tareas nuevas de esta fase, en `pendiente`, antes de empezar la primera.
 
 **Commits:** el aislamiento de Codex deja `.git` en solo lectura. Los agentes de Codex **no hacen commit**: al terminar una tarea la marcan `hecha (pendiente de commit)` y anotan en su bitácora la lista exacta de archivos. La sesión **Commit-Codex** corre la prueba, revisa que solo cambiaron esos archivos y hace el commit con el mensaje del plan. Cada vuelta de un agente es **una sola tarea**.
 
@@ -573,7 +573,7 @@ Objetivo: aplicar `plan/REGLAS_OPERACION.md` sobre lo que ya está construido. *
   - Manda el reporte del día cuando se lo piden.
 
 ### VER-09 · Verificación de la fase 2b
-- **Dueño:** Verificador · **Espera:** las tareas de la fase 2b hechas o bloqueadas · **Archivos:** `plan/verificacion/VER-09.md`
+- **Dueño:** Verificador · **Espera:** las tareas de la fase 2b hechas o bloqueadas · **Archivos:** `archivo_construccion/plan/verificacion/VER-09.md`
 - **Entregable:** vuelve a correr las pruebas de la fase. Revisa, contra `REGLAS_OPERACION.md`:
   - Ningún camino escribe el dato oficial sin confirmación: recorrer las rutas de escritura de `/openapi.json`.
   - Vania nunca aparece como solicitante.
@@ -646,7 +646,7 @@ Objetivo: que Vania pueda consultar y actuar a través de la API, con el mismo e
   2. En el perfil `vania` de Hermes, agrega las herramientas que llaman a los endpoints de `docs/contrato-vania.md`, con la credencial en el encabezado que indica ese documento.
   3. Desde tu WhatsApp autorizado, pregúntale a Vania "¿cómo está Works?". Compara su respuesta con lo que muestra el Dashboard: deben coincidir.
   4. Pídele "registra que la oficina <una sintética> pagó este mes por transferencia". Comprueba en el Dashboard que el pago cambió y que aparece en el rastro con actor Vania.
-  5. Avísale a la sesión maestra el resultado, para que actualice `plan/estado/Manual.md`.
+  5. Avísale a la sesión maestra el resultado, para que actualice `archivo_construccion/plan/estado/Manual.md`.
 
 ### MAN-02 · Proactividad de Vania para Works (MANUAL)
 - **Espera:** INT-06, MAN-01. D-11 para que quede completa.
@@ -661,7 +661,7 @@ Objetivo: que Vania pueda consultar y actuar a través de la API, con el mismo e
 - **Instrucciones:** en `SOUL.md` o en la configuración del perfil `vania`, agrega las reglas de `docs/contrato-vania.md`: trabaja solo con datos del sistema y no inventa; confirma las acciones solicitadas; no contacta inquilinos; agrupa los avisos; si no hay nada, no escribe; respeta cuando le piden bajarle a los avisos. Reporta a la sesión maestra cuando esté listo.
 
 ### VER-04 · Verificación de las fases 3 y 4
-- **Dueño:** Verificador · **Espera:** las tareas de las fases 3 y 4 hechas o bloqueadas (sin incluir MAN) · **Archivos:** `plan/verificacion/VER-04.md`
+- **Dueño:** Verificador · **Espera:** las tareas de las fases 3 y 4 hechas o bloqueadas (sin incluir MAN) · **Archivos:** `archivo_construccion/plan/verificacion/VER-04.md`
 - **Entregable:** vuelve a correr las pruebas. Revisión:
   - Avisos y estado dicen lo mismo: un solo cerebro.
   - `204` cuando no hay nada.
@@ -740,7 +740,7 @@ Objetivo: que Vania pueda consultar y actuar a través de la API, con el mismo e
 - **Commit:** `INT-12: pizarrón mensual de cumpleaños y efemérides`
 
 ### VER-05 · Verificación de las fases 5, 6 y 7
-- **Dueño:** Verificador · **Espera:** las tareas de las fases 5 a 7 hechas o bloqueadas · **Archivos:** `plan/verificacion/VER-05.md`
+- **Dueño:** Verificador · **Espera:** las tareas de las fases 5 a 7 hechas o bloqueadas · **Archivos:** `archivo_construccion/plan/verificacion/VER-05.md`
 - **Entregable:** vuelve a correr las pruebas. Revisión:
   - Solo se imprime lo que está en la lista.
   - Los documentos sintéticos están marcados.
@@ -757,7 +757,7 @@ Objetivo: el acceso restringido que el handshake exige antes de usar datos reale
 ### INT-13 · Control de acceso mínimo
 - **Dueño:** Builder_Integraciones · **Espera:** **D-4**, INT-04
 - **Archivos:** `app/db/migraciones/005_cuentas.sql`, `app/seguridad/sesion.py`, `app/seguridad/actor.py`, `app/api/acceso.py`, `tests/test_int13_acceso.py` y, para que las pruebas existentes entren con una sesión de prueba y la actividad registre a la persona, `app/actividad/registrar.py`, `tests/conftest.py` y `tests/ui/conftest.py` (corrección del 2026-09-26)
-- **Entregable:** el mecanismo de D-4, según `plan/REGLAS_OPERACION.md` (acceso y sesiones):
+- **Entregable:** el mecanismo de D-4, según `archivo_construccion/plan/REGLAS_OPERACION.md` (acceso y sesiones):
   - `POST /api/acceso/enlace`: solo con la credencial de Vania y el número de WhatsApp de David o Grecia. Devuelve un link con token de un solo uso que vence a los **10 minutos**, junto con `vence_en`. El número del desarrollador o uno desconocido → 403.
   - Abrir el link consume el token y crea una sesión para ese dispositivo. Un token usado, vencido o inválido no sirve.
   - Varias sesiones por persona y por dispositivo al mismo tiempo. Una sesión nueva no invalida las otras.
@@ -789,7 +789,7 @@ Objetivo: el acceso restringido que el handshake exige antes de usar datos reale
 - **Commit:** `INT-16: comando de administración técnica`
 
 ### VER-06 · Verificación de la fase 8
-- **Dueño:** Verificador · **Espera:** las tareas de la fase 8 hechas o bloqueadas · **Archivos:** `plan/verificacion/VER-06.md`
+- **Dueño:** Verificador · **Espera:** las tareas de la fase 8 hechas o bloqueadas · **Archivos:** `archivo_construccion/plan/verificacion/VER-06.md`
 - **Entregable:** vuelve a correr las pruebas. Revisión:
   - Ningún endpoint de datos responde sin sesión ni credencial: recorrer todas las rutas de `/openapi.json` sin credenciales y confirmar 401, salvo las excepciones documentadas.
   - La misma información para David y Grecia.
@@ -827,7 +827,7 @@ Objetivo: el acceso restringido que el handshake exige antes de usar datos reale
 - **Commit:** `UI-16: detalle ajustado a los campos reales`
 
 ### VER-07 · Verificación de la fase 9
-- **Dueño:** Verificador · **Espera:** las tareas de la fase 9 · **Archivos:** `plan/verificacion/VER-07.md`
+- **Dueño:** Verificador · **Espera:** las tareas de la fase 9 · **Archivos:** `archivo_construccion/plan/verificacion/VER-07.md`
 - **Entregable:** vuelve a correr las pruebas. Revisión:
   - `git ls-files datos_reales` no devuelve nada.
   - No hay valores inventados: los faltantes siguen vacíos.
@@ -838,10 +838,10 @@ Objetivo: el acceso restringido que el handshake exige antes de usar datos reale
 
 ## Fase 10 · Despliegue y prueba con David y Grecia
 
-Todo lo que ocurre en el VPS es **MANUAL**. La sesión maestra registra el avance en `plan/estado/Manual.md` cuando tú se lo reportas.
+Todo lo que ocurre en el VPS es **MANUAL**. La sesión maestra registra el avance en `archivo_construccion/plan/estado/Manual.md` cuando tú se lo reportas.
 
 ### VER-08 · Revisión completa previa al despliegue
-- **Dueño:** Verificador · **Espera:** VER-01 a VER-07 · **Archivos:** `plan/verificacion/VER-08.md`
+- **Dueño:** Verificador · **Espera:** VER-01 a VER-07 · **Archivos:** `archivo_construccion/plan/verificacion/VER-08.md`
 - **Entregable:** corre toda la suite (`pytest -q` y `pytest tests/ui`) y recorre "Decisiones ya tomadas" del handshake punto por punto. Cada punto queda como cumple, no cumple o no aplica, con evidencia. Al final, la lista de D-x y U-x que siguen abiertas.
 - **Commit:** `VER-08: revisión completa previa al despliegue`
 
@@ -867,7 +867,7 @@ Todo lo que ocurre en el VPS es **MANUAL**. La sesión maestra registra el avanc
 
 ### MAN-08 · Límites de uso durante la prueba (MANUAL)
 - **Espera:** **D-13**, U-2, MAN-01
-- **Instrucciones:** aplica en Hermes el límite que decidas en D-13 y anota la cifra en `plan/DECISIONES.md`, en "Respuestas", a través de la sesión maestra.
+- **Instrucciones:** aplica en Hermes el límite que decidas en D-13 y anota la cifra en `archivo_construccion/plan/DECISIONES.md`, en "Respuestas", a través de la sesión maestra.
 
 ### MAN-09 · Pruebas finales con datos reales y apertura (MANUAL)
 - **Espera:** VER-07, MAN-01 a MAN-08, **D-14**
@@ -887,26 +887,26 @@ Reglas: solo web pública, nada del VPS. Formato igual al del Scavenge: fuentes 
 
 ### RES-01 · Persistencia de sesión en navegadores móviles y PWA
 - **CERRADA sin investigar (2026-09-27, instrucción del usuario):** ya está definido en D-4. El enlace de Vania dura 10 minutos y es de un solo uso; la sesión dura hasta las 23:59 de ese día; al día siguiente se pide otro enlace a Vania.
-- **Dueño:** Researcher · **Espera:** — · **Archivos:** `plan/investigacion/RES-01.md`
+- **Dueño:** Researcher · **Espera:** — · **Archivos:** `archivo_construccion/plan/investigacion/RES-01.md`
 - **Pregunta:** ¿cuánto dura una cookie de sesión `HttpOnly` fijada por el servidor en Safari de iOS y en Chrome de Android? ¿Qué cambia si el sitio se agrega a la pantalla de inicio (PWA)? ¿Hay borrados automáticos (por ejemplo, las políticas de ITP de Safari)? Busca también una fuente para la fricción de la "sesión de larga duración", que el Scavenge dejó como vacío (N2). Alimenta D-4.
 - **Prueba:** cada hecho tiene URL. Los vacíos están declarados.
 - **Commit:** `RES-01: persistencia de sesión en móvil y PWA`
 
 ### RES-02 · Enlaces de WhatsApp con texto prellenado
 - **NO AUTORIZADA (2026-09-27, instrucción del usuario):** el usuario ya había dicho que no quiere esto. No se investiga ni se construye.
-- **Dueño:** Researcher · **Espera:** — · **Archivos:** `plan/investigacion/RES-02.md`
+- **Dueño:** Researcher · **Espera:** — · **Archivos:** `archivo_construccion/plan/investigacion/RES-02.md`
 - **Pregunta:** formato oficial de `wa.me` / "click to chat" con texto; límites de longitud; comportamiento en iOS, Android y escritorio; si funciona igual hacia números de WhatsApp Business y personales. Alimenta D-9.
 - **Commit:** `RES-02: enlaces de WhatsApp con texto prellenado`
 
 ### RES-03 · Fuentes públicas de efemérides de México
 - **NO SE HACE salvo que Grecia lo pida (2026-09-27, instrucción del usuario):** el pizarrón es un módulo expandible para ofrecerle a Grecia más adelante. Nadie trabaja en él por iniciativa propia.
-- **Dueño:** Researcher · **Espera:** — · **Archivos:** `plan/investigacion/RES-03.md`
+- **Dueño:** Researcher · **Espera:** — · **Archivos:** `archivo_construccion/plan/investigacion/RES-03.md`
 - **Pregunta:** ¿qué fuentes oficiales o públicas listan las fechas cívicas y efemérides de México (por ejemplo, las fechas solemnes de la Ley sobre el Escudo, la Bandera y el Himno Nacionales)? ¿En qué formato están y con qué condiciones de uso? Alimenta D-10.
 - **Commit:** `RES-03: fuentes de efemérides de México`
 
 ### RES-04 · HP Smart Tank 750 en listados IPP Everywhere / Mopria
-- **CERRADA sin investigar (2026-09-27, instrucción del usuario):** pregunta mal planteada. La impresora es de oficina y varias computadoras imprimen en ella a diario; ya está vinculada por IPP y acepta PDF (`vinculacion-hp-smart-tank-750-ubuntu.md`). Con D-7 = A, el Dashboard solo genera el PDF y Vania lo imprime con la herramienta que ya tiene en Hermes; la certificación no cambia nada.
-- **Dueño:** Researcher · **Espera:** — · **Archivos:** `plan/investigacion/RES-04.md`
+- **CERRADA sin investigar (2026-09-27, instrucción del usuario):** pregunta mal planteada. La impresora es de oficina y varias computadoras imprimen en ella a diario; ya está vinculada por IPP y acepta PDF (`archivo_construccion/vinculacion-hp-smart-tank-750-ubuntu.md`). Con D-7 = A, el Dashboard solo genera el PDF y Vania lo imprime con la herramienta que ya tiene en Hermes; la certificación no cambia nada.
+- **Dueño:** Researcher · **Espera:** — · **Archivos:** `archivo_construccion/plan/investigacion/RES-04.md`
 - **Pregunta:** ¿aparece el modelo en el listado público de impresoras IPP Everywhere de la PWG o en el de dispositivos certificados de Mopria? ¿Qué formatos de documento declaran esos listados (PDF, PWG-Raster, URF, JPEG)? Cierra o confirma los vacíos V1, V4 y V5 de R1. Alimenta D-7.
 - **Commit:** `RES-04: certificación IPP Everywhere / Mopria del Smart Tank 750`
 
@@ -914,7 +914,7 @@ Reglas: solo web pública, nada del VPS. Formato igual al del Scavenge: fuentes 
 
 ## Fase 2c · Rediseño visual (2026-09-26)
 
-**Fuente de verdad:** `plan/rediseno/DASHBOARD_DESIGN_SPEC.md` (en adelante, "el documento"). Manda sobre cualquier regla visual anterior de este plan (paleta, acento terracota, sombras de UI-02 y UI-03).
+**Fuente de verdad:** `archivo_construccion/plan/rediseno/DASHBOARD_DESIGN_SPEC.md` (en adelante, "el documento"). Manda sobre cualquier regla visual anterior de este plan (paleta, acento terracota, sombras de UI-02 y UI-03).
 
 **Reglas de la fase (valen para UI-21, UI-22 y UI-23):**
 - **Solo cambia el aspecto y la respuesta de los controles.** No cambian datos, textos de negocio, acciones, flujos, rutas, sesiones, confirmación, pendientes, duplicados ni reporte. No se quita ni se esconde nada que hoy se vea (sección 1.11 del documento: la app no tiene nada clasificado como secundario).
@@ -942,14 +942,14 @@ Reglas: solo web pública, nada del VPS. Formato igual al del Scavenge: fuentes 
   - El documento no se desborda a lo ancho (`scrollWidth <= 390`).
   - Se guardan las capturas.
   - Además: la suite completa, sin fallas nuevas.
-- **Vuelta de refinamiento (2026-09-26, `/luz-verde`):** aplicar `plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1.md` (secciones 1 a 13 y 16) sobre la base. Además, los CSS de la tarea y `componentes.html` vuelven a formato legible: una regla por bloque, una propiedad por línea y comentarios breves por sección, como estaba antes el repo. `test_ui21_base.py` puede ampliarse con los criterios de la sección 16 que se puedan medir: el enlace lleva `text-decoration` con subrayado, el deshabilitado tiene borde visible y la tabla tiene `overflow-x: auto` dentro de su contenedor.
-- **Corrección puntual T1b (2026-09-26, `/luz-verde`):** aplicar `plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1b.md`. C-01, C-02 y Procesando pasan al color del fondo y se recalibran sus sombras. La tabla C-10 no se toca; solo se agrega la captura `evidencia/UI-21/tabla-desplazada-390.png`, con la tabla deslizada a la derecha.
-- **Corrección T1c (2026-09-26, orden directa del usuario):** aplicar `plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1c.md` con la referencia `plan/rediseno/referencia-relieve-1-6.png`. Relieve de niveles 3 a 5 en C-01, C-02, Procesando, Éxito, Error, Deshabilitado, C-03 y C-09; sin contornos de color como recurso principal. `test_ui21_base.py` puede ajustarse a esta dirección.
-- **Corrección T1d (2026-09-27, orden directa del usuario):** reorientación visual con `plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1d.md` y las referencias de `evidencia/IDEAL/`, que son la autoridad visual. Los tokens de color y sombra pueden cambiar para parecerse a las referencias, siempre que `scripts/contraste.py` siga en 0. `test_ui21_base.py` puede ajustarse a esta dirección. 
-- **Contrato T1e (2026-09-27, orden directa del usuario):** ejecutar `plan/rediseno/NEUMORPHIC_UI_EXECUTION_CONTRACT.md`; manda sobre T1 a T1d. Sin documentos de comparación ni reportes. `test_ui21_base.py` se amplía con las validaciones medibles de las secciones 45 a 47 del contrato.
-- **Corrección delta T1f (2026-09-27, orden directa del usuario):** la dirección T1e queda aprobada como base. Ejecutar solo los tres DELTAs de `plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1f.md` (franja de C-08, una sola familia de íconos, cavidad de C-04 un poco más profunda); manda sobre T1 a T1e en esos tres puntos. Sin rediseño ni documentos de comparación.
-- **Delta T1g (2026-09-27, luz verde del usuario):** solo la silueta de C-08 (doble contorno superior y borde inferior fundido con C-10), según `plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1g.md`. Todo lo demás, bloqueado.
-- **Pulido T1h (2026-09-27, orden directa del usuario):** dirección aprobada; solo pulido óptico de C-04, C-08 y C-10 más una pasada de consistencia, según `plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1h.md`. Sin rediseño ni informes.
+- **Vuelta de refinamiento (2026-09-26, `/luz-verde`):** aplicar `archivo_construccion/plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1.md` (secciones 1 a 13 y 16) sobre la base. Además, los CSS de la tarea y `componentes.html` vuelven a formato legible: una regla por bloque, una propiedad por línea y comentarios breves por sección, como estaba antes el repo. `test_ui21_base.py` puede ampliarse con los criterios de la sección 16 que se puedan medir: el enlace lleva `text-decoration` con subrayado, el deshabilitado tiene borde visible y la tabla tiene `overflow-x: auto` dentro de su contenedor.
+- **Corrección puntual T1b (2026-09-26, `/luz-verde`):** aplicar `archivo_construccion/plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1b.md`. C-01, C-02 y Procesando pasan al color del fondo y se recalibran sus sombras. La tabla C-10 no se toca; solo se agrega la captura `evidencia/UI-21/tabla-desplazada-390.png`, con la tabla deslizada a la derecha.
+- **Corrección T1c (2026-09-26, orden directa del usuario):** aplicar `archivo_construccion/plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1c.md` con la referencia `archivo_construccion/plan/rediseno/referencia-relieve-1-6.png`. Relieve de niveles 3 a 5 en C-01, C-02, Procesando, Éxito, Error, Deshabilitado, C-03 y C-09; sin contornos de color como recurso principal. `test_ui21_base.py` puede ajustarse a esta dirección.
+- **Corrección T1d (2026-09-27, orden directa del usuario):** reorientación visual con `archivo_construccion/plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1d.md` y las referencias de `evidencia/IDEAL/`, que son la autoridad visual. Los tokens de color y sombra pueden cambiar para parecerse a las referencias, siempre que `scripts/contraste.py` siga en 0. `test_ui21_base.py` puede ajustarse a esta dirección. 
+- **Contrato T1e (2026-09-27, orden directa del usuario):** ejecutar `archivo_construccion/plan/rediseno/NEUMORPHIC_UI_EXECUTION_CONTRACT.md`; manda sobre T1 a T1d. Sin documentos de comparación ni reportes. `test_ui21_base.py` se amplía con las validaciones medibles de las secciones 45 a 47 del contrato.
+- **Corrección delta T1f (2026-09-27, orden directa del usuario):** la dirección T1e queda aprobada como base. Ejecutar solo los tres DELTAs de `archivo_construccion/plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1f.md` (franja de C-08, una sola familia de íconos, cavidad de C-04 un poco más profunda); manda sobre T1 a T1e en esos tres puntos. Sin rediseño ni documentos de comparación.
+- **Delta T1g (2026-09-27, luz verde del usuario):** solo la silueta de C-08 (doble contorno superior y borde inferior fundido con C-10), según `archivo_construccion/plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1g.md`. Todo lo demás, bloqueado.
+- **Pulido T1h (2026-09-27, orden directa del usuario):** dirección aprobada; solo pulido óptico de C-04, C-08 y C-10 más una pasada de consistencia, según `archivo_construccion/plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1h.md`. Sin rediseño ni informes.
 - **Commit:** `UI-21: base del rediseño visual`
 
 ### UI-22 · Rediseño de entrada, tablero y áreas
