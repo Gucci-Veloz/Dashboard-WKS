@@ -992,6 +992,7 @@ UI-17 (D-15) después de UI-07
 ```
 
 ### UI-17 · Efecto de sorpresa por calidad
+- **CERRADA sin código (2026-09-27, `/luz-verde`):** D-15 se resolvió dentro del rediseño visual (fase 2c: UI-21, UI-22 y UI-23). El tablero principal visual queda en `PARA_DESPUES.md`, tema 3.
 - **Dueño:** Builder_UI · **Espera:** **D-15**, UI-07 · **Archivos:** `web/nivel1/nivel1.css`, `web/nivel1/nivel1.js`, `tests/ui/test_ui17_sorpresa.py`, `evidencia/UI-17/`
 - **Entregable:** según D-15. Si es B: transición suave de la conclusión y un acabado cuidado de relieve y hundido, que respete `prefers-reduced-motion`. No agrega información ni actividad.
 - **Prueba:** `pytest tests/ui/test_ui17_sorpresa.py`: con `prefers-reduced-motion: reduce` no hay animación; la jerarquía de UI-04 sigue igual (se repite la prueba de `font-size`).
