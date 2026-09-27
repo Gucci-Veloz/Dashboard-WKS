@@ -2,7 +2,7 @@
 
 Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Detalle de cada tarea: `plan/PLAN.md`.
 
-Última actualización: 2026-09-27 · Builder_UI, UI-21 hecha (pendiente de commit).
+Última actualización: 2026-09-27 · Builder_UI, UI-14 bloqueada por falta de punto de integración autorizado.
 
 ## En curso
 
@@ -25,18 +25,18 @@ Solo **Builder_UI** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Deta
 | UI-11 | Detalle de inquilinos | hecha | DAT-10, UI-10 |
 | UI-12 | Detalle de contratos | hecha | DAT-11, UI-11 |
 | UI-13 | Detalle de pagos y registrar pago | hecha | DAT-12, UI-12 |
-| UI-14 | Rastro de Vania visible | pendiente | D-8, INT-02, INT-03, UI-07 |
+| UI-14 | Rastro de Vania visible | bloqueada (requiere cargar y renderizar `web/rastro/rastro.js` desde `web/app.js`, archivo fuera de la lista autorizada; D-8 además dispone que no haya bitácora aparte del reporte) | D-8, INT-02, INT-03, UI-07 |
 | UI-15 | Botón seguir con Vania | pendiente | INT-08, UI-13 |
 | UI-16 | Ajustar el detalle a los campos reales | pendiente | DAT-15, UI-13 |
 | UI-17 | Efecto de sorpresa por calidad | pendiente | D-15, UI-07 |
 | UI-18 | Ventana de confirmación y cambios pendientes | hecha (8eb4836) | DAT-19, INT-14, DAT-22 |
-| UI-19 | Aviso de posible duplicado | bloqueada (la lista autorizada no incluye el punto de integración para manejar el 409) | DAT-20, UI-18 |
+| UI-19 | Aviso de posible duplicado | hecha (8f9383f) | DAT-20, UI-18 |
 | UI-20 | Botón y pantalla "Reporte del día" | hecha (4395f22) | DAT-21, UI-18 |
-| UI-21 | Base del rediseño: sistema visual y controles | hecha (pendiente de commit) | — (libre) |
+| UI-21 | Base del rediseño: sistema visual y controles | hecha (4820989) | — (libre) |
 
 ## Qué sigue
 
-sin tareas disponibles: UI-19 requiere autorizar el punto de integración que maneja el 409; UI-15 espera INT-08, UI-16 espera DAT-15, y UI-14/UI-17 esperan D-8/D-15 del usuario.
+sin tareas disponibles: UI-14 requiere autorizar `web/app.js` y reconciliar el entregable con D-8; UI-15 espera INT-08, UI-16 espera DAT-15 y UI-17 espera la definición aplicable de D-15.
 
 ## Observaciones
 
@@ -102,3 +102,7 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-27 03:42 · UI-21 · hecha (pendiente de commit) · delta T1g: C-08 quedó como una sola superficie N3 con contorno continuo, sin segunda capa visible y separada de C-10; archivos tocados: `web/estilos/componentes.css`, `web/muestras/componentes.html`, `evidencia/UI-21/componentes-390.png`, `evidencia/UI-21/tabla-desplazada-390.png`, `evidencia/UI-21/componentes-1280.png`, `plan/estado/Builder_UI.md`; `.venv/bin/python -m pytest tests/ui/test_ui21_base.py -q` → 6 passed; `python3 scripts/contraste.py web/estilos/tokens.css` → 0 fallas; `.venv/bin/python -m pytest -q` → 131 passed y 1 falla histórica conocida en `tests/test_int13_acceso.py::test_dos_dispositivos_y_acceso_protegido` (actividad vacía).
 - 2026-09-27 04:03 · UI-21 · en curso · pulido T1h: C-04, C-08 y C-10, sin rediseño ni cambios funcionales.
 - 2026-09-27 · UI-21 · hecha (pendiente de commit) · pulido T1h: C-04 ganó profundidad interior, C-08 aire y profundidad N3 refinada, y C-10 mejor jerarquía y ritmo sin perder sobriedad; archivos tocados: `web/estilos/componentes.css`, `evidencia/UI-21/componentes-390.png`, `evidencia/UI-21/tabla-desplazada-390.png`, `evidencia/UI-21/componentes-1280.png`, `plan/estado/Builder_UI.md`; `.venv/bin/python -m pytest tests/ui/test_ui21_base.py -q` → 6 passed; `python3 scripts/contraste.py web/estilos/tokens.css` → 0 fallas; `.venv/bin/python -m pytest -q` → 131 passed y 1 falla histórica conocida en `tests/test_int13_acceso.py::test_dos_dispositivos_y_acceso_protegido` (actividad vacía).
+- 2026-09-27 13:05 · UI-19 · hecha (8f9383f) · reconciliada con `git log --oneline --grep '^UI-19:'`; la fase 2b ya tiene commit.
+- 2026-09-27 13:05 · UI-21 · hecha (4820989) · reconciliada con `git log --oneline --grep '^UI-21:'`.
+- 2026-09-27 13:05 · UI-14 · en curso · D-8, INT-02 (67ac5a7), INT-03 (d701a01) y UI-07 (39762f4) están resueltas; reviso el punto de integración autorizado.
+- 2026-09-27 13:05 · UI-14 · bloqueada (requiere cargar y renderizar `web/rastro/rastro.js` desde `web/app.js`, archivo fuera de la lista autorizada; D-8 además dispone que no haya bitácora aparte del reporte) · haría falta agregar el import junto a `web/app.js:7` y la llamada después de `web/app.js:39`; archivos tocados: `plan/estado/Builder_UI.md`; NO VERIFICADO: no se corrieron pruebas ni se generaron capturas porque no hubo implementación posible dentro del alcance autorizado.
