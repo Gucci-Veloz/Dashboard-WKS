@@ -9,40 +9,188 @@
     <link rel="stylesheet" href="/estilos/componentes.css" />
     <style>
       #app {
+        max-width: 560px;
+      }
+      .muestra-encabezado {
+        margin-bottom: var(--espacio-6);
+        text-align: center;
+      }
+      .muestra-encabezado h1 {
+        margin-bottom: 0;
+      }
+      .muestra-panel {
         display: flex;
         flex-direction: column;
         gap: var(--espacio-5);
+        padding: var(--espacio-6) 20px;
+        border-radius: var(--radio-contenedor);
+        box-shadow: var(--sombra-n3);
+      }
+      .grupo-acciones {
+        display: grid;
+        gap: var(--espacio-4);
+      }
+      .grupo-acciones .boton {
+        width: 100%;
+      }
+      .muestra-estatica {
+        padding: 0 var(--espacio-2);
+      }
+      .muestra-estatica h2 {
+        margin-bottom: var(--espacio-2);
+      }
+      .grupo-secundario {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--espacio-4);
+      }
+
+      .demostracion-overlay {
+        position: relative;
+        min-height: 272px;
+        overflow: hidden;
+      }
+
+      .demostracion-overlay .c-overlay {
+        position: absolute;
+        background: transparent;
+        backdrop-filter: none;
       }
     </style>
   </head>
   <body>
     <main id="app">
-      <section class="superficie">
-        <p>Superficie con relieve, sin texto importante encima.</p>
+      <header class="muestra-encabezado">
+        <p class="texto-secundario">S-02 · Gramática del sistema</p>
+        <h1>Plano → elevado → hundido → overlay</h1>
+      </header>
+
+      <section class="muestra-panel" aria-label="Muestra de controles">
+        <section class="muestra-estatica">
+          <h2>Superficie informativa · N0</h2>
+          <p class="texto-secundario">
+            Esta superficie permanece plana porque no ejecuta una acción.
+          </p>
+        </section>
+
+        <section class="grupo-acciones" aria-label="Botones C-01 y C-02">
+          <button type="button" class="boton" id="boton-muestra">
+            <span class="accion__icono" data-icono="wallet"></span>
+            <span class="accion__texto">C-01 · Registrar pago</span>
+          </button>
+          <button type="button" class="boton boton--secundario">
+            <span class="accion__icono" data-icono="x"></span>
+            <span class="accion__texto">C-02 · Cancelar</span>
+          </button>
+          <button type="button" class="boton is-procesando">
+            <span class="accion__icono"><span class="spinner"></span></span>
+            <span class="accion__texto">Procesando</span>
+          </button>
+          <button type="button" class="boton is-exito">
+            <span class="accion__icono" data-icono="check"></span>
+            <span class="accion__texto">Éxito</span>
+          </button>
+          <button type="button" class="boton is-error">
+            <span class="accion__icono" data-icono="x"></span>
+            <span class="accion__texto">Error</span>
+          </button>
+          <button type="button" class="boton" disabled>
+            <span class="accion__icono" data-icono="lock-keyhole"></span>
+            <span class="accion__texto">Deshabilitado</span>
+          </button>
+        </section>
+
+        <button type="button" class="c-tarjeta-tocable" aria-selected="true">
+          <span data-icono="arrow-right"></span>
+          <span
+            ><strong>C-03 · Tarjeta tocable</strong><br /><span
+              class="texto-secundario"
+              >Ejecuta una acción al tocarla.</span
+            ></span
+          >
+        </button>
+
+        <section class="campo-texto">
+          <label class="campo-texto__etiqueta" for="campo-muestra">
+            C-04 · Titular
+          </label>
+          <input
+            class="campo-texto__control"
+            id="campo-muestra"
+            value="Titular Sintético 07"
+          />
+        </section>
+
+        <section class="grupo-secundario">
+          <button type="button" class="c-interruptor" aria-pressed="true">
+            <span class="c-interruptor__pista">
+              <span class="c-interruptor__perilla"></span>
+            </span>
+            C-05 · Activo
+          </button>
+          <div class="c-segmentos" role="tablist">
+            <button class="c-segmento" role="tab" aria-selected="true">
+              C-06 · Hoy
+            </button>
+            <button class="c-segmento" role="tab" aria-selected="false">
+              Ayer
+            </button>
+          </div>
+        </section>
+
+        <section class="grupo-secundario">
+          <a class="c-enlace" href="#detalle">C-07 · Ver todo</a>
+          <span class="c-indicador c-indicador--atencion">
+            <span data-icono="circle-alert"></span>
+            C-09 · Atención
+          </span>
+          <span class="c-indicador c-indicador--bien">
+            <span data-icono="check"></span>
+            Correcto
+          </span>
+        </section>
+
+        <section class="demostracion-overlay">
+          <div class="c-overlay">
+            <div class="c-modal">
+              <span class="c-overlay__etiqueta">
+                <span data-icono="info"></span>
+                C-08 · Overlay
+              </span>
+              <h2>Confirmación</h2>
+              <p class="texto-secundario">
+                La elevación N3 se reserva para contexto aislado.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="c-tabla-contenedor">
+          <table class="c-tabla">
+            <thead>
+              <tr>
+                <th>C-10</th>
+                <th>Conjunto de registros</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Plano</td>
+                <td>Separadores, sin sombras por fila.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
       </section>
-
-      <article class="tarjeta">
-        <h2 class="tarjeta__titulo">Oficina 204</h2>
-        <p class="tarjeta__texto-secundario">Vence en 12 días</p>
-      </article>
-
-      <button type="button" class="boton" id="boton-muestra">
-        Registrar pago
-      </button>
-
-      <form class="campo-texto">
-        <label class="campo-texto__etiqueta" for="campo-muestra">
-          Titular
-        </label>
-        <input
-          class="campo-texto__control"
-          id="campo-muestra"
-          type="text"
-          value="Titular Sintético 07"
-        />
-      </form>
-
-      <a class="enlace-discreto" href="#detalle">Ver todo</a>
     </main>
+
+    <script type="module">
+      import { ponerIcono } from "/componentes/icono.js";
+
+      document.querySelectorAll("[data-icono]").forEach((elemento) => {
+        ponerIcono(elemento, elemento.dataset.icono);
+      });
+    </script>
   </body>
 </html>
