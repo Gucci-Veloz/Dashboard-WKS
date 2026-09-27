@@ -134,6 +134,45 @@ def test_un_asunto_no_se_repite_hasta_que_cambia_o_se_reabre(cliente):
     assert [asunto["id"] for asunto in aviso_reabierto.json()["asuntos"]] == ["contrato-4"]
 
 
+def test_contrato_no_se_repite_al_dia_siguiente_por_tener_un_dia_menos(
+    cliente, monkeypatch
+):
+    from app.api import avisos
+    from app.db.conexion import conectar
+
+    hoy = date(2030, 1, 10)
+
+    class FechaControlada(date):
+        fecha_actual = hoy
+
+        @classmethod
+        def today(cls):
+            return cls.fecha_actual
+
+    conexion = conectar()
+    try:
+        conexion.execute(
+            "UPDATE contratos SET fin = ? WHERE id = 4",
+            ((hoy + timedelta(days=12)).isoformat(),),
+        )
+        conexion.commit()
+    finally:
+        conexion.close()
+
+    monkeypatch.setattr(avisos, "date", FechaControlada)
+    primer_aviso = cliente.get(RUTA_AVISOS, headers=CREDENCIAL)
+    assert primer_aviso.status_code == 200
+    contrato = next(
+        asunto
+        for asunto in primer_aviso.json()["asuntos"]
+        if asunto["id"] == "contrato-4"
+    )
+    assert contrato["frase"] == "La oficina 104 vence en 12 días."
+
+    FechaControlada.fecha_actual = hoy + timedelta(days=1)
+    assert cliente.get(RUTA_AVISOS, headers=CREDENCIAL).status_code == 204
+
+
 @pytest.mark.parametrize(
     ("metodo", "ruta", "kwargs"),
     [

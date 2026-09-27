@@ -2,7 +2,7 @@
 
 Solo **Builder_Integraciones** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Detalle de cada tarea: `plan/PLAN.md`.
 
-Última actualización: 2026-09-27 · INT-07 terminada, pendiente de commit.
+Última actualización: 2026-09-27 · INT-07 corregida, pendiente de commit.
 
 ## En curso
 
@@ -78,3 +78,6 @@ Una línea por cambio, solo se agrega al final: `AAAA-MM-DD HH:MM · ID · estad
 - 2026-09-27 13:09 · INT-17 · hecha (71b496c) · commit detectado
 - 2026-09-27 13:09 · INT-07 · en curso · D-11 resuelta como A + (i) e INT-06 tiene commit 01dd661
 - 2026-09-27 13:17 · INT-07 · hecha (pendiente de commit) · archivos: `app/db/migraciones/003_preferencias_avisos.sql`, `app/api/avisos.py`, `tests/test_int07_preferencias.py`, `plan/estado/Builder_Integraciones.md`; pruebas: `.venv/bin/python -m pytest tests/test_int07_preferencias.py -q` OK (6 passed), `tests/test_int06_avisos.py` dentro de la corrida conjunta OK (3 passed), suite completa 148 passed y 1 falla preexistente en `tests/test_int13_acceso.py::test_dos_dispositivos_y_acceso_protegido`, reproducida también en una copia limpia de HEAD
+- 2026-09-27 13:23 · INT-07 · hecha (8c75f76) · commit detectado; arranco vuelta de corrección de la huella estable de asuntos
+- 2026-09-27 13:23 · INT-07 · en curso · la huella dejará fuera `frase` y cualquier valor derivado del calendario
+- 2026-09-27 13:26 · INT-07 · hecha (pendiente de commit) · archivos: `app/api/avisos.py`, `tests/test_int07_preferencias.py`, `plan/estado/Builder_Integraciones.md`; pruebas: `.venv/bin/python -m pytest tests/test_int07_preferencias.py -q` OK (7 passed), corrida conjunta con INT-06 OK (10 passed), suite completa 149 passed y 1 falla preexistente en `tests/test_int13_acceso.py::test_dos_dispositivos_y_acceso_protegido`; sin fallas nuevas

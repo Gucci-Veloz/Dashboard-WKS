@@ -18,6 +18,25 @@ router = APIRouter()
 ZONA_LOCAL = ZoneInfo("America/Mexico_City")
 Persona = Literal["david", "grecia"]
 PERSONA_GENERAL = "__general__"
+CAMPOS_RELEVANTES_POR_REFERENCIA = {
+    "oficina": ("oficinas", ("tipo", "numero", "piso", "m2", "estatus")),
+    "inquilino": ("inquilinos", ("titular", "contacto")),
+    "contrato": (
+        "contratos",
+        ("oficina_id", "inquilino_id", "inicio", "fin", "alerta_renovacion"),
+    ),
+    "pago": (
+        "pagos",
+        (
+            "contrato_id",
+            "precio",
+            "deposito_garantia",
+            "fecha_pago",
+            "forma_pago",
+            "estatus_pago",
+        ),
+    ),
+}
 
 
 class PreferenciaAvisosEntrada(BaseModel):
@@ -80,8 +99,22 @@ def _purgar_preferencias_vencidas(conexion, ahora: datetime) -> None:
             )
 
 
-def _huella_asunto(asunto: dict) -> str:
-    contenido = {clave: valor for clave, valor in asunto.items() if clave != "orden"}
+def _huella_asunto(conexion, asunto: dict) -> str:
+    referencia = asunto["referencia"]
+    contenido = {
+        "id": asunto["id"],
+        "area": asunto["area"],
+        "referencia": referencia,
+    }
+    configuracion = CAMPOS_RELEVANTES_POR_REFERENCIA.get(referencia["tipo"])
+    if configuracion is not None:
+        tabla, campos = configuracion
+        fila = conexion.execute(
+            f"SELECT {', '.join(campos)} FROM {tabla} WHERE id = ?",
+            (referencia["id"],),
+        ).fetchone()
+        if fila is not None:
+            contenido["datos_relevantes"] = dict(fila)
     serializado = json.dumps(contenido, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
     return sha256(serializado.encode("utf-8")).hexdigest()
 
@@ -103,7 +136,7 @@ def _asuntos_nuevos(conexion, asuntos: list[dict], persona: str, ahora: datetime
     nuevos = []
     instante = ahora.isoformat()
     for asunto in asuntos:
-        huella = _huella_asunto(asunto)
+        huella = _huella_asunto(conexion, asunto)
         if huellas_emitidas.get(asunto["id"]) == huella:
             continue
         nuevos.append(asunto)
