@@ -544,6 +544,13 @@ Objetivo: aplicar `plan/REGLAS_OPERACION.md` sobre lo que ya está construido. *
 - **Prueba:** `pytest tests/ui/test_ui19_duplicado.py`: las tres opciones hacen lo que dicen.
 - **Commit:** `UI-19: aviso de posible duplicado`
 
+### INT-18 · Arreglar la prueba histórica de dos dispositivos
+- **Dueño:** Builder_Integraciones · **Espera:** — (libre) · **Agregada 2026-09-27 con `/luz-verde`.**
+- **Archivos:** `tests/test_int13_acceso.py` (solo `test_dos_dispositivos_y_acceso_protegido`). **Excepción autorizada** a la regla de no editar pruebas existentes.
+- **Entregable:** la prueba se escribió antes de la confirmación Sí/No de la fase 2b. Se actualiza para que confirme el alta con "Sí" (`POST /api/cambios/{id}/confirmar`) antes de revisar la actividad. Lo que comprueba no se debilita: dos dispositivos con sesión, credencial de servicio y actividad a nombre de quien confirmó.
+- **Prueba:** `pytest tests/test_int13_acceso.py -q` pasa; la suite completa, sin fallas.
+- **Commit:** `INT-18: prueba de dos dispositivos con confirmación Sí`
+
 ### UI-20 · Botón y pantalla "Reporte del día"
 - **Dueño:** Builder_UI · **Espera:** DAT-21, UI-18
 - **Archivos:** `web/reporte/**`, `web/navegacion/rutas.js`, `web/app.js`, `tests/ui/test_ui20_reporte.py`, `evidencia/UI-20/`
