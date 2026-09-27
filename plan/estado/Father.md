@@ -2,7 +2,7 @@
 
 Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.** No leas `REANUDAR.md` completo. Del plan, lee solo el bloque de la tarea que vayas a lanzar.
 
-Última actualización: 2026-09-27, 7:10 a. m.
+Última actualización: 2026-09-27, 8:30 a. m.
 
 ## 1. Cómo abrir una sesión nueva (para el usuario)
 1. En la sesión vieja: `Ctrl + C` dos veces. Si pregunta por trabajos en segundo plano, elige "Exit and stop tasks".
@@ -14,8 +14,11 @@ Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.
 - **Fase 2b: COMPLETA.** Todos los commits están en master: DAT-17 a DAT-22, INT-13, INT-14, INT-16, INT-17, UI-18, UI-19, UI-20, VER-09. 125 pruebas pasan; solo falla la histórica `test_dos_dispositivos_y_acceso_protegido`.
 - **UI-21 (la base del rediseño, fase 2c): COMPLETA y con commit.** Commits `4721f63` (plan: instrucciones T1 a T1h, contrato y referencias IDEAL) y `4820989` (código). 131 pruebas pasan; solo falla la histórica. El contraste pasa en los seis pares.
   - **Autoridad visual, de mayor a menor:** las dos imágenes de `evidencia/IDEAL/`, luego `plan/rediseno/NEUMORPHIC_UI_EXECUTION_CONTRACT.md` y los deltas `plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1f.md`, `T1g` y `T1h` (el último manda). La base aprobada es `web/muestras/componentes.html` con su captura `evidencia/UI-21/componentes-390.png`.
-- **UI-22 (entrada, tablero y áreas): COMPLETA y con commit** `3f68da4`. Cada fila de contratos, pagos e inquilinos muestra el ícono de su propio estado (no uno igual para todas). 137 pruebas pasan; solo falla la histórica. Capturas regeneradas en `d5a1abf` y `4529ff6`.
-  - **Siguiente: UI-23** (formulario, reporte y ventanas; agente Builder_UI_3; estado en `plan/estado/Builder_UI_3.md`, bloque en `PLAN.md` línea ~951). No toca `web/estilos/{tokens,base,componentes}.css`, `web/index.html` ni `web/app.js`. Las reglas de la fase están en `PLAN.md` línea ~903. Encargo con esfuerzo alto (ver abajo).
+- **UI-22 (entrada, tablero y áreas): COMPLETA** `3f68da4`. Cada fila de contratos, pagos e inquilinos muestra el ícono de su propio estado.
+- **UI-23 (formulario, reporte y ventanas): COMPLETA** `4d7a7bd` más dos vueltas de corrección: `99d60c3` (foco centrado y separación en ventanas, margen de la tabla, enlace Volver) y `3a20659` (aviso "Desliza →" debajo de la tabla). 142 pruebas pasan; solo falla la histórica.
+- **Fase 2c (rediseño visual): TERMINADA.**
+- **Siguiente (propuesta):** seguir el plan por fases. Libres hoy: **UI-14** (rastro de Vania, fase 3; Builder_UI), INT-07 (preferencias de avisos, fase 4), DAT-13 (datos del pizarrón, fase 7), UI-17 (efecto de sorpresa) y RES-01 a RES-04 (investigación). La recomendada es UI-14, por orden de fases. Nota: UI-14 se diseñó antes del rediseño; su encargo debe pedir que use la base de UI-21.
+  - **Ojo:** `plan/estado/Builder_UI.md` todavía dice que UI-19 está bloqueada, pero UI-19 ya tiene commit (fase 2b). Solo Builder_UI escribe ahí; se corrige en su próxima vuelta.
   - **Lección:** el usuario juzga el resultado a simple vista. No le presentes como listo algo que se ve débil: compáralo tú primero con las referencias (recorta de cerca con PIL y compara antes/después) y di con honestidad qué falla. Si el usuario manda una instrucción directa de diseño, guárdala en `plan/rediseno/` tal cual y ejecútala, sin debatir.
   - **Lección:** cuando el usuario dice "commitea ya", hazlo de inmediato con lo que no dependa de trabajo en curso; no lo hagas esperar.
   - **Cómo lanzar con esfuerzo alto:** `node ~/.claude/plugins/cache/openai-codex/codex/1.0.6/scripts/codex-companion.mjs task --background --write --fresh --effort high < <encargo>` y después esperar en segundo plano con un bucle de `status` que busque `| completed |` (hasta 40 minutos). Las vueltas de UI-21 tardaron entre 5 y 10 minutos. `cadena.sh` usa esfuerzo medio y solo espera 20 minutos.
