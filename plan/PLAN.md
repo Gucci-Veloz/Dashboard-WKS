@@ -723,12 +723,14 @@ Objetivo: que Vania pueda consultar y actuar a través de la API, con el mismo e
 ## Fase 7 · Pizarrón mensual
 
 ### DAT-13 · Datos mínimos de personas para el pizarrón
+- **NO SE HACE salvo que Grecia lo pida (2026-09-27, instrucción del usuario):** el pizarrón es un módulo expandible para ofrecerle a Grecia más adelante. Nadie trabaja en él por iniciativa propia.
 - **Dueño:** Builder_Datos · **Espera:** **D-10**, DAT-09 · **Archivos:** `app/db/migraciones/004_personas.sql`, `app/api/personas.py`, `tests/test_dat13_personas.py`
 - **Entregable:** solo los campos que fije D-10, con `origen_dato`, y una API para listarlas, crearlas y editarlas con rastro de actividad. Nada más: no es un sistema de gestión de comunidad.
 - **Prueba:** `pytest tests/test_dat13_personas.py -q`: el CRUD mínimo, la actividad, y que no exista ninguna columna fuera de lo que fija D-10.
 - **Commit:** `DAT-13: datos mínimos de personas para el pizarrón`
 
 ### INT-12 · Composición del pizarrón del mes
+- **NO SE HACE salvo que Grecia lo pida (2026-09-27, instrucción del usuario):** el pizarrón es un módulo expandible para ofrecerle a Grecia más adelante. Nadie trabaja en él por iniciativa propia.
 - **Dueño:** Builder_Integraciones · **Espera:** **D-10**, DAT-13, INT-09, RES-03
 - **Archivos:** `app/documentos/pizarron.py`, `app/documentos/plantillas/pizarron.html`, `app/api/documentos.py`, `tests/test_int12_pizarron.py`
 - **Entregable:** "prepara el pizarrón de octubre" → un documento con los cumpleaños del mes y las efemérides de la fuente que elija D-10. Se sirve por el mismo endpoint de documentos, para que Vania lo deje listo o lo mande a imprimir.
@@ -882,22 +884,26 @@ Todo lo que ocurre en el VPS es **MANUAL**. La sesión maestra registra el avanc
 Reglas: solo web pública, nada del VPS. Formato igual al del Scavenge: fuentes consultadas, hechos con fuente y vacíos. Lo no verificado o inferido va como vacío. No modifica el Scavenge ni `DECISIONES.md`: entrega su archivo, y la sesión maestra lo integra.
 
 ### RES-01 · Persistencia de sesión en navegadores móviles y PWA
+- **CERRADA sin investigar (2026-09-27, instrucción del usuario):** ya está definido en D-4. El enlace de Vania dura 10 minutos y es de un solo uso; la sesión dura hasta las 23:59 de ese día; al día siguiente se pide otro enlace a Vania.
 - **Dueño:** Researcher · **Espera:** — · **Archivos:** `plan/investigacion/RES-01.md`
 - **Pregunta:** ¿cuánto dura una cookie de sesión `HttpOnly` fijada por el servidor en Safari de iOS y en Chrome de Android? ¿Qué cambia si el sitio se agrega a la pantalla de inicio (PWA)? ¿Hay borrados automáticos (por ejemplo, las políticas de ITP de Safari)? Busca también una fuente para la fricción de la "sesión de larga duración", que el Scavenge dejó como vacío (N2). Alimenta D-4.
 - **Prueba:** cada hecho tiene URL. Los vacíos están declarados.
 - **Commit:** `RES-01: persistencia de sesión en móvil y PWA`
 
 ### RES-02 · Enlaces de WhatsApp con texto prellenado
+- **NO AUTORIZADA (2026-09-27, instrucción del usuario):** el usuario ya había dicho que no quiere esto. No se investiga ni se construye.
 - **Dueño:** Researcher · **Espera:** — · **Archivos:** `plan/investigacion/RES-02.md`
 - **Pregunta:** formato oficial de `wa.me` / "click to chat" con texto; límites de longitud; comportamiento en iOS, Android y escritorio; si funciona igual hacia números de WhatsApp Business y personales. Alimenta D-9.
 - **Commit:** `RES-02: enlaces de WhatsApp con texto prellenado`
 
 ### RES-03 · Fuentes públicas de efemérides de México
+- **NO SE HACE salvo que Grecia lo pida (2026-09-27, instrucción del usuario):** el pizarrón es un módulo expandible para ofrecerle a Grecia más adelante. Nadie trabaja en él por iniciativa propia.
 - **Dueño:** Researcher · **Espera:** — · **Archivos:** `plan/investigacion/RES-03.md`
 - **Pregunta:** ¿qué fuentes oficiales o públicas listan las fechas cívicas y efemérides de México (por ejemplo, las fechas solemnes de la Ley sobre el Escudo, la Bandera y el Himno Nacionales)? ¿En qué formato están y con qué condiciones de uso? Alimenta D-10.
 - **Commit:** `RES-03: fuentes de efemérides de México`
 
 ### RES-04 · HP Smart Tank 750 en listados IPP Everywhere / Mopria
+- **CERRADA sin investigar (2026-09-27, instrucción del usuario):** pregunta mal planteada. La impresora es de oficina y varias computadoras imprimen en ella a diario; ya está vinculada por IPP y acepta PDF (`vinculacion-hp-smart-tank-750-ubuntu.md`). Con D-7 = A, el Dashboard solo genera el PDF y Vania lo imprime con la herramienta que ya tiene en Hermes; la certificación no cambia nada.
 - **Dueño:** Researcher · **Espera:** — · **Archivos:** `plan/investigacion/RES-04.md`
 - **Pregunta:** ¿aparece el modelo en el listado público de impresoras IPP Everywhere de la PWG o en el de dispositivos certificados de Mopria? ¿Qué formatos de documento declaran esos listados (PDF, PWG-Raster, URF, JPEG)? Cierra o confirma los vacíos V1, V4 y V5 de R1. Alimenta D-7.
 - **Commit:** `RES-04: certificación IPP Everywhere / Mopria del Smart Tank 750`
