@@ -2,7 +2,7 @@
 
 Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.** No leas `REANUDAR.md` completo. Del plan, lee solo el bloque de la tarea que vayas a lanzar.
 
-Última actualización: 2026-09-27, madrugada.
+Última actualización: 2026-09-27, 4:20 a. m.
 
 ## 1. Cómo abrir una sesión nueva (para el usuario)
 1. En la sesión vieja: `Ctrl + C` dos veces. Si pregunta por trabajos en segundo plano, elige "Exit and stop tasks".
@@ -12,14 +12,13 @@ Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.
 
 ## 2. Dónde vamos
 - **Fase 2b: COMPLETA.** Todos los commits están en master: DAT-17 a DAT-22, INT-13, INT-14, INT-16, INT-17, UI-18, UI-19, UI-20, VER-09. 125 pruebas pasan; solo falla la histórica `test_dos_dispositivos_y_acceso_protegido`.
-- **En curso: rediseño visual (fase 2c de `PLAN.md`), tarea UI-21 (la base), todavía sin commit.**
-  - **Autoridad visual, de mayor a menor:** las dos imágenes de `evidencia/IDEAL/`, luego `plan/rediseno/NEUMORPHIC_UI_EXECUTION_CONTRACT.md` (contrato T1e) y después los documentos anteriores de `plan/rediseno/` (SPEC, T1, T1b, T1c, T1d). La funcionalidad no cambia.
-  - **Última vuelta (contrato T1e, Builder_UI con esfuerzo alto):** 131 pruebas pasan (solo falla la histórica) y el contraste da 0. Ya cumple: relieve claro, simetría del grupo de botones, íconos grandes sin burbujas y sin contornos de color.
-  - **Faltan dos puntos que Father detectó:** (1) la ventana flotante C-08 tiene una franja gris oscura en su lado derecho; (2) los íconos mezclan estilos (la cartera de "Registrar pago" es sólida y los demás son de línea), lo que viola las secciones 19 y 48 del contrato.
-  - **Siguiente paso:** pedirle al usuario sus ajustes de estos errores, lanzar a Builder_UI con ellos, revisar la captura `evidencia/UI-21/componentes-390.png` contra la sección 54 del contrato y, con el visto bueno del usuario, hacer dos commits: uno del plan (documentos de `plan/rediseno/`, `evidencia/IDEAL/`, `PLAN.md`, `PARA_DESPUES.md` y los estados) y otro de UI-21 (`web/estilos/{tokens,base,componentes}.css`, `web/fuentes/`, `web/iconos/`, `web/componentes/icono.js`, `web/muestras/componentes.html`, `tests/ui/test_ui21_base.py` y `evidencia/UI-21/`).
-  - **Después:** UI-22 (Builder_UI_2) y UI-23 (Builder_UI_3) en paralelo; sus archivos no se cruzan.
-  - **Lección:** el usuario juzga el resultado a simple vista. No le presentes como listo algo que se ve débil: compáralo tú primero con las referencias y di con honestidad qué falla. Si el usuario manda una instrucción directa de diseño, guárdala en `plan/rediseno/` tal cual y ejecútala, sin debatir.
-  - **Cómo lanzar con esfuerzo alto** (el contrato lo amerita): `node ~/.claude/plugins/cache/openai-codex/codex/1.0.6/scripts/codex-companion.mjs task --background --write --fresh --effort high < <encargo>` y después esperar con un bucle de `status` (hasta 40 minutos). `cadena.sh` usa esfuerzo medio y solo espera 20 minutos.
+- **UI-21 (la base del rediseño, fase 2c): COMPLETA y con commit.** Commits `4721f63` (plan: instrucciones T1 a T1h, contrato y referencias IDEAL) y `4820989` (código). 131 pruebas pasan; solo falla la histórica. El contraste pasa en los seis pares.
+  - **Autoridad visual, de mayor a menor:** las dos imágenes de `evidencia/IDEAL/`, luego `plan/rediseno/NEUMORPHIC_UI_EXECUTION_CONTRACT.md` y los deltas `plan/rediseno/DASHBOARD_DESIGN_REFINEMENTS_T1f.md`, `T1g` y `T1h` (el último manda). La base aprobada es `web/muestras/componentes.html` con su captura `evidencia/UI-21/componentes-390.png`.
+  - **Siguiente: UI-22** (rediseño de entrada, tablero y áreas; agente Builder_UI_2; estado en `plan/estado/Builder_UI_2.md`, bloque en `PLAN.md` desde la línea ~939). **UI-23** (formulario, reporte y ventanas; Builder_UI_3) puede ir en paralelo: sus archivos no se cruzan. Ninguna toca `web/estilos/{tokens,base,componentes}.css`, `web/index.html` ni `web/app.js`. Las reglas de la fase están en `PLAN.md` línea ~903.
+  - **Antes de lanzar UI-22:** en `plan/estado/Builder_UI_2.md` la dependencia dice "UI-21 (con commit y visto bueno del usuario)"; el commit ya está y el usuario aprobó la dirección visual. Encargo con esfuerzo alto (ver abajo).
+  - **Lección:** el usuario juzga el resultado a simple vista. No le presentes como listo algo que se ve débil: compáralo tú primero con las referencias (recorta de cerca con PIL y compara antes/después) y di con honestidad qué falla. Si el usuario manda una instrucción directa de diseño, guárdala en `plan/rediseno/` tal cual y ejecútala, sin debatir.
+  - **Lección:** cuando el usuario dice "commitea ya", hazlo de inmediato con lo que no dependa de trabajo en curso; no lo hagas esperar.
+  - **Cómo lanzar con esfuerzo alto:** `node ~/.claude/plugins/cache/openai-codex/codex/1.0.6/scripts/codex-companion.mjs task --background --write --fresh --effort high < <encargo>` y después esperar en segundo plano con un bucle de `status` que busque `| completed |` (hasta 40 minutos). Las vueltas de UI-21 tardaron entre 5 y 10 minutos. `cadena.sh` usa esfuerzo medio y solo espera 20 minutos.
   - Decisiones ya tomadas (en `DECISIONES.md`): Inter y Lucide se guardan en el proyecto; el gris tenue no va en texto; verde, ámbar y rojo solo para estados. En `PARA_DESPUES.md` quedaron el tablero principal visual (tema 3) y la familia de íconos que sustituirá a Lucide en ese tablero (tema 4).
 - **El resto del proyecto** (unas 17 tareas) continúa después del rediseño. Las decisiones D-6 a D-15 ya están respondidas en `plan/DECISIONES.md`.
 
@@ -51,6 +50,6 @@ Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.
 - **Lección:** explicar cada decisión con un ejemplo concreto (quién, qué ve, qué pasa), nunca con el lenguaje del plan.
 
 ## 6. Sin commit todavía
-- Todo lo de UI-21 y lo del plan que se lista en el paso siguiente del punto 2.
-- **7 capturas viejas** (`evidencia/INT-14`, `UI-03`, `UI-04`, `UI-05`, `UI-09` y `UI-20`) que se regeneran solas al correr la suite: **no van en ningún commit**; antes de hacer commit, se regresan con `git checkout -- <ruta>`.
+- **7 capturas viejas** (`evidencia/INT-14`, `UI-03`, `UI-04`, `UI-05`, `UI-09` y `UI-20`) que se regeneran solas al correr la suite: **no van en ningún commit**. El clasificador de permisos no deja a Father regresarlas; el usuario puede hacerlo con `! git checkout -- evidencia/INT-14 evidencia/UI-03 evidencia/UI-04 evidencia/UI-05 evidencia/UI-09 evidencia/UI-20`. Si siguen ahí, solo no las agregues.
+- **Copia suelta** `plan/rediseno/# NEUMORPHIC UI EXECUTION CONTRACT` (sin extensión): parece duplicado del contrato; el usuario decide si la borra. No va en commits.
 - **La falla histórica** `test_dos_dispositivos_y_acceso_protegido` se arregla actualizando la prueba para que confirme el alta con "Sí" antes de revisar la actividad (tarea futura de Builder_Integraciones, no planeada todavía).
