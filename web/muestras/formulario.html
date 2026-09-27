@@ -10,7 +10,16 @@
     <link rel="stylesheet" href="/estilos/formulario.css" />
   </head>
   <body>
-    <main id="app"></main>
+    <main id="app">
+      <header class="muestra-formulario__encabezado">
+        <p class="muestra-formulario__clave">S-06 · Formulario</p>
+        <h1 class="muestra-formulario__titulo">Editar inquilino</h1>
+        <p class="muestra-formulario__descripcion">
+          Los campos conservan la profundidad hundida del sistema.
+        </p>
+      </header>
+      <section data-muestra-formulario></section>
+    </main>
     <script type="module">
       import { crearFormulario } from "/componentes/formulario.js";
 
@@ -31,9 +40,11 @@
       }
 
       crearFormulario({
-        contenedor: document.getElementById("app"),
+        contenedor: document.querySelector("[data-muestra-formulario]"),
         campos: [
           { nombre: "titular", etiqueta: "Titular", valor: "Titular Sintético 07" },
+          { nombre: "contacto", etiqueta: "Contacto", valor: "+520000000001" },
+          { nombre: "estatus", etiqueta: "Estatus", valor: "Activo" },
         ],
         guardar: guardarSimulado,
       });

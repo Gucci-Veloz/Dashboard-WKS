@@ -1,8 +1,73 @@
-/* Reporte del día. UI-20. */
-.detalle-general__areas { display: flex; flex-wrap: wrap; gap: var(--espacio-2); margin-bottom: var(--espacio-4); }
-.detalle-general__reporte { font-weight: 600; }
-#reporte-fecha { display: block; margin-top: var(--espacio-1); }
-.reporte__tabla { overflow-x: auto; margin-top: var(--espacio-4); box-shadow: var(--sombra-hundida); }
-.reporte__tabla table { width: 100%; min-width: 720px; border-collapse: collapse; font-size: var(--texto-sm); }
-.reporte__tabla th, .reporte__tabla td { padding: var(--espacio-2); border-bottom: 1px solid var(--borde-suave); text-align: left; vertical-align: top; }
-.reporte__ejecutor--vania { color: var(--acento); font-weight: 700; }
+/* S-07: reporte denso, sobrio y contenido en C-10. */
+
+.detalle-general__areas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espacio-2);
+  margin-bottom: var(--espacio-4);
+}
+
+.detalle-general__reporte {
+  font-weight: 600;
+}
+
+#app.reporte {
+  max-width: 1120px;
+}
+
+.reporte > h2 {
+  margin-bottom: var(--espacio-5);
+}
+
+.reporte__fecha {
+  width: min(100%, 320px);
+}
+
+#reporte-fecha {
+  display: block;
+}
+
+.reporte__tabla {
+  margin-top: var(--espacio-5);
+}
+
+.reporte__tabla table {
+  min-width: 840px;
+}
+
+.reporte__tabla th,
+.reporte__tabla td {
+  text-align: left;
+  vertical-align: top;
+}
+
+.reporte__tabla th {
+  font-size: var(--texto-sm);
+  font-weight: 650;
+}
+
+.reporte__tabla td {
+  min-width: 96px;
+  white-space: normal;
+}
+
+.reporte__tabla td[data-columna-reporte="observaciones"] {
+  min-width: 180px;
+}
+
+.reporte__ejecutor--vania {
+  color: var(--acento);
+  font-weight: 700;
+}
+
+.reporte__tabla > p {
+  margin: 0;
+  padding: var(--espacio-5);
+  color: var(--texto-secundario);
+}
+
+@media (min-width: 1024px) {
+  .reporte__tabla table {
+    min-width: 100%;
+  }
+}

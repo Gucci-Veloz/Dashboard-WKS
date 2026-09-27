@@ -2,7 +2,7 @@
 
 Solo **Builder_UI_3** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. Detalle de cada tarea: `plan/PLAN.md` (fase 2c).
 
-Última actualización: 2026-09-26 · creado por Father.
+Última actualización: 2026-09-27 11:13 CST.
 
 ## En curso
 
@@ -12,10 +12,17 @@ Solo **Builder_UI_3** escribe en este archivo. Protocolo: `plan/REANUDAR.md`. De
 
 | ID | Título | Estado | Espera |
 |---|---|---|---|
-| UI-23 | Rediseño de formulario, reporte y ventanas | pendiente | UI-21 (con commit y visto bueno del usuario) |
+| UI-23 | Rediseño de formulario, reporte y ventanas | hecha (pendiente de commit) | UI-21 (con commit y visto bueno del usuario) |
 
 ## Qué sigue
 
-Esperar a que UI-21 tenga commit.
+Sin tareas disponibles.
+
+## Bitácora
+
+- 2026-09-27 11:03 CST · UI-23 iniciada; dependencia UI-21 confirmada en `4820989` y visto bueno registrado.
+- 2026-09-27 11:13 CST · UI-23 hecha (pendiente de commit). Archivos exactos: `web/estilos/formulario.css`, `web/componentes/formulario.js`, `web/componentes/confirmacion.js`, `web/componentes/duplicado.js`, `web/reporte/reporte.css`, `web/reporte/reporte.js`, `web/muestras/formulario.html`, `tests/ui/test_ui23_formularios.py`, `evidencia/UI-23/formulario-390.png`, `evidencia/UI-23/formulario-1280.png`, `evidencia/UI-23/reporte-390.png`, `evidencia/UI-23/reporte-1280.png`, `evidencia/UI-23/confirmacion-390.png`, `evidencia/UI-23/confirmacion-1280.png`, `evidencia/UI-23/duplicado-390.png`, `evidencia/UI-23/duplicado-1280.png`, `evidencia/UI-23/pendientes-390.png`, `evidencia/UI-23/pendientes-1280.png`, `plan/estado/Builder_UI_3.md`. Pruebas: UI-23 `5 passed`; suite UI `68 passed`; contraste `PASA`; suite completa `142 passed, 1 failed` por la falla ajena conocida `tests/test_int13_acceso.py::test_dos_dispositivos_y_acceso_protegido`.
 
 ## Observaciones
+
+- La suite completa conserva la falla conocida de INT-13: la prueba espera actividad inmediata después de crear una oficina, pero fase 2b crea un pre-registro. UI-23 no toca ese flujo.

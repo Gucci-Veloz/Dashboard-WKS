@@ -1,5 +1,7 @@
 // Aviso de posible duplicado cuando el servidor responde 409. UI-19.
 
+import { ponerIcono } from "/componentes/icono.js";
+
 export class ErrorDuplicado extends Error {
   constructor(cuerpo) {
     super(cuerpo.mensaje || "Ya existe un registro similar.");
@@ -17,14 +19,21 @@ export async function lanzarSiDuplicado(respuesta) {
 export function abrirDuplicado({ error, alRevisar, alCancelar, alForzar }) {
   const { duplicado } = error;
   const fondo = document.createElement("div");
-  fondo.className = "ventana-confirmacion";
+  fondo.className = "ventana-confirmacion c-overlay";
   fondo.dataset.ventanaDuplicado = "true";
   fondo.setAttribute("role", "dialog");
   fondo.setAttribute("aria-modal", "true");
   const contenido = document.createElement("div");
-  contenido.className = "ventana-confirmacion__contenido";
+  contenido.className = "ventana-confirmacion__contenido c-modal";
+  const encabezado = document.createElement("div");
+  encabezado.className = "ventana-confirmacion__encabezado";
+  const icono = document.createElement("span");
+  icono.className = "ventana-confirmacion__icono ventana-confirmacion__icono--atencion";
+  icono.dataset.iconoEstado = "circle-alert";
+  void ponerIcono(icono, "circle-alert", { tamano: 28, grosor: 2.8 });
   const texto = document.createElement("p");
   texto.textContent = error.message;
+  encabezado.append(icono, texto);
   const resumen = document.createElement("p");
   resumen.className = "ventana-duplicado__resumen";
   resumen.textContent = duplicado.resumen || "";
@@ -43,7 +52,7 @@ export function abrirDuplicado({ error, alRevisar, alCancelar, alForzar }) {
   forzar.className = "boton boton--secundario";
   forzar.dataset.duplicadoForzar = "true";
   forzar.textContent = "Reemplazar el existente";
-  contenido.append(texto, resumen, revisar, cancelar, forzar);
+  contenido.append(encabezado, resumen, revisar, cancelar, forzar);
   fondo.appendChild(contenido);
   document.body.appendChild(fondo);
   const cerrar = () => fondo.remove();

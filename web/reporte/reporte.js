@@ -52,6 +52,7 @@ async function cargarReporte(cuerpo, fecha) {
     return;
   }
   const tabla = document.createElement("table");
+  tabla.className = "c-tabla";
   tabla.dataset.tablaReporte = "true";
   tabla.innerHTML = "<thead><tr><th>ID</th><th>Fecha</th><th>Inquilino</th><th>Concepto</th><th>Observaciones</th><th>Solicitante</th><th>Ejecutor</th></tr></thead>";
   const tbody = document.createElement("tbody");
@@ -67,13 +68,16 @@ export async function renderReporte(contenedor) {
     estilos.href = "/reporte/reporte.css";
     document.head.appendChild(estilos);
   }
+  contenedor.classList.add("reporte");
   const titulo = document.createElement("h2");
   titulo.textContent = "Reporte del día";
   contenedor.appendChild(titulo);
   const etiqueta = document.createElement("label");
+  etiqueta.className = "reporte__fecha campo-texto";
   etiqueta.htmlFor = "reporte-fecha";
   etiqueta.textContent = "Fecha";
   const fecha = document.createElement("input");
+  fecha.className = "campo-texto__control c-campo";
   fecha.id = "reporte-fecha";
   fecha.type = "date";
   fecha.value = fechaDeQueretaro();
@@ -81,7 +85,7 @@ export async function renderReporte(contenedor) {
   etiqueta.appendChild(fecha);
   contenedor.appendChild(etiqueta);
   const envoltura = document.createElement("div");
-  envoltura.className = "reporte__tabla";
+  envoltura.className = "reporte__tabla c-tabla-contenedor";
   contenedor.appendChild(envoltura);
   await cargarReporte(envoltura, fecha.value);
   fecha.addEventListener("change", () => cargarReporte(envoltura, fecha.value));

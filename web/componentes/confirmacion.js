@@ -1,5 +1,15 @@
 // Ventana y tarjetas para cambios pendientes. UI-18.
 
+import { ponerIcono } from "/componentes/icono.js";
+
+function crearIconoEstado(nombre, clase = "") {
+  const icono = document.createElement("span");
+  icono.className = `ventana-confirmacion__icono ${clase}`.trim();
+  icono.dataset.iconoEstado = nombre;
+  void ponerIcono(icono, nombre, { tamano: 28, grosor: 2.8 });
+  return icono;
+}
+
 function nombreVisible(persona) {
   return persona ? `${persona[0].toUpperCase()}${persona.slice(1)}` : "¿Deseas";
 }
@@ -14,14 +24,17 @@ async function respuestaJson(respuesta, mensaje) {
 
 export function abrirConfirmacion({ cambio, alConfirmar, alCerrar }) {
   const fondo = document.createElement("div");
-  fondo.className = "ventana-confirmacion";
+  fondo.className = "ventana-confirmacion c-overlay";
   fondo.dataset.ventanaConfirmacion = "true";
   fondo.setAttribute("role", "dialog");
   fondo.setAttribute("aria-modal", "true");
   const contenido = document.createElement("div");
-  contenido.className = "ventana-confirmacion__contenido";
+  contenido.className = "ventana-confirmacion__contenido c-modal";
+  const encabezado = document.createElement("div");
+  encabezado.className = "ventana-confirmacion__encabezado";
   const texto = document.createElement("p");
   texto.textContent = `${nombreVisible(cambio.solicitante)}, ¿deseas confirmar el cambio?`;
+  encabezado.append(crearIconoEstado("info"), texto);
   const si = document.createElement("button");
   si.type = "button";
   si.className = "boton";
@@ -35,7 +48,7 @@ export function abrirConfirmacion({ cambio, alConfirmar, alCerrar }) {
   const error = document.createElement("p");
   error.className = "formulario__mensaje-error";
   error.hidden = true;
-  contenido.append(texto, si, no, error);
+  contenido.append(encabezado, si, no, error);
   fondo.appendChild(contenido);
   document.body.appendChild(fondo);
   const cerrar = () => { fondo.remove(); alCerrar?.(); };
@@ -74,6 +87,15 @@ export async function mostrarPendientes({ contenedor, area, registroId, alConfir
     tarjeta.dataset.cambioPendiente = String(cambio.id);
     const texto = document.createElement("p");
     texto.textContent = "Cambio pendiente de confirmar";
+    const estado = document.createElement("div");
+    estado.className = "cambio-pendiente__estado c-indicador c-indicador--atencion";
+    estado.append(
+      crearIconoEstado(
+        "circle-alert",
+        "ventana-confirmacion__icono--atencion",
+      ),
+      texto,
+    );
     const confirmar = document.createElement("button");
     confirmar.type = "button";
     confirmar.className = "boton";
@@ -97,7 +119,7 @@ export async function mostrarPendientes({ contenedor, area, registroId, alConfir
         descartar.disabled = false;
       }
     });
-    tarjeta.append(texto, confirmar, descartar, error);
+    tarjeta.append(estado, confirmar, descartar, error);
     contenedor.appendChild(tarjeta);
   }
 }

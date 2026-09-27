@@ -44,7 +44,7 @@ export function crearFormulario({ contenedor, campos, guardar, alConfirmar, alPe
   mensajeError.hidden = true;
   const boton = document.createElement("button");
   boton.type = "submit";
-  boton.className = "boton";
+  boton.className = "boton formulario__accion";
   boton.textContent = "Guardar";
   form.append(grupoObservaciones, mensajeError, boton);
   const enviar = async (forzar, duplicado = null) => {
@@ -95,7 +95,7 @@ export function crearFormulario({ contenedor, campos, guardar, alConfirmar, alPe
 export function crearAccionEliminar({ contenedor, url, alConfirmar }) {
   const boton = document.createElement("button");
   boton.type = "button";
-  boton.className = "boton boton--secundario";
+  boton.className = "boton boton--secundario formulario__accion formulario__accion--secundaria";
   boton.dataset.eliminarRegistro = "true";
   boton.textContent = "Borrar";
   boton.addEventListener("click", async () => {
