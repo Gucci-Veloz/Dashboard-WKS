@@ -75,6 +75,8 @@ def test_dos_dispositivos_y_acceso_protegido(monkeypatch, tmp_path):
     assert primero.get("/api/estado", headers=CREDENCIAL).status_code == 200
     creada = primero.post("/api/oficinas", json={"numero": "999"})
     assert creada.status_code == 201
+    confirmada = primero.post(f"/api/cambios/{creada.json()['id']}/confirmar")
+    assert confirmada.status_code == 200
     actividad = primero.get("/api/actividad").json()["resultados"]
     assert actividad[0]["persona"] == "grecia"
 
