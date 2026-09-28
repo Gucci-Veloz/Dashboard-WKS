@@ -1,0 +1,28 @@
+# Cómo se levanta el Dashboard de Works en el servidor.
+# Guía paso a paso: docs/despliegue-docker.md
+services:
+  works:
+    build: .
+    image: works-dashboard:latest
+    container_name: works-dashboard
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      # La base de datos y works_cuentas.json viven fuera de la imagen:
+      # sobreviven a cada actualización.
+      - works_datos:/datos
+    ports:
+      # Solo escucha dentro del servidor. El https y la dirección pública
+      # los pone el proxy que ya use el VPS.
+      - "127.0.0.1:8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/salud', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  works_datos:

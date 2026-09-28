@@ -1,0 +1,4 @@
+# Umbrales provisionales hasta ver datos reales (ver plan/DECISIONES.md, U-1).
+# dias_alerta_renovacion: a cuántos días o menos de la fecha de fin de un
+# contrato se considera que "se acerca a revisión o renovación".
+dias_alerta_renovacion = 30

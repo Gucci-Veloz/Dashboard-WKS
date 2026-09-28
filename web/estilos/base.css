@@ -1,0 +1,120 @@
+/* Base mobile-first: el documento nunca se desborda horizontalmente. */
+@font-face {
+  font-family: "Inter Variable";
+  src: url("/fuentes/InterVariable.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 100 900;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--fondo);
+}
+
+body {
+  min-width: 0;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--fondo);
+  color: var(--texto-principal);
+  font-family: "Inter Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: var(--texto-base);
+  font-weight: 450;
+  line-height: 1.5;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+#app {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--espacio-5) 20px var(--espacio-8);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: var(--texto-titulo-principal);
+  line-height: 1.214;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-size: var(--texto-titulo-secundario);
+  line-height: 1.273;
+  letter-spacing: -0.018em;
+}
+
+p {
+  max-width: 56ch;
+}
+
+:focus-visible {
+  outline: 3px solid rgba(10, 102, 217, 0.24);
+  outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+  #app {
+    padding: var(--espacio-6) 32px var(--espacio-9);
+  }
+}
+
+@media (min-width: 1024px) {
+  #app {
+    padding-right: 48px;
+    padding-left: 48px;
+  }
+
+  h1 {
+    font-size: 2rem;
+    line-height: 1.1875;
+  }
+
+  .frase-principal {
+    font-size: 2.75rem;
+    line-height: 1.136;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0ms !important;
+    transition-duration: 0ms !important;
+  }
+}

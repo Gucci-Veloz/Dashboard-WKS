@@ -1,0 +1,417 @@
+/* C-01 a C-10: una sola superficie neutra; el volumen comunica función. */
+
+.superficie,
+.tarjeta,
+.c-estatica {
+  background: var(--superficie);
+  color: var(--texto-principal);
+  box-shadow: var(--sombra-n0);
+}
+
+.superficie,
+.tarjeta {
+  padding: var(--espacio-5);
+  border: 0;
+  border-radius: var(--radio-contenedor);
+}
+
+.tarjeta__titulo {
+  margin: 0 0 var(--espacio-2);
+  font-size: var(--texto-destacado);
+  line-height: 1.3;
+}
+.tarjeta__texto-secundario,
+.texto-secundario {
+  color: var(--texto-secundario);
+  font-size: var(--texto-sm);
+  line-height: 1.46;
+}
+
+/* C-01 y C-02: altura, radio y luz idénticos en el grupo de acciones. */
+.boton,
+.c-boton-principal,
+.c-boton-secundario {
+  display: inline-flex;
+  align-items: center;
+  column-gap: var(--espacio-4);
+  min-height: 72px;
+  padding: 0 var(--espacio-5);
+  border: 0;
+  border-radius: 28px;
+  background: var(--fondo);
+  background-image: none;
+  color: var(--texto-principal);
+  box-shadow: var(--sombra-n2);
+  cursor: pointer;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  transition:
+    transform var(--movimiento-rapido),
+    box-shadow var(--movimiento-rapido),
+    color var(--movimiento-instant),
+    opacity var(--movimiento-instant);
+}
+
+.boton:hover,
+.c-boton-principal:hover,
+.boton--secundario:hover,
+.c-boton-secundario:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    -10px -10px 20px rgba(255, 255, 255, 0.9),
+    10px 10px 22px rgba(150, 157, 169, 0.54),
+    3px 4px 7px rgba(115, 123, 136, 0.14);
+}
+
+.grupo-acciones .boton {
+  display: inline-grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+}
+
+.boton:active,
+.c-boton-principal:active,
+.boton--secundario:active,
+.c-boton-secundario:active {
+  transform: translateY(1px) scale(0.99);
+  background: #dedfe2;
+  box-shadow:
+    inset 4px 4px 8px rgba(151, 158, 169, 0.28),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.68);
+}
+.boton:focus-visible,
+.c-boton-principal:focus-visible,
+.c-boton-secundario:focus-visible {
+  outline: 3px solid rgba(10, 102, 217, 0.38);
+  outline-offset: 4px;
+}
+.boton[disabled],
+.c-boton-principal[disabled],
+.c-boton-secundario[disabled] {
+  box-shadow: var(--sombra-n1);
+  color: var(--texto-secundario);
+  cursor: not-allowed;
+  opacity: 0.72;
+  transform: none;
+}
+
+.accion__icono {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  color: var(--texto-principal);
+}
+
+.accion__icono.icono {
+  width: 36px;
+  height: 36px;
+}
+
+.accion__icono svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 2.8;
+}
+
+.accion__texto {
+  min-width: 0;
+}
+.is-procesando {
+  pointer-events: none;
+}
+.is-exito .accion__icono {
+  color: var(--bien);
+}
+.is-error .accion__icono {
+  color: var(--error);
+}
+
+.spinner {
+  width: 26px;
+  height: 26px;
+  border: 3px solid rgba(89, 101, 117, 0.22);
+  border-top-color: var(--acento);
+  border-radius: 50%;
+  animation: giro 0.7s linear infinite;
+}
+@keyframes giro {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* C-03: la tarjeta tocable es una acción amplia, no una tarjeta delineada. */
+.c-tarjeta-tocable {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  align-items: center;
+  column-gap: var(--espacio-4);
+  width: 100%;
+  min-height: 88px;
+  padding: var(--espacio-4) var(--espacio-5);
+  border: 0;
+  border-radius: var(--radio-tarjeta);
+  background: var(--fondo);
+  color: inherit;
+  box-shadow: var(--sombra-n2);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    transform var(--movimiento-rapido),
+    box-shadow var(--movimiento-rapido);
+}
+
+.c-tarjeta-tocable:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    -10px -10px 20px rgba(255, 255, 255, 0.9),
+    10px 10px 22px rgba(150, 157, 169, 0.54),
+    3px 4px 7px rgba(115, 123, 136, 0.14);
+}
+.c-tarjeta-tocable:active {
+  transform: translateY(2px) scale(0.99);
+  box-shadow: var(--sombra-hundida);
+}
+.c-tarjeta-tocable .icono {
+  grid-row: span 2;
+  width: 28px;
+  height: 28px;
+}
+.c-tarjeta-tocable .icono svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 2.8;
+}
+
+/* C-04: el campo se hunde dentro del mismo material. */
+.campo-texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-2);
+}
+.campo-texto__etiqueta {
+  color: var(--texto-principal);
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  line-height: 1.385;
+}
+.campo-texto__control,
+.c-campo {
+  width: 100%;
+  min-height: 56px;
+  padding: var(--espacio-3) 20px;
+  border: 0;
+  border-radius: var(--radio-campo);
+  background: var(--superficie-hundida);
+  color: var(--texto-principal);
+  box-shadow:
+    inset 5px 5px 14px rgba(151, 158, 169, 0.36),
+    inset -5px -5px 14px rgba(255, 255, 255, 0.86),
+    inset 1px 1px 3px rgba(126, 134, 147, 0.1),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.42);
+  transition: box-shadow var(--movimiento-estandar);
+}
+.campo-texto__control:focus,
+.c-campo:focus {
+  outline: 3px solid rgba(10, 102, 217, 0.32);
+  outline-offset: 4px;
+}
+.c-campo:disabled {
+  color: var(--texto-tenue);
+  box-shadow: inset 4px 4px 9px rgba(143, 146, 156, 0.22);
+}
+
+/* C-05 y C-06 comparten cavidad hundida y selección elevada. */
+.c-interruptor {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-2);
+  border: 0;
+  background: transparent;
+  color: var(--texto-principal);
+  cursor: pointer;
+}
+.c-interruptor__pista {
+  position: relative;
+  width: 52px;
+  height: 30px;
+  border: 0;
+  border-radius: var(--radio-pill);
+  background: var(--superficie-hundida);
+  box-shadow: var(--sombra-hundida);
+}
+.c-interruptor__perilla {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--fondo);
+  box-shadow: var(--sombra-n1);
+  transition:
+    transform var(--movimiento-estandar),
+    background-color var(--movimiento-estandar);
+}
+.c-interruptor[aria-pressed="true"] .c-interruptor__perilla {
+  transform: translateX(22px);
+  background: var(--acento);
+}
+.c-segmentos {
+  display: inline-flex;
+  gap: 4px;
+  padding: 5px;
+  border: 0;
+  border-radius: var(--radio-md);
+  background: var(--superficie-hundida);
+  box-shadow: var(--sombra-hundida);
+}
+.c-segmento {
+  min-height: 38px;
+  padding: 8px 14px;
+  border: 0;
+  border-radius: var(--radio-sm);
+  background: transparent;
+  color: var(--texto-secundario);
+  cursor: pointer;
+}
+.c-segmento[aria-selected="true"] {
+  background: var(--fondo);
+  color: var(--texto-principal);
+  box-shadow: var(--sombra-n1);
+  font-weight: 600;
+}
+
+/* C-07 conserva su naturaleza plana. */
+.enlace-discreto,
+.c-enlace {
+  color: var(--acento);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* C-08: una sola superficie N3, separada del fondo en sus cuatro lados. */
+.c-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: var(--espacio-6) var(--espacio-5);
+  background: rgba(80, 82, 90, 0.18);
+  backdrop-filter: blur(8px);
+}
+.c-modal {
+  width: min(100%, 520px);
+  padding: 28px var(--espacio-5);
+  border: 0;
+  border-radius: var(--radio-modal);
+  background: var(--fondo);
+  box-shadow:
+    -10px -10px 22px rgba(255, 255, 255, 0.88),
+    11px 12px 24px rgba(150, 157, 169, 0.46),
+    4px 6px 10px rgba(115, 123, 136, 0.12);
+  animation: abrir-overlay var(--movimiento-overlay) both;
+}
+.c-overlay__etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: var(--espacio-3);
+  color: var(--texto-secundario);
+  font-size: var(--texto-caption);
+  font-weight: 600;
+}
+@keyframes abrir-overlay {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* C-09: una señal pequeña, neutra y elevada; color solo en su ícono. */
+.c-indicador {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: var(--radio-sm);
+  background: var(--fondo);
+  color: var(--texto-principal);
+  box-shadow: var(--sombra-n1);
+  font-size: var(--texto-sm);
+  font-weight: 600;
+}
+.c-indicador--bien .icono {
+  color: var(--bien);
+}
+.c-indicador--atencion .icono {
+  color: var(--atencion);
+}
+.c-indicador--error .icono {
+  color: var(--error);
+}
+.icono {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  color: currentColor;
+}
+
+/* C-10: sus columnas se desplazan dentro de su propio contenedor. */
+.c-tabla-contenedor {
+  position: relative;
+  max-width: 100%;
+  overflow-x: auto;
+  border: 0;
+  border-radius: var(--radio-sm);
+  background: var(--fondo);
+  box-shadow:
+    inset 2px 2px 5px rgba(151, 158, 169, 0.14),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.46);
+}
+.c-tabla {
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  background: var(--fondo);
+  box-shadow: none;
+}
+.c-tabla th {
+  background: rgba(207, 209, 214, 0.28);
+  font-size: var(--texto-sm);
+  font-weight: 650;
+  line-height: 1.38;
+  text-align: left;
+}
+.c-tabla th,
+.c-tabla td {
+  padding: 14px var(--espacio-3);
+  border-bottom: 1px solid rgba(89, 101, 117, 0.13);
+  white-space: nowrap;
+}
+.c-tabla td {
+  padding-top: var(--espacio-4);
+  padding-bottom: var(--espacio-4);
+  font-size: 0.875rem;
+  line-height: 1.43;
+}
+.c-tabla tr:last-child td {
+  border-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .c-modal {
+    margin: auto;
+  }
+}

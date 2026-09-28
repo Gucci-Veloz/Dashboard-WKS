@@ -1,0 +1,101 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://works.local/contratos/estado.schema.json",
+  "title": "Estado de atención de Works",
+  "description": "Respuesta compartida por el Dashboard y Vania: un solo cerebro, dos superficies. Las frases son provisionales, ver contratos/LEEME.md.",
+  "type": "object",
+  "required": ["conclusion", "asuntos", "indicadores", "origen_datos", "generado_en"],
+  "additionalProperties": false,
+  "properties": {
+    "conclusion": {
+      "type": "object",
+      "required": ["tipo", "frase", "cantidad"],
+      "additionalProperties": false,
+      "properties": {
+        "tipo": {
+          "type": "string",
+          "enum": ["tranquilo", "atencion"]
+        },
+        "frase": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cantidad": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "asuntos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "area", "frase", "por_que_importa", "referencia", "orden"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "area": {
+            "type": "string",
+            "enum": ["oficinas", "inquilinos", "contratos", "pagos"]
+          },
+          "frase": {
+            "type": "string",
+            "minLength": 1
+          },
+          "por_que_importa": {
+            "type": "string",
+            "minLength": 1
+          },
+          "referencia": {
+            "type": "object",
+            "required": ["tipo", "id"],
+            "additionalProperties": false,
+            "properties": {
+              "tipo": {
+                "type": "string",
+                "enum": ["oficina", "inquilino", "contrato", "pago"]
+              },
+              "id": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "orden": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "indicadores": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["area", "frase_corta"],
+        "additionalProperties": false,
+        "properties": {
+          "area": {
+            "type": "string",
+            "enum": ["oficinas", "inquilinos", "contratos", "pagos"]
+          },
+          "frase_corta": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "origen_datos": {
+      "type": "string",
+      "enum": ["sintetico", "real"]
+    },
+    "generado_en": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

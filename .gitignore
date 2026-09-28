@@ -1,0 +1,9 @@
+var/
+datos_reales/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+evidencia/
+.env

@@ -1,0 +1,41 @@
+{
+  "conclusion": {
+    "tipo": "atencion",
+    "frase": "Hay tres cosas que requieren atención hoy.",
+    "cantidad": 3
+  },
+  "asuntos": [
+    {
+      "id": "asunto-001",
+      "area": "contratos",
+      "frase": "La oficina 204 vence en 12 días.",
+      "por_que_importa": "El contrato de la oficina 204 entra en su ventana de renovación y todavía no hay respuesta del inquilino.",
+      "referencia": { "tipo": "contrato", "id": "contrato-sintetico-014" },
+      "orden": 0
+    },
+    {
+      "id": "asunto-002",
+      "area": "pagos",
+      "frase": "El pago de septiembre de la oficina 108 sigue pendiente.",
+      "por_que_importa": "Ya pasó la fecha esperada de pago y no hay registro de que se haya cubierto.",
+      "referencia": { "tipo": "pago", "id": "pago-sintetico-037" },
+      "orden": 1
+    },
+    {
+      "id": "asunto-003",
+      "area": "inquilinos",
+      "frase": "El contacto del Titular Sintético 09 quedó incompleto.",
+      "por_que_importa": "Falta un dato de contacto y eso impide avisarle si algo de su contrato cambia.",
+      "referencia": { "tipo": "inquilino", "id": "inquilino-sintetico-009" },
+      "orden": 2
+    }
+  ],
+  "indicadores": [
+    { "area": "oficinas", "frase_corta": "Oficinas · sin novedad" },
+    { "area": "inquilinos", "frase_corta": "Inquilinos · un dato incompleto" },
+    { "area": "contratos", "frase_corta": "Contratos · una renovación cerca" },
+    { "area": "pagos", "frase_corta": "Pagos · un pendiente" }
+  ],
+  "origen_datos": "sintetico",
+  "generado_en": "2026-09-23T09:00:00-06:00"
+}
