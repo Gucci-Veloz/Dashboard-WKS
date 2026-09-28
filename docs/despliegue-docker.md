@@ -19,7 +19,7 @@ necesita.
 cp .env.example .env        # llena WORKS_TOKEN_VANIA en el servidor, nunca en el repo
 docker compose up -d --build
 docker compose ps           # debe decir "healthy" a los ~30 segundos
-curl http://127.0.0.1:8000/api/salud   # {"ok":true}
+curl http://127.0.0.1:8010/api/salud   # {"ok":true}
 ```
 
 Al arrancar, el contenedor aplica solo las migraciones pendientes. No borra datos.
@@ -63,8 +63,8 @@ docker compose cp works:/datos/respaldo.db ./respaldo-$(date +%F).db
 
 ## Notas
 
-- El puerto `8000` solo escucha dentro del servidor (`127.0.0.1`). La dirección
+- El puerto `8010` solo escucha dentro del servidor (`127.0.0.1`). La dirección
   pública y el https los pone el proxy del VPS, que debe reenviar a
-  `127.0.0.1:8000`.
+  `127.0.0.1:8010`.
 - La hora del contenedor es la de la Ciudad de México (`TZ`), igual que las sesiones.
 - El contenedor corre con un usuario sin privilegios (`works`).

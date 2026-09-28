@@ -52,12 +52,12 @@ git clone https://github.com/Gucci-Veloz/Dashboard-WKS.git
 cd Dashboard-WKS
 cp .env.example .env          # llena WORKS_TOKEN_VANIA
 docker compose up -d --build
-curl http://127.0.0.1:8000/api/salud   # {"ok":true}
+curl http://127.0.0.1:8010/api/salud   # {"ok":true}
 ```
 
-El puerto `8000` solo escucha dentro del servidor. La dirección pública y el
+El puerto `8010` solo escucha dentro del servidor. La dirección pública y el
 **https (obligatorio: sin él no se guarda la sesión)** los pone el proxy del
-servidor, que reenvía a `127.0.0.1:8000`.
+servidor, que reenvía a `127.0.0.1:8010`.
 
 Cuentas, carga de datos, actualización y respaldos:
 **[docs/despliegue-docker.md](docs/despliegue-docker.md)**.
