@@ -2,7 +2,7 @@
 
 Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.** No leas `REANUDAR.md` completo. Del plan, lee solo el bloque de la tarea que vayas a lanzar.
 
-Última actualización: 2026-09-27, tarde (fase de la limpia).
+Última actualización: 2026-09-28 (repositorio público en GitHub).
 
 ## 1. Cómo abrir una sesión nueva (para el usuario)
 1. En la sesión vieja: `Ctrl + C` dos veces. Si pregunta por trabajos en segundo plano, elige "Exit and stop tasks".
@@ -13,6 +13,19 @@ Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.
 ## 2. Dónde vamos
 - **Fase de la limpia (2026-09-27, commits `42012f4` y `286f124`):** todo el material de construcción (plan, capturas, scavenge, manuales, handshake y notas) vive en `archivo_construccion/`. En la raíz solo queda lo funcional: `app`, `web`, `contratos`, `docs`, `datos_sinteticos`, `scripts`, `tests` y `pyproject.toml`. `evidencia/` sigue en la raíz, pero ahora el historial la ignora (la suite la regenera). Las rutas de esta nota, de las reglas de los agentes, de `REANUDAR.md`, de `PLAN.md` y de `cadena.sh` ya apuntan a la nueva ubicación. El usuario dirá qué sigue después de la limpia.
 - **Docker Compose para el VPS (2026-09-27, commit `21b3d42`):** ya existe y está probado en local (arranca, `/api/salud` responde, queda healthy y los datos sobreviven a rehacer el contenedor). Archivos en la raíz: `Dockerfile`, `docker-compose.yml`, `.dockerignore`, `.env.example`; guía en `docs/despliegue-docker.md`. `.env` está ignorado. No volver a armarlo desde cero. Subirlo al VPS y adaptarlo a su protocolo lo hace el usuario; Father no entra al VPS.
+- **Repositorio público en GitHub (2026-09-28):** https://github.com/Gucci-Veloz/Dashboard-WKS (remoto `origin`, rama `main`). Es **público a propósito**: el usuario lo clona en el VPS sin credenciales. **No se sube `archivo_construccion/`** (notas del handshake, scavenge, IPs de la oficina, manual de terceros). Por eso `main` en GitHub tiene su propio historial, sin la carpeta; la rama local `master` conserva todo. Ya subidos: README, puerto 8010 y las dos fichas.
+  - **Puerto publicado: `127.0.0.1:8010`** (8000 chocaba con Coolify). Dentro del contenedor la app y la revisión de salud siguen en 8000.
+  - **Cómo subir un cambio** (después del commit local, y solo con `/luz-verde`): nunca `git push` normal, porque subiría la carpeta.
+    ```bash
+    export GIT_INDEX_FILE=<scratchpad>/idx
+    git read-tree HEAD && git rm -r -q --cached archivo_construccion
+    T=$(git write-tree); unset GIT_INDEX_FILE
+    git fetch -q origin main
+    C=$(printf '<mensaje>\n\nCo-Authored-By: ...\n' | git commit-tree $T -p origin/main)
+    git diff --stat origin/main $C      # revisar que solo vaya lo esperado
+    git push origin $C:refs/heads/main
+    ```
+    Antes de subir un documento nuevo, revisa que no traiga IPs de la oficina, teléfonos reales ni referencias a `archivo_construccion/`.
 - **Terminadas y con commit:** fases 0, 1, 2, 2b (reglas de operación), 2c (rediseño visual: UI-21, UI-22, UI-23), 3 y 4 (VER-04 pasó). Hoy también: INT-07 (silenciar avisos, cada asunto una sola vez) e INT-18 (arregló la prueba histórica).
 - **Suite: 150 de 150, sin fallas.** Cualquier falla es nueva.
 - **Cerradas sin código o NO autorizadas (2026-09-27, instrucción del usuario):**
@@ -61,7 +74,7 @@ Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.
 ## 5. Decisiones del usuario
 - **D-6 a D-15: todas respondidas.** Ver `archivo_construccion/plan/DECISIONES.md`.
 - **Siguen abiertos (no bloquean):** D-12, D-13 y D-14; U-1 (el Excel de Works, que todavía no existe); IP de la impresora (192.168.1.176, pendiente de confirmar).
-- **Lección:** explicar cada decisión con un ejemplo concreto (quién, qué ve, qué pasa), nunca con el lenguaje del plan.
+- **Lección:** explicar cada decisión en lenguaje directo y literal (quién, qué ve, qué pasa), nunca con el lenguaje del plan. **Nada de analogías ni metáforas** (2026-09-28: comparar la carpeta de construcción con "papeles de la oficina" lo confundió y lo hizo enojar).
 
 ## 6. Sin commit todavía
 - Nada. Las capturas viejas ya quedaron en commits y la copia duplicada del contrato se borró.
