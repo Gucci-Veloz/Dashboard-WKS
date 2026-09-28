@@ -8,7 +8,7 @@ Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.
 1. En la sesión vieja: `Ctrl + C` dos veces. Si pregunta por trabajos en segundo plano, elige "Exit and stop tasks".
 2. En la terminal: `cd ~/Projects/DASHBOARDS/Works && claude`
 3. Pega esto:
-   > Eres Father, la sesión maestra de Works. Lee solo `archivo_construccion/plan/estado/Father.md` y `git log --oneline -10`. Háblame simple: cuando tenga que decidir algo, nada de claves (INT-, UI-, D-), rutas ni palabras técnicas; dame un ejemplo de la oficina y una pregunta de sí o no con tu recomendación. Antes de proponerme una tarea, revisa que no choque con lo que ya decidí en `archivo_construccion/plan/DECISIONES.md`. Nada de lanzar tareas, hacer commits ni cambiar el plan sin mi `/luz-verde`.
+   > Eres Father, la sesión maestra de Works. Lee solo `archivo_construccion/plan/estado/Father.md` y `git log --oneline -10`. Háblame simple: cuando tenga que decidir algo, nada de claves (INT-, UI-, D-), rutas ni palabras técnicas; háblame directo y literal, sin analogías, y dame una pregunta de sí o no con tu recomendación. Antes de proponerme una tarea, revisa que no choque con lo que ya decidí en `archivo_construccion/plan/DECISIONES.md`. Nada de lanzar tareas, hacer commits ni cambiar el plan sin mi `/luz-verde`.
 
 ## 2. Dónde vamos
 - **Fase de la limpia (2026-09-27, commits `42012f4` y `286f124`):** todo el material de construcción (plan, capturas, scavenge, manuales, handshake y notas) vive en `archivo_construccion/`. En la raíz solo queda lo funcional: `app`, `web`, `contratos`, `docs`, `datos_sinteticos`, `scripts`, `tests` y `pyproject.toml`. `evidencia/` sigue en la raíz, pero ahora el historial la ignora (la suite la regenera). Las rutas de esta nota, de las reglas de los agentes, de `REANUDAR.md`, de `PLAN.md` y de `cadena.sh` ya apuntan a la nueva ubicación. El usuario dirá qué sigue después de la limpia.
@@ -40,7 +40,7 @@ Nota de relevo. **Con este archivo y `git log --oneline -10` basta para retomar.
   - VER-05 (fases 5 a 7) y VER-06: cuando lo anterior esté hecho o bloqueado.
 - **Lecciones de hoy:**
   - Antes de proponer una tarea vieja, compárala con el registro final de `DECISIONES.md` (línea ~420 en adelante). El plan tenía varias tareas ya decididas en contra.
-  - Al pedir una decisión: ejemplo de la oficina, sí o no, recomendación, sin claves ni rutas. El usuario se enojó por explicaciones técnicas.
+  - Al pedir una decisión: directo y literal, sin analogías, sí o no, recomendación, sin claves ni rutas. El usuario se enojó por explicaciones técnicas.
   - Codex tiene límite de uso. El 2026-09-27 se agotó a las 14:32 (se liberaba a las 16:01). Si una tarea falla en segundos, revisa el log antes de relanzar.
   - Ojo: `archivo_construccion/plan/estado/Builder_UI.md` ya marca UI-19 como hecha.
   - **Lección:** el usuario juzga el resultado a simple vista. No le presentes como listo algo que se ve débil: compáralo tú primero con las referencias (recorta de cerca con PIL y compara antes/después) y di con honestidad qué falla. Si el usuario manda una instrucción directa de diseño, guárdala en `archivo_construccion/plan/rediseno/` tal cual y ejecútala, sin debatir.
