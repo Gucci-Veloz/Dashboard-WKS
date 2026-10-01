@@ -6,6 +6,7 @@ services:
     image: works-dashboard:latest
     container_name: works-dashboard
     restart: unless-stopped
+    mem_limit: 256m
     env_file:
       - path: .env
         required: false
