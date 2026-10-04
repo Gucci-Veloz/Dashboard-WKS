@@ -40,7 +40,7 @@ def actor_actual(
         if not token_esperado or esquema != "Bearer" or credencial != token_esperado:
             raise HTTPException(status_code=401)
         if request is not None and request.method in {"POST", "PUT", "DELETE"} and request.url.path != "/api/acceso/enlace":
-            solicitante = solicitante_con_sesion(numero_solicitante, sesion)
+            solicitante = solicitante_con_sesion(numero_solicitante)
             return ActorActual("vania", solicitante=solicitante)
         return ActorActual("vania")
 

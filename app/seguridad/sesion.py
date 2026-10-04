@@ -127,21 +127,32 @@ def consumir_enlace(token: str, momento: datetime | None = None) -> dict:
         conexion.close()
 
 
-def persona_de_sesion(token: str | None, momento: datetime | None = None) -> str | None:
-    if not token:
-        return None
+def _persona_con_sesion_vigente(
+    columna: str, valor: str, momento: datetime | None = None
+) -> str | None:
     momento = momento or ahora()
     conexion = conectar()
     try:
         fila = conexion.execute(
-            """
+            f"""
             SELECT sesiones.persona
             FROM sesiones JOIN cuentas ON cuentas.persona = sesiones.persona
-            WHERE sesiones.token_hash = ? AND sesiones.revocada_en IS NULL
+            WHERE {columna} = ? AND sesiones.revocada_en IS NULL
               AND sesiones.vence_en >= ? AND cuentas.activa = 1
             """,
-            (_hash(token), momento.isoformat()),
+            (valor, momento.isoformat()),
         ).fetchone()
         return fila[0] if fila else None
     finally:
         conexion.close()
+
+
+def persona_de_sesion(token: str | None, momento: datetime | None = None) -> str | None:
+    if not token:
+        return None
+    return _persona_con_sesion_vigente("sesiones.token_hash", _hash(token), momento)
+
+
+def persona_tiene_sesion_vigente(persona: str, momento: datetime | None = None) -> bool:
+    """Indica si la persona conserva al menos una sesión válida en el servidor."""
+    return _persona_con_sesion_vigente("sesiones.persona", persona, momento) == persona
