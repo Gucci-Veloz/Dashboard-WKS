@@ -26,14 +26,23 @@ def _hash(token: str) -> str:
     return hashlib.sha256(token.encode()).hexdigest()
 
 
+def normalizar_telefono(numero: str | None) -> str:
+    """Deja solo dígitos; el celular mexicano antiguo `521` + 10 vale como `52` + 10."""
+    digitos = "".join(caracter for caracter in (numero or "") if caracter.isdigit())
+    if len(digitos) == 13 and digitos.startswith("521"):
+        return "52" + digitos[3:]
+    return digitos
+
+
 def persona_por_whatsapp(numero: str | None) -> str | None:
-    if not numero:
+    buscado = normalizar_telefono(numero)
+    if not buscado:
         return None
     for persona, telefono in leer_telefonos().items():
-        if numero == telefono:
+        if buscado == normalizar_telefono(telefono):
             return persona
     for persona in ("david", "grecia"):
-        if numero == os.environ.get(f"WORKS_WHATSAPP_{persona.upper()}"):
+        if buscado == normalizar_telefono(os.environ.get(f"WORKS_WHATSAPP_{persona.upper()}")):
             return persona
     return None
 
