@@ -19,6 +19,7 @@ def test_crear_registra_telefono_fuera_de_git_y_listar(monkeypatch, tmp_path):
     assert admin.listar_cuentas() == [
         {"persona": "david", "activa": True, "numero_whatsapp": "+520000000001"},
         {"persona": "grecia", "activa": True, "numero_whatsapp": None},
+        {"persona": "operador", "activa": True, "numero_whatsapp": None},
     ]
 
 

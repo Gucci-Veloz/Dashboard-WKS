@@ -7,14 +7,13 @@ import json
 from datetime import datetime
 
 from app.db.conexion import conectar
+from app.seguridad.personas import NOMBRES_PERSONAS, PERSONAS
 from app.seguridad.sesion import ZONA_HORARIA, ruta_telefonos
-
-PERSONAS = {"david", "grecia"}
 
 
 def _validar_persona(persona: str) -> None:
     if persona not in PERSONAS:
-        raise ValueError("La cuenta debe ser david o grecia.")
+        raise ValueError(f"La cuenta debe ser {NOMBRES_PERSONAS}.")
 
 
 def _guardar_telefono(persona: str, numero_whatsapp: str) -> None:

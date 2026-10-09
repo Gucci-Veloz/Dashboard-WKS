@@ -6,6 +6,7 @@ import json
 from collections.abc import Mapping
 
 from app.db.conexion import conectar_con_filas
+from app.seguridad.personas import NOMBRES_PERSONAS, PERSONAS
 
 AREAS = {
     "oficinas": {"tipo", "numero", "piso", "m2", "estatus", "origen_dato", "extras"},
@@ -32,7 +33,6 @@ AREAS = {
 }
 
 OPERACIONES = {"alta", "modificacion", "baja"}
-PERSONAS = {"david", "grecia"}
 EJECUTORES = {*PERSONAS, "vania"}
 
 
@@ -98,7 +98,7 @@ def crear_pendiente(
     if operacion not in OPERACIONES:
         raise ValueError("La operación indicada no es válida.")
     if solicitante not in PERSONAS:
-        raise ValueError("El solicitante debe ser David o Grecia.")
+        raise ValueError(f"El solicitante debe ser {NOMBRES_PERSONAS}.")
     if ejecutor not in EJECUTORES:
         raise ValueError("El ejecutor indicado no es válido.")
     if operacion == "alta" and registro_id is not None:
@@ -142,7 +142,7 @@ def crear_pendiente(
 def confirmar(cambio_id: int, persona: str) -> dict:
     """Confirma un pendiente y aplica su operación en la misma transacción."""
     if persona not in PERSONAS:
-        raise ValueError("Solo David o Grecia pueden confirmar un cambio.")
+        raise ValueError(f"Solo {NOMBRES_PERSONAS} pueden confirmar un cambio.")
 
     conexion = conectar_con_filas()
     try:
@@ -210,7 +210,7 @@ def confirmar(cambio_id: int, persona: str) -> dict:
 def descartar(cambio_id: int, persona: str) -> dict:
     """Descarta un pendiente sin modificar el dato oficial."""
     if persona not in PERSONAS:
-        raise ValueError("Solo David o Grecia pueden descartar un cambio.")
+        raise ValueError(f"Solo {NOMBRES_PERSONAS} pueden descartar un cambio.")
 
     conexion = conectar_con_filas()
     try:

@@ -16,6 +16,7 @@ def cliente(tmp_path, monkeypatch):
     base_temporal = tmp_path / "works.db"
     monkeypatch.setenv("WORKS_DB", str(base_temporal))
     monkeypatch.setenv("WORKS_TOKEN_VANIA", "secreto-largo")
+    monkeypatch.setenv("WORKS_WHATSAPP_GRECIA", NUMERO_GRECIA)
     _app_fresco()
 
     from app.db.migrar import migrar
@@ -32,6 +33,8 @@ def cliente(tmp_path, monkeypatch):
 
 
 CREDENCIAL = {"Authorization": "Bearer secreto-largo"}
+NUMERO_GRECIA = "520000000002"
+COMO_GRECIA = {**CREDENCIAL, "X-Works-Solicitante": NUMERO_GRECIA}
 RUTA_PREFERENCIAS = "/api/vania/preferencias-avisos"
 RUTA_AVISOS = "/api/vania/avisos?persona=grecia"
 
@@ -39,7 +42,7 @@ RUTA_AVISOS = "/api/vania/avisos?persona=grecia"
 def _guardar_preferencia(cliente, hasta):
     return cliente.patch(
         RUTA_PREFERENCIAS,
-        headers=CREDENCIAL,
+        headers=COMO_GRECIA,
         json={"persona": "grecia", "tipo_evento": "contratos", "hasta": hasta},
     )
 
@@ -84,7 +87,7 @@ def test_silenciar_contratos_vence_y_se_puede_quitar_sin_ocultarlos_del_estado(c
     quitada = cliente.patch(
         RUTA_PREFERENCIAS + "/quitar",
         params={"persona": "grecia", "tipo_evento": "contratos"},
-        headers=CREDENCIAL,
+        headers=COMO_GRECIA,
     )
     assert quitada.status_code == 204
     aviso_tras_quitar = cliente.get(RUTA_AVISOS, headers=CREDENCIAL)

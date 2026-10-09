@@ -3,7 +3,6 @@ from hashlib import sha256
 import json
 import os
 from secrets import compare_digest
-from typing import Literal
 from zoneinfo import ZoneInfo
 
 from fastapi import APIRouter, Depends, Header, HTTPException, Query, Response
@@ -13,10 +12,11 @@ from app.api.estado import _leer_datos, _origen_datos
 from app.db.conexion import conectar_con_filas
 from app.estado import redaccion
 from app.estado.reglas import calcular_estado
+from app.seguridad.personas import Persona
+from app.seguridad.sesion import persona_por_whatsapp
 
 router = APIRouter()
 ZONA_LOCAL = ZoneInfo("America/Mexico_City")
-Persona = Literal["david", "grecia"]
 PERSONA_GENERAL = "__general__"
 CAMPOS_RELEVANTES_POR_REFERENCIA = {
     "oficina": ("oficinas", ("tipo", "numero", "piso", "m2", "estatus")),
@@ -40,7 +40,7 @@ CAMPOS_RELEVANTES_POR_REFERENCIA = {
 
 
 class PreferenciaAvisosEntrada(BaseModel):
-    persona: Persona
+    persona: Persona | None = None
     tipo_evento: str = Field(min_length=1, max_length=80)
     hasta: datetime | None = None
 
@@ -57,6 +57,14 @@ def _credencial_de_servicio(
     ):
         raise HTTPException(status_code=401)
     return "vania"
+
+
+def _persona_del_remitente(numero_whatsapp: str | None, persona_pedida: str | None) -> str:
+    """Cada quien cambia solo sus propios avisos: la persona sale del remitente."""
+    persona = persona_por_whatsapp(numero_whatsapp)
+    if persona is None or (persona_pedida is not None and persona_pedida != persona):
+        raise HTTPException(status_code=403)
+    return persona
 
 
 def _ahora_utc() -> datetime:
@@ -159,7 +167,9 @@ def _asuntos_nuevos(conexion, asuntos: list[dict], persona: str, ahora: datetime
 def guardar_preferencia(
     preferencia: PreferenciaAvisosEntrada,
     _: str = Depends(_credencial_de_servicio),
+    numero_solicitante: str | None = Header(default=None, alias="X-Works-Solicitante"),
 ):
+    persona = _persona_del_remitente(numero_solicitante, preferencia.persona)
     ahora = _ahora_utc()
     tipo_evento = _normalizar_tipo(preferencia.tipo_evento)
     hasta = _normalizar_hasta(preferencia.hasta)
@@ -174,19 +184,19 @@ def guardar_preferencia(
                 hasta = excluded.hasta,
                 actualizado_en = excluded.actualizado_en
             """,
-            (preferencia.persona, tipo_evento, hasta, ahora.isoformat(), ahora.isoformat()),
+            (persona, tipo_evento, hasta, ahora.isoformat(), ahora.isoformat()),
         )
         # Al terminar el silencio, el asunto debe poder avisarse otra vez aunque
         # se hubiera emitido antes de crear la preferencia.
         conexion.execute(
             "DELETE FROM avisos_emitidos WHERE persona = ? AND tipo_evento = ?",
-            (preferencia.persona, tipo_evento),
+            (persona, tipo_evento),
         )
         conexion.commit()
     finally:
         conexion.close()
     return {
-        "persona": preferencia.persona,
+        "persona": persona,
         "tipo_evento": tipo_evento,
         "hasta": hasta,
     }
@@ -196,7 +206,10 @@ def guardar_preferencia(
 def consultar_preferencias(
     persona: Persona | None = Query(default=None),
     _: str = Depends(_credencial_de_servicio),
+    numero_solicitante: str | None = Header(default=None, alias="X-Works-Solicitante"),
 ):
+    if numero_solicitante is not None:
+        persona = _persona_del_remitente(numero_solicitante, persona)
     ahora = _ahora_utc()
     conexion = conectar_con_filas()
     try:
@@ -220,10 +233,12 @@ def consultar_preferencias(
 
 @router.patch("/api/vania/preferencias-avisos/quitar", status_code=204)
 def quitar_preferencia(
-    persona: Persona,
+    persona: Persona | None = None,
     tipo_evento: str = Query(min_length=1, max_length=80),
     _: str = Depends(_credencial_de_servicio),
+    numero_solicitante: str | None = Header(default=None, alias="X-Works-Solicitante"),
 ):
+    persona = _persona_del_remitente(numero_solicitante, persona)
     tipo = _normalizar_tipo(tipo_evento)
     conexion = conectar_con_filas()
     try:

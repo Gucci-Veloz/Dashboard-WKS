@@ -77,7 +77,7 @@ def test_pendiente_vencido_desaparece_y_no_se_confirma(base):
 def test_vania_no_puede_ser_solicitante(base):
     from app.cambios import crear_pendiente
 
-    with pytest.raises(ValueError, match="David o Grecia"):
+    with pytest.raises(ValueError, match="David, Grecia u Operador"):
         crear_pendiente(
             area="oficinas",
             registro_id=1,

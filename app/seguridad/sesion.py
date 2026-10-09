@@ -13,6 +13,7 @@ from zoneinfo import ZoneInfo
 from fastapi import HTTPException
 
 from app.db.conexion import conectar, ruta_base_datos
+from app.seguridad.personas import PERSONAS
 
 ZONA_HORARIA = ZoneInfo("America/Mexico_City")
 NOMBRE_COOKIE = "works_sesion"
@@ -41,7 +42,7 @@ def persona_por_whatsapp(numero: str | None) -> str | None:
     for persona, telefono in leer_telefonos().items():
         if buscado == normalizar_telefono(telefono):
             return persona
-    for persona in ("david", "grecia"):
+    for persona in PERSONAS:
         if buscado == normalizar_telefono(os.environ.get(f"WORKS_WHATSAPP_{persona.upper()}")):
             return persona
     return None
@@ -66,7 +67,7 @@ def leer_telefonos() -> dict[str, str]:
     return {
         persona: telefono
         for persona, telefono in datos.items()
-        if persona in {"david", "grecia"} and isinstance(telefono, str)
+        if persona in PERSONAS and isinstance(telefono, str)
     }
 
 

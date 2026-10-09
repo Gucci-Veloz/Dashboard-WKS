@@ -21,9 +21,13 @@ los endpoints que exigen credencial de servicio responden `401`.
 Para **crear, modificar, borrar o confirmar** un cambio, Vania también
 manda `X-Works-Solicitante: <número de WhatsApp>`. El servicio resuelve ese
 número en la configuración local del servidor; los números no se escriben
-en este repositorio. La persona de ese encabezado debe tener su propia
-sesión vigente: una sesión de David no autoriza una instrucción de Grecia,
-ni al revés. Un número desconocido o el del desarrollador responde `403`.
+en este repositorio. Las personas con cuenta son `david`, `grecia` y
+`operador`, todas con las mismas reglas. Vania toma el número del remitente
+del mensaje de WhatsApp; nunca le pide a nadie que lo escriba. La persona de
+ese encabezado debe tener su propia sesión vigente: una sesión de David no
+autoriza una instrucción de Grecia ni del operador, y así entre las tres. Solo
+quien pidió un cambio puede confirmarlo o descartarlo. Un número desconocido
+responde `403`.
 Si falta la sesión correcta, responde `401` con `codigo: "sin_sesion"`.
 
 ## Endpoints por intención
@@ -44,13 +48,17 @@ Si falta la sesión correcta, responde `401` con `codigo: "sin_sesion"`.
 
 ## Preferencias de avisos (D-11)
 
-Las tres rutas requieren solamente la credencial de servicio
-`Authorization: Bearer <WORKS_TOKEN_VANIA>`; no usan
-`X-Works-Solicitante`. Sin una credencial válida responden `401`.
+Las tres rutas requieren la credencial de servicio
+`Authorization: Bearer <WORKS_TOKEN_VANIA>`; sin una credencial válida
+responden `401`. Cada persona cambia solo sus propios avisos: guardar y quitar
+exigen `X-Works-Solicitante` con el número del remitente, y la persona sale de
+ese número. Si falta el encabezado, el número es desconocido o se manda una
+`persona` distinta a la del remitente, responden `403`. No piden sesión
+vigente.
 
 Antes de guardar una preferencia, Vania confirma con la persona qué tipo
-de aviso quiere silenciar y hasta cuándo. `persona` solo permite `david` o
-`grecia`. `tipo_evento` es una cadena de 1 a 80 caracteres; el servicio le
+de aviso quiere silenciar y hasta cuándo. `persona` es opcional y, si se
+manda, debe ser la del remitente (`david`, `grecia` u `operador`). `tipo_evento` es una cadena de 1 a 80 caracteres; el servicio le
 quita espacios al principio y al final y la convierte a minúsculas. No es
 un enum: para los asuntos que hoy produce el estado, los valores que
 coinciden son `contratos`, `pagos` e `inquilinos`. `hasta` acepta una fecha
@@ -62,7 +70,6 @@ Para "Vania, ya no me avises de contratos hasta fin de mes", el cuerpo es:
 
 ```json
 {
-  "persona": "grecia",
   "tipo_evento": "contratos",
   "hasta": "2026-09-30T23:59:59-06:00"
 }
@@ -83,11 +90,12 @@ inválida responde `422`.
 
 ### Consultar: `GET /api/vania/preferencias-avisos`
 
-Para "¿de qué me tienes silenciado?", se manda `persona` como parámetro de
-consulta:
+Para "¿de qué me tienes silenciado?", Vania manda `X-Works-Solicitante` con
+el número del remitente y recibe solo las preferencias de esa persona:
 
 ```text
-GET /api/vania/preferencias-avisos?persona=grecia
+GET /api/vania/preferencias-avisos
+X-Works-Solicitante: <número del remitente>
 ```
 
 Responde `200`:
@@ -104,20 +112,23 @@ Responde `200`:
 }
 ```
 
-`persona` es opcional; sin el parámetro devuelve las preferencias de ambas
-personas. Una `persona` distinta de `david` o `grecia` responde `422`.
+Sin `X-Works-Solicitante` se puede filtrar con `?persona=`; sin ninguno de
+los dos devuelve las preferencias de todas las personas. Una `persona` que no
+sea `david`, `grecia` u `operador` responde `422`; con el encabezado, una
+`persona` distinta a la del remitente responde `403`.
 
 ### Quitar: `PATCH /api/vania/preferencias-avisos/quitar`
 
-Para "vuelve a avisarme de contratos", ambos datos van como parámetros de
-consulta:
+Para "vuelve a avisarme de contratos", `tipo_evento` va como parámetro de
+consulta y la persona sale del remitente:
 
 ```text
-PATCH /api/vania/preferencias-avisos/quitar?persona=grecia&tipo_evento=contratos
+PATCH /api/vania/preferencias-avisos/quitar?tipo_evento=contratos
+X-Works-Solicitante: <número del remitente>
 ```
 
 Responde `204` sin cuerpo, incluso si la preferencia ya no existía. Si falta
-un parámetro, `persona` no es `david` o `grecia`, o `tipo_evento` no cumple
+`tipo_evento`, `persona` no es `david`, `grecia` u `operador`, o `tipo_evento` no cumple
 la longitud de 1 a 80 caracteres, responde `422`.
 
 Cada asunto se avisa una sola vez a cada persona mientras no cambie. Si
