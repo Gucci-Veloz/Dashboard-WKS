@@ -8,9 +8,35 @@ import { renderReporte } from "/reporte/reporte.js";
 
 const contenedor = document.getElementById("app");
 
+// Pila en memoria de pantallas internas visitadas. Volver nunca usa el
+// historial del navegador: sin origen interno válido va a la Página Inicial.
+const pilaDeOrigen = [];
+let rutaActual = null;
+
+function normalizarHash(hash) {
+  return (hash || "").replace(/^#/, "");
+}
+
+function registrarVisita() {
+  const nueva = normalizarHash(window.location.hash);
+  if (rutaActual === null) {
+    rutaActual = nueva;
+    return;
+  }
+  if (nueva === rutaActual) return;
+  const posicion = pilaDeOrigen.lastIndexOf(nueva);
+  if (posicion >= 0) {
+    pilaDeOrigen.length = posicion;
+  } else {
+    pilaDeOrigen.push(rutaActual);
+  }
+  rutaActual = nueva;
+}
+
 function renderVolver() {
   const volver = document.createElement("a");
-  volver.href = "#";
+  const origen = pilaDeOrigen[pilaDeOrigen.length - 1];
+  volver.href = origen ? `#${origen}` : "#";
   volver.className = "navegacion__volver";
   volver.textContent = "Volver";
   contenedor.appendChild(volver);
@@ -92,6 +118,7 @@ async function renderRegistro(area, id) {
 }
 
 async function renderRuta() {
+  registrarVisita();
   contenedor.innerHTML = "";
   const ruta = analizarHash(window.location.hash);
 

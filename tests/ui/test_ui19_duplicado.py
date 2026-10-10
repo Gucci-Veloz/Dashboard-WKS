@@ -68,3 +68,13 @@ def test_reemplazar_envia_put_al_registro_existente(servicio_url, page):
     assert len(cuerpos_reemplazo) == 1
     assert not cuerpos_reemplazo[0].get("crear_de_todos_modos")
     assert cuerpos_reemplazo[0]["piso"] == "Piso UI-19"
+
+
+def test_volver_desde_el_duplicado_regresa_a_la_ficha_de_origen(servicio_url, page):
+    oficina, otra = _abrir_aviso(servicio_url, page, [])
+    page.locator("[data-duplicado-revisar]").click()
+    page.wait_for_function(f"window.location.hash === '#oficina-{otra['id']}'")
+    page.wait_for_selector(".navegacion__volver")
+
+    page.locator(".navegacion__volver").click()
+    page.wait_for_function(f"window.location.hash === '#oficina-{oficina['id']}'")
