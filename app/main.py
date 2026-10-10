@@ -6,6 +6,9 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from app import api
+from app.seguridad.registro import instalar_filtro_acceso
+
+instalar_filtro_acceso()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 WEB_DIR = BASE_DIR / "web"
